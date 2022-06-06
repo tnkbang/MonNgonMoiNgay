@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MonNgonMoiNgay.Models.Entities
 {
@@ -40,5 +42,43 @@ namespace MonNgonMoiNgay.Models.Entities
         public virtual ICollection<TinNhan> TinNhanNguoiGuiNavigations { get; set; }
         public virtual ICollection<TinNhan> TinNhanNguoiNhanNavigations { get; set; }
         public virtual ICollection<YeuThichBaiDang> YeuThichBaiDangs { get; set; }
+
+        MonNgonMoiNgayContext db = new MonNgonMoiNgayContext();
+        public string setMaUser()
+        {
+            NguoiDung nd = db.NguoiDungs.OrderByDescending(x => x.MaNd).FirstOrDefault();
+            if (nd == null)
+            {
+                return "U000001";
+            }
+            int temp = int.Parse(Convert.ToString(nd.MaNd).Substring(1));
+            string ma_user = "U" + Convert.ToString(1000000 + temp + 1).Substring(1);
+            return ma_user;
+        }
+
+        public DateTime setNgayTao()
+        {
+            return DateTime.Now;
+        }
+
+        public string mahoaMatKhau(string pass)
+        {
+            MD5 mh = MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(pass);
+            byte[] hash = mh.ComputeHash(inputBytes);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
+        }
+        public string getImage()
+        {
+            var nd = db.NguoiDungs.FirstOrDefault(x => x.MaNd == this.MaNd);
+            if (nd.ImgAvt == null) return "/Content/Img/userAvt/avt-default.png";
+            if (nd.ImgAvt.ToLower().StartsWith("http")) return nd.ImgAvt;
+            return "/Content/Img/userAvt/" + nd.ImgAvt;
+        }
     }
 }

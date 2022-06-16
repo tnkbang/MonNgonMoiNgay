@@ -189,7 +189,6 @@ function getUserInfo() {
         data: null,
         async: false,
         success: function (resp) {
-            var file_img;
             user = resp;
 
             var form_data = new FormData();
@@ -197,6 +196,7 @@ function getUserInfo() {
             form_data.append('hoten', user.given_name);
             form_data.append('email', user.email);
             form_data.append('img_avt', user.picture);
+
             $.ajax({
                 url: '/Account/loginWithGoogle',
                 type: 'POST',

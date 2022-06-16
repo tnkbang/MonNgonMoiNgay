@@ -143,8 +143,8 @@
 /*------------------------------------------------------------------ LOADER -------------------------------------------------------------------*/
  #back-to-top {
      position: fixed;
-     bottom: 40px;
-     right: 40px;
+     bottom: 25px;
+     right: 10px;
      z-index: 9999;
      width: 32px;
      height: 32px;
@@ -154,6 +154,7 @@
      color: #ffffff;
      cursor: pointer;
      border: 0;
+     padding: 10px 5px 5px 5px;
      border-radius: 0px;
      text-decoration: none;
      transition: opacity 0.2s ease-out;

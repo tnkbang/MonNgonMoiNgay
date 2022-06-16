@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "CreateNew";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row post-meta">
+        <div class="col-lg-5 col-md-12 col-sm-12">
+            <input type="file" multiple id="pstImg" accept=".jpg, .png" />
+            <div class="preview-images col-12"></div>
+        </div>
+        <div class="col-lg-7 col-md-12 col-sm-12">
+            <form>
+                <div class="form-group">
+                    <label for="pstLoai">Loại món:</label>
+                    <select class="form-control" id="pstLoai">
+                        <option>Loại 1</option>
+                        <option>Loại 2</option>
+                        <option>Loại 3</option>
+                        <option>Loại 4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pstTenMon">Tên món:</label>
+                    <input type="text" class="form-control" id="pstTenMon">
+                </div>
+                <div class="form-group">
+                    <label for="pstMoTa">Mô tả:</label>
+                    <textarea class="form-control" rows="5" id="pstMoTa"></textarea>
+                </div>
+                <div class="col-12 form-inline">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="pstLoai">Chọn Tỉnh/Thành Phố:</label>
+                            <select class="form-control" id="pstLoai">
+                                <option>Loại 1</option>
+                                <option>Loại 2</option>
+                                <option>Loại 3</option>
+                                <option>Loại 4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="pstLoai">Chọn Quận/Huyện:</label>
+                            <select class="form-control" id="pstLoai">
+                                <option>Loại 1</option>
+                                <option>Loại 2</option>
+                                <option>Loại 3</option>
+                                <option>Loại 4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="pstLoai">Chọn Xã/Phường:</label>
+                            <select class="form-control" id="pstLoai">
+                                <option>Loại 1</option>
+                                <option>Loại 2</option>
+                                <option>Loại 3</option>
+                                <option>Loại 4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </form>
+        </div>
+    </div>
+</div>
+

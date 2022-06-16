@@ -33,9 +33,10 @@
 -------------------------------------------------------------------*/
  body {
      color: #666666;
+     background: #f4f4f4;
      font-size: 15px;
      font-family: 'Dosis', sans-serif;
-     line-height: 1.80857;
+     line-height: 1.5;
 }
  a {
      color: #1f1f1f;
@@ -1269,7 +1270,7 @@
 }
 /*------------------------------------------------------------------ Footer Main -------------------------------------------------------------------*/
  .footer-main{
-     padding: 70px 0px;
+     padding: 10px 0px;
      background: #010101;
 }
 .footer-main hr{
@@ -2599,22 +2600,16 @@
 }
 
 
+/*--- central posts meta box ---*/
+.post-meta {
+    background: #fff;
+    border: 1px solid #ede9e9;
+    border-radius: 5px;
+    margin: 20px;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.img-preview{
+    width: 120px;
+    height: 100px;
+    padding: 5px;
+}

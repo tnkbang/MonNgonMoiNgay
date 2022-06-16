@@ -4,7 +4,7 @@ namespace MonNgonMoiNgay.Controllers
 {
     public class PostController : Controller
     {
-        public IActionResult Index()
+        public IActionResult CreateNew()
         {
             return View();
         }

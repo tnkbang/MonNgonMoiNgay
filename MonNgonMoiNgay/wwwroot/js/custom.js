@@ -185,3 +185,27 @@
 		});
 	});
 }(jQuery));
+
+//My Custom
+$(function () {
+	// Multiple images preview in browser
+	var listFile = [];
+	var imagesPreview = function (input, placeImagePreview) {
+		if (input.files) {
+			for (i = 0; i < input.files.length; i++) {
+				var reader = new FileReader();
+
+				reader.onload = function (event) {
+					$($.parseHTML('<img>')).attr('src', event.target.result).attr('class', 'img-preview').appendTo(placeImagePreview);
+				}
+				reader.readAsDataURL(input.files[i]);
+
+				listFile.push(input.files[i])
+			}
+		}
+	};
+
+	$('#pstImg').on('change', function () {
+		imagesPreview(this, 'div.preview-images');
+	});
+});

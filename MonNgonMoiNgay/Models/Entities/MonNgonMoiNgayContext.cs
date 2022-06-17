@@ -24,8 +24,11 @@ namespace MonNgonMoiNgay.Models.Entities
         public virtual DbSet<LoaiNd> LoaiNds { get; set; } = null!;
         public virtual DbSet<NguoiDung> NguoiDungs { get; set; } = null!;
         public virtual DbSet<PhanHoi> PhanHois { get; set; } = null!;
+        public virtual DbSet<QuanHuyen> QuanHuyens { get; set; } = null!;
         public virtual DbSet<ThongBao> ThongBaos { get; set; } = null!;
         public virtual DbSet<TinNhan> TinNhans { get; set; } = null!;
+        public virtual DbSet<TinhTp> TinhTps { get; set; } = null!;
+        public virtual DbSet<XaPhuong> XaPhuongs { get; set; } = null!;
         public virtual DbSet<YeuThichBaiDang> YeuThichBaiDangs { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,7 +45,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<BaiDang>(entity =>
             {
                 entity.HasKey(e => e.MaBd)
-                    .HasName("PK__BaiDang__2E67755D3AE2D9EA");
+                    .HasName("PK__BaiDang__2E67755D10CB161D");
 
                 entity.ToTable("BaiDang");
 
@@ -51,6 +54,10 @@ namespace MonNgonMoiNgay.Models.Entities
                     .IsUnicode(false)
                     .HasColumnName("Ma_BD")
                     .IsFixedLength();
+
+                entity.Property(e => e.DiaChi)
+                    .HasMaxLength(100)
+                    .HasColumnName("Dia_Chi");
 
                 entity.Property(e => e.MaLoai)
                     .HasMaxLength(3)
@@ -62,6 +69,12 @@ namespace MonNgonMoiNgay.Models.Entities
                     .HasMaxLength(7)
                     .IsUnicode(false)
                     .HasColumnName("Ma_ND")
+                    .IsFixedLength();
+
+                entity.Property(e => e.MaXp)
+                    .HasMaxLength(3)
+                    .IsUnicode(false)
+                    .HasColumnName("Ma_XP")
                     .IsFixedLength();
 
                 entity.Property(e => e.MoTa)
@@ -78,27 +91,28 @@ namespace MonNgonMoiNgay.Models.Entities
 
                 entity.Property(e => e.TrangThai).HasColumnName("Trang_Thai");
 
-                entity.Property(e => e.ViTri)
-                    .HasMaxLength(100)
-                    .HasColumnName("Vi_Tri");
-
                 entity.HasOne(d => d.MaLoaiNavigation)
                     .WithMany(p => p.BaiDangs)
                     .HasForeignKey(d => d.MaLoai)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BaiDang__Ma_Loai__35BCFE0A");
+                    .HasConstraintName("FK__BaiDang__Ma_Loai__3D5E1FD2");
 
                 entity.HasOne(d => d.MaNdNavigation)
                     .WithMany(p => p.BaiDangs)
                     .HasForeignKey(d => d.MaNd)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BaiDang__Ma_ND__36B12243");
+                    .HasConstraintName("FK__BaiDang__Ma_ND__3E52440B");
+
+                entity.HasOne(d => d.MaXpNavigation)
+                    .WithMany(p => p.BaiDangs)
+                    .HasForeignKey(d => d.MaXp)
+                    .HasConstraintName("FK__BaiDang__Ma_XP__3F466844");
             });
 
             modelBuilder.Entity<BaiDangDuocLuu>(entity =>
             {
                 entity.HasKey(e => new { e.MaBd, e.MaNd })
-                    .HasName("PK__BaiDangD__5C815D8694BE4259");
+                    .HasName("PK__BaiDangD__5C815D863147B914");
 
                 entity.ToTable("BaiDangDuocLuu");
 
@@ -122,19 +136,19 @@ namespace MonNgonMoiNgay.Models.Entities
                     .WithMany(p => p.BaiDangDuocLuus)
                     .HasForeignKey(d => d.MaBd)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BaiDangDu__Ma_BD__3C69FB99");
+                    .HasConstraintName("FK__BaiDangDu__Ma_BD__44FF419A");
 
                 entity.HasOne(d => d.MaNdNavigation)
                     .WithMany(p => p.BaiDangDuocLuus)
                     .HasForeignKey(d => d.MaNd)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BaiDangDu__Ma_ND__3D5E1FD2");
+                    .HasConstraintName("FK__BaiDangDu__Ma_ND__45F365D3");
             });
 
             modelBuilder.Entity<DayBaiDang>(entity =>
             {
                 entity.HasKey(e => new { e.MaBd, e.MaNd })
-                    .HasName("PK__DayBaiDa__5C815D865C393BA7");
+                    .HasName("PK__DayBaiDa__5C815D866E5C4F66");
 
                 entity.ToTable("DayBaiDang");
 
@@ -158,19 +172,19 @@ namespace MonNgonMoiNgay.Models.Entities
                     .WithMany(p => p.DayBaiDangs)
                     .HasForeignKey(d => d.MaBd)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DayBaiDan__Ma_BD__440B1D61");
+                    .HasConstraintName("FK__DayBaiDan__Ma_BD__4CA06362");
 
                 entity.HasOne(d => d.MaNdNavigation)
                     .WithMany(p => p.DayBaiDangs)
                     .HasForeignKey(d => d.MaNd)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DayBaiDan__Ma_ND__44FF419A");
+                    .HasConstraintName("FK__DayBaiDan__Ma_ND__4D94879B");
             });
 
             modelBuilder.Entity<HinhAnh>(entity =>
             {
                 entity.HasKey(e => new { e.MaBd, e.UrlImage })
-                    .HasName("PK__HinhAnh__3C1736C5A3892DBF");
+                    .HasName("PK__HinhAnh__3C1736C558DE79CC");
 
                 entity.ToTable("HinhAnh");
 
@@ -188,13 +202,13 @@ namespace MonNgonMoiNgay.Models.Entities
                     .WithMany(p => p.HinhAnhs)
                     .HasForeignKey(d => d.MaBd)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HinhAnh__Ma_BD__398D8EEE");
+                    .HasConstraintName("FK__HinhAnh__Ma_BD__4222D4EF");
             });
 
             modelBuilder.Entity<LoaiMonAn>(entity =>
             {
                 entity.HasKey(e => e.MaLoai)
-                    .HasName("PK__LoaiMonA__586312F9CB255D06");
+                    .HasName("PK__LoaiMonA__586312F9208B9C02");
 
                 entity.ToTable("LoaiMonAn");
 
@@ -212,7 +226,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<LoaiNd>(entity =>
             {
                 entity.HasKey(e => e.MaLoai)
-                    .HasName("PK__LoaiND__586312F9586EF022");
+                    .HasName("PK__LoaiND__586312F9F3EC2A3E");
 
                 entity.ToTable("LoaiND");
 
@@ -230,11 +244,11 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<NguoiDung>(entity =>
             {
                 entity.HasKey(e => e.MaNd)
-                    .HasName("PK__NguoiDun__2E628DB6B93F4527");
+                    .HasName("PK__NguoiDun__2E628DB6977DF260");
 
                 entity.ToTable("NguoiDung");
 
-                entity.HasIndex(e => e.Email, "UQ__NguoiDun__A9D10534D6CA8429")
+                entity.HasIndex(e => e.Email, "UQ__NguoiDun__A9D105345A6071A8")
                     .IsUnique();
 
                 entity.Property(e => e.MaNd)
@@ -298,7 +312,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<PhanHoi>(entity =>
             {
                 entity.HasKey(e => e.MaPh)
-                    .HasName("PK__PhanHoi__2E629DF00EEBC674");
+                    .HasName("PK__PhanHoi__2E629DF0151EF96E");
 
                 entity.ToTable("PhanHoi");
 
@@ -333,10 +347,40 @@ namespace MonNgonMoiNgay.Models.Entities
                     .HasConstraintName("FK__PhanHoi__Ma_ND__30F848ED");
             });
 
+            modelBuilder.Entity<QuanHuyen>(entity =>
+            {
+                entity.HasKey(e => e.MaQh)
+                    .HasName("PK__QuanHuye__2E616511F6D64A5A");
+
+                entity.ToTable("QuanHuyen");
+
+                entity.Property(e => e.MaQh)
+                    .HasMaxLength(3)
+                    .IsUnicode(false)
+                    .HasColumnName("Ma_QH")
+                    .IsFixedLength();
+
+                entity.Property(e => e.MaTp)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .HasColumnName("Ma_TP")
+                    .IsFixedLength();
+
+                entity.Property(e => e.TenQh)
+                    .HasMaxLength(50)
+                    .HasColumnName("Ten_QH");
+
+                entity.HasOne(d => d.MaTpNavigation)
+                    .WithMany(p => p.QuanHuyens)
+                    .HasForeignKey(d => d.MaTp)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__QuanHuyen__Ma_TP__35BCFE0A");
+            });
+
             modelBuilder.Entity<ThongBao>(entity =>
             {
                 entity.HasKey(e => e.MaTb)
-                    .HasName("PK__ThongBao__2E62FB7576DE2FD8");
+                    .HasName("PK__ThongBao__2E62FB754CE47421");
 
                 entity.ToTable("ThongBao");
 
@@ -424,10 +468,58 @@ namespace MonNgonMoiNgay.Models.Entities
                     .HasConstraintName("FK__TinNhan__Nguoi_N__2B3F6F97");
             });
 
+            modelBuilder.Entity<TinhTp>(entity =>
+            {
+                entity.HasKey(e => e.MaTp)
+                    .HasName("PK__TinhTP__2E62FB677B96AD52");
+
+                entity.ToTable("TinhTP");
+
+                entity.Property(e => e.MaTp)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .HasColumnName("Ma_TP")
+                    .IsFixedLength();
+
+                entity.Property(e => e.TenTp)
+                    .HasMaxLength(50)
+                    .HasColumnName("Ten_TP");
+            });
+
+            modelBuilder.Entity<XaPhuong>(entity =>
+            {
+                entity.HasKey(e => e.MaXp)
+                    .HasName("PK__XaPhuong__2E62DAE2D475AF91");
+
+                entity.ToTable("XaPhuong");
+
+                entity.Property(e => e.MaXp)
+                    .HasMaxLength(3)
+                    .IsUnicode(false)
+                    .HasColumnName("Ma_XP")
+                    .IsFixedLength();
+
+                entity.Property(e => e.MaQh)
+                    .HasMaxLength(3)
+                    .IsUnicode(false)
+                    .HasColumnName("Ma_QH")
+                    .IsFixedLength();
+
+                entity.Property(e => e.TenXp)
+                    .HasMaxLength(50)
+                    .HasColumnName("Ten_XP");
+
+                entity.HasOne(d => d.MaQhNavigation)
+                    .WithMany(p => p.XaPhuongs)
+                    .HasForeignKey(d => d.MaQh)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__XaPhuong__Ma_QH__38996AB5");
+            });
+
             modelBuilder.Entity<YeuThichBaiDang>(entity =>
             {
                 entity.HasKey(e => new { e.MaBd, e.MaNd })
-                    .HasName("PK__YeuThich__5C815D8655DA3EF6");
+                    .HasName("PK__YeuThich__5C815D86E8D56D9B");
 
                 entity.ToTable("YeuThichBaiDang");
 
@@ -451,13 +543,13 @@ namespace MonNgonMoiNgay.Models.Entities
                     .WithMany(p => p.YeuThichBaiDangs)
                     .HasForeignKey(d => d.MaBd)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__YeuThichB__Ma_BD__403A8C7D");
+                    .HasConstraintName("FK__YeuThichB__Ma_BD__48CFD27E");
 
                 entity.HasOne(d => d.MaNdNavigation)
                     .WithMany(p => p.YeuThichBaiDangs)
                     .HasForeignKey(d => d.MaNd)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__YeuThichB__Ma_ND__412EB0B6");
+                    .HasConstraintName("FK__YeuThichB__Ma_ND__49C3F6B7");
             });
 
             OnModelCreatingPartial(modelBuilder);

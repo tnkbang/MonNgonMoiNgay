@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MonNgonMoiNgay.Models.Entities;
 
 namespace MonNgonMoiNgay.Controllers
@@ -27,7 +28,7 @@ namespace MonNgonMoiNgay.Controllers
             newPost.ThoiGian = DateTime.Now;
             newPost.TenMon = ten;
             newPost.MoTa = mota;
-            newPost.ViTri = vitri;
+            //newPost.DiaChi = vitri;
             newPost.TrangThai = 1;
             db.BaiDangs.Add(newPost);
 
@@ -58,6 +59,17 @@ namespace MonNgonMoiNgay.Controllers
                 }
             }
 
+            db.SaveChanges();
+
+            return Json(new { tt = true });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> setTrangThai(string mabd)
+        {
+            var bd = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaNd == User.Claims.ToList()[0].Value && x.MaBd == mabd);
+            bd.TrangThai = 0;
             db.SaveChanges();
 
             return Json(new { tt = true });

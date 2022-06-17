@@ -19,11 +19,13 @@ namespace MonNgonMoiNgay.Models.Entities
         public DateTime ThoiGian { get; set; }
         public string TenMon { get; set; } = null!;
         public string? MoTa { get; set; }
-        public string ViTri { get; set; } = null!;
+        public string? MaXp { get; set; }
+        public string? DiaChi { get; set; }
         public int TrangThai { get; set; }
 
         public virtual LoaiMonAn MaLoaiNavigation { get; set; } = null!;
         public virtual NguoiDung MaNdNavigation { get; set; } = null!;
+        public virtual XaPhuong? MaXpNavigation { get; set; }
         public virtual ICollection<BaiDangDuocLuu> BaiDangDuocLuus { get; set; }
         public virtual ICollection<DayBaiDang> DayBaiDangs { get; set; }
         public virtual ICollection<HinhAnh> HinhAnhs { get; set; }

@@ -39,8 +39,10 @@
                     <label class="form-group has-float-label" style="margin: 5px 5px 5px 0">
                         <select id="pstTP" required class="form-control custom-select">
                             <option value="0" selected>Chọn Tỉnh/Thành Phố</option>
-                            <option>Cần Thơ</option>
-                            <option>Hậu Giang</option>
+                            @foreach(var tp in ViewData["TinhTP"] as List<TinhTp>)
+                            {
+                                <option value="@tp.MaTp">@tp.TenTp</option>
+                            }
                         </select>
                         <span>Tỉnh/Thành Phố</span>
                     </label>

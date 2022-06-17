@@ -13,6 +13,7 @@ namespace MonNgonMoiNgay.Controllers
         public IActionResult CreateNew()
         {
             ViewData["LoaiMonAn"] = db.LoaiMonAns.ToList();
+            ViewData["TinhTP"] = db.TinhTps.ToList();
             return View();
         }
 

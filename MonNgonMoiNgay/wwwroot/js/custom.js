@@ -1,4 +1,4 @@
-(function($) {
+﻿(function($) {
     "use strict";
 	
 	/* ..............................................
@@ -206,6 +206,39 @@ $(function () {
 	};
 
 	$('#pstImg').on('change', function () {
+		var inputFile = document.getElementById('pstImg');
+		var fileArea = document.querySelector('.file-drop-area');
+		var btnTitle = document.querySelector('.fake-btn');
+
+		inputFile.title = "";
 		imagesPreview(this, 'div.preview-images');
+
+		if (listFile.length != 0) {
+			btnTitle.innerHTML = '<i class="fas fa-plus"></i>';
+			btnTitle.style.fontSize = '40px';
+			
+			fileArea.style.width = '120px';
+			fileArea.style.height = '100px';
+			fileArea.style.margin = '5px';
+
+			document.querySelector('.btn-remove').style.display = 'block';
+        }
 	});
+
+	$('.btn-remove').on('click', function () {
+		var fileArea = document.querySelector('.file-drop-area');
+		var btnTitle = document.querySelector('.fake-btn');
+
+		listFile = [];
+
+		btnTitle.innerHTML = 'Kéo thả hoặc chọn ảnh';
+		btnTitle.style.fontSize = '20px';
+
+		fileArea.style.width = '100%';
+		fileArea.style.height = '200px';
+		fileArea.style.margin = '0 0 20px 0';
+
+		document.querySelector('.btn-remove').style.display = 'none';
+		document.querySelector('.preview-images').innerHTML = '';
+    })
 });

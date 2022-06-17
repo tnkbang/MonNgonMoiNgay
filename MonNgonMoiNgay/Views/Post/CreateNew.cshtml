@@ -2,6 +2,7 @@
     ViewData["Title"] = "Thêm mới bài đăng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using MonNgonMoiNgay.Models.Entities
 
 <div class="container">
     <div class="row post-meta">
@@ -15,50 +16,54 @@
             <button type="button" class="btn btn-outline-danger btn-remove">Xóa hết ảnh</button>
         </div>
         <div class="col-lg-7 col-md-12 col-sm-12">
-            <form>
+            <form id="frmCreatePost" enctype="multipart/form-data" method="post">
                 <label class="form-group has-float-label">
-                    <select id="pstLoai" class="form-control custom-select">
-                        <option selected>Chọn loại món</option>
-                        <option>Loại 1</option>
-                        <option>Loại 2</option>
+                    <select id="pstLoai" required class="form-control custom-select">
+                        <option value="0" selected>Chọn loại món</option>
+                        @foreach (var loai in ViewData["LoaiMonAn"] as List<LoaiMonAn>)
+                        {
+                            <option value="@loai.MaLoai">@loai.TenLoai</option>
+                        }
                     </select>
                     <span>Loại món</span>
                 </label>
                 <div class="form-group has-float-label">
-                    <input class="form-control" id="pstTenMon" type="text" placeholder="Nhập tên món ăn..." />
+                    <input class="form-control" id="pstTenMon" required type="text" placeholder="Nhập tên món ăn..." />
                     <label for="pstTenMon">Tên món</label>
                 </div>
                 <div class="form-group has-float-label">
-                    <textarea class="form-control" id="pstMoTa" rows="8" placeholder="Nhập mô tả món ăn...."></textarea>
+                    <textarea class="form-control" id="pstMoTa" required rows="8" placeholder="Nhập mô tả món ăn...."></textarea>
                     <label for="pstMoTa">Mô tả</label>
                 </div>
                 <div class="form-inline">
-                    <label class="form-group has-float-label" style="margin-right: 10px">
-                        <select id="pstTP" class="form-control custom-select">
-                            <option selected>Chọn Tỉnh/Thành Phố</option>
-                            <option>Loại 1</option>
-                            <option>Loại 2</option>
+                    <label class="form-group has-float-label" style="margin: 5px 5px 5px 0">
+                        <select id="pstTP" required class="form-control custom-select">
+                            <option value="0" selected>Chọn Tỉnh/Thành Phố</option>
+                            <option>Cần Thơ</option>
+                            <option>Hậu Giang</option>
                         </select>
                         <span>Tỉnh/Thành Phố</span>
                     </label>
-                    <label class="form-group has-float-label" style="margin-right: 10px">
-                        <select id="pstQH" class="form-control custom-select">
-                            <option selected>Chọn Quận/Huyện</option>
-                            <option>Loại 1</option>
-                            <option>Loại 2</option>
+                    <label class="form-group has-float-label" style="margin: 5px 10px 5px 5px">
+                        <select id="pstQH" required class="form-control custom-select">
+                            <option value="0" selected>Chọn Quận/Huyện</option>
+                            <option>Ninh Kiều</option>
+                            <option>Cái Răng</option>
                         </select>
                         <span>Quận/Huyện</span>
                     </label>
-                    <label class="form-group has-float-label">
-                        <select id="pstXP" class="form-control custom-select">
-                            <option selected>Chọn Xã/Phường</option>
-                            <option>Loại 1</option>
-                            <option>Loại 2</option>
+                    <label class="form-group has-float-label" style="margin: 5px 0 5px 0">
+                        <select id="pstXP" required class="form-control custom-select">
+                            <option value="0" selected>Chọn Xã/Phường</option>
+                            <option>An Khánh</option>
+                            <option>An Lạc</option>
                         </select>
                         <span>Xã/Phường</span>
                     </label>
                 </div>
-                <br />
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-post">Đăng bài</button>
+                </div>
             </form>
         </div>
     </div>

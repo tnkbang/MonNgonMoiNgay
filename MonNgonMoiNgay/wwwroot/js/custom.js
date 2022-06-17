@@ -188,8 +188,11 @@
 
 //My Custom
 $(function () {
-	// Multiple images preview in browser
+
+	//Khởi tạo mảng chứa file ảnh
 	var listFile = [];
+
+	//Xử lý gán ảnh được thêm từ input vào div hiển thị xem trước
 	var imagesPreview = function (input, placeImagePreview) {
 		if (input.files) {
 			for (i = 0; i < input.files.length; i++) {
@@ -205,6 +208,7 @@ $(function () {
 		}
 	};
 
+	//Xử lý khi nhấn chọn ảnh
 	$('#pstImg').on('change', function () {
 		var inputFile = document.getElementById('pstImg');
 		var fileArea = document.querySelector('.file-drop-area');
@@ -213,6 +217,7 @@ $(function () {
 		inputFile.title = "";
 		imagesPreview(this, 'div.preview-images');
 
+		//Nếu listFile không rỗng thì thực hiện các thao tác thêm ảnh và chỉnh kích thước
 		if (listFile.length != 0) {
 			btnTitle.innerHTML = '<i class="fas fa-plus"></i>';
 			btnTitle.style.fontSize = '40px';
@@ -225,20 +230,95 @@ $(function () {
         }
 	});
 
-	$('.btn-remove').on('click', function () {
+	//Hàm xử lý xóa hết ảnh đã chọn
+	function clearImgChoose() {
 		var fileArea = document.querySelector('.file-drop-area');
 		var btnTitle = document.querySelector('.fake-btn');
 
+		//Làm rỗng listFile
 		listFile = [];
 
 		btnTitle.innerHTML = 'Kéo thả hoặc chọn ảnh';
 		btnTitle.style.fontSize = '20px';
 
+		//Chỉnh kích thước cho vùng thêm ảnh
 		fileArea.style.width = '100%';
 		fileArea.style.height = '200px';
 		fileArea.style.margin = '0 0 20px 0';
 
+		//Ẩn nút xóa và làm rỗng div xem trước ảnh
 		document.querySelector('.btn-remove').style.display = 'none';
 		document.querySelector('.preview-images').innerHTML = '';
-    })
+    }
+
+	//Xử lý xóa hết ảnh đã chọn
+	$('.btn-remove').on('click', function () {
+		clearImgChoose();
+	})
+
+	//Xử lý tạo bài đăng mới
+	$('#frmCreatePost').on('submit', function () {
+		event.preventDefault();
+
+		var loaiMon = document.getElementById('pstLoai');
+		var tenMon = document.getElementById('pstTenMon');
+		var moTa = document.getElementById('pstMoTa');
+		var tinhTP = document.getElementById('pstTP');
+		var quanHuyen = document.getElementById('pstQH');
+		var xaPhuong = document.getElementById('pstXP');
+		var form_data = new FormData();
+
+		//Kiểm tra ảnh món ăn ít nhất phải có 1 ảnh
+		if (listFile.length == 0) {
+			getThongBao('error', 'Lỗi', 'Vui lòng chọn ít nhất 1 ảnh!')
+			return;
+		}
+
+		//Kiểm tra loại món đã được chọn
+		if (loaiMon.value == "0") {
+			getThongBao('error', 'Lỗi', 'Vui lòng chọn loại món!')
+			return;
+		}
+
+		//Kiểm tra vị trí đã được thêm đủ
+		if (tinhTP.value == "0" || quanHuyen.value == "0" || xaPhuong.value == "0") {
+			getThongBao('error', 'Lỗi', 'Vui lòng chọn khu vực!')
+			return;
+		}
+
+		form_data.append('loai', loaiMon.value);
+		form_data.append('ten', tenMon.value);
+		form_data.append('mota', moTa.value);
+		form_data.append('vitri', tinhTP.value + ' - ' + quanHuyen.value + ' - ' + xaPhuong.value);
+
+		//Gán từng ảnh trong listFile vào form data
+		for (var i = 0; i < listFile.length; i++) {
+			form_data.append('images', listFile[i]);
+		}
+
+		//Gọi ajax xử lý tạo post
+		$.ajax({
+			url: '/Post/getCreateNew',
+			type: 'POST',
+			data: form_data,
+			contentType: false,
+			processData: false,
+			success: function () {
+
+				//Làm rỗng list ảnh để thêm lần sau không bị chồng ảnh và làm rỗng các input nhập vào
+				loaiMon.value = "0";
+				tenMon.value = null;
+				moTa.value = null;
+				tinhTP.value = "0";
+				quanHuyen.value = "0";
+				xaPhuong.value = "0";
+				clearImgChoose();
+
+				window.location.href = "/";
+			},
+			error: function () {
+				getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+			}
+		})
+	})
 });

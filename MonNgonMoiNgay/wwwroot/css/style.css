@@ -2659,3 +2659,9 @@
     font-size: 15px;
     transition: 0.5s;
 }
+
+.btn-post{
+    margin: 15px 0 20px 0;
+    width: 50%;
+    text-transform: capitalize;
+}

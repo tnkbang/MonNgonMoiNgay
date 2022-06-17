@@ -28,5 +28,21 @@ namespace MonNgonMoiNgay.Models.Entities
         public virtual ICollection<DayBaiDang> DayBaiDangs { get; set; }
         public virtual ICollection<HinhAnh> HinhAnhs { get; set; }
         public virtual ICollection<YeuThichBaiDang> YeuThichBaiDangs { get; set; }
+
+        MonNgonMoiNgayContext db = new MonNgonMoiNgayContext();
+        public string setMa(string maND)
+        {
+            var last = (from b in db.BaiDangs
+                        where b.MaNd == maND
+                        orderby b.MaBd descending
+                        select b).FirstOrDefault();
+            if (last == null)
+            {
+                return maND + "-001";
+            }
+            int temp = int.Parse(Convert.ToString(last.MaBd).Substring(8));
+            string ma = maND + "-" + Convert.ToString(1000 + temp + 1).Substring(1);
+            return ma;
+        }
     }
 }

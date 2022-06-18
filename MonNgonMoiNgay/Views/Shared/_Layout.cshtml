@@ -1,11 +1,14 @@
 ﻿@{
     Layout = null;
-    List<string> UserLogin = new List<string>();
-    foreach(var claim in User.Claims)
+
+    NguoiDung userLogin = new NguoiDung();
+
+    if (User.Identity.IsAuthenticated)
     {
-        UserLogin.Add(claim.Value);
+        userLogin.MaNd = User.Claims.ToList()[0].Value;
     }
 }
+@using MonNgonMoiNgay.Models.Entities
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,21 +53,19 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li class="nav-item active"><a class="nav-link" href="/">Trang chủ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.html">Bài đăng</a></li>
+                        <li class="nav-item @ViewBag.TrangChu"><a class="nav-link" href="/">Trang chủ</a></li>
+                        <li class="nav-item @ViewBag.BaiDang"><a class="nav-link" href="#">Bài đăng</a></li>
                         <li class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">DropDown</a>
                             <ul class="dropdown-menu">
-                                <li><a href="shop.html">1111111</a></li>
-                                <li><a href="shop-detail.html">2222222222</a></li>
-                                <li><a href="cart.html">333333333</a></li>
-                                <li><a href="checkout.html">444444444</a></li>
-                                <li><a href="my-account.html">55555555</a></li>
-                                <li><a href="wishlist.html">66666666</a></li>
+                                <li><a href="#">1111111</a></li>
+                                <li><a href="#">2222222222</a></li>
+                                <li><a href="#">333333333</a></li>
+                                <li><a href="#">444444444</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="gallery.html">Thông tin</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact-us.html">Liên hệ</a></li>
+                        <li class="nav-item @ViewBag.ThongTin"><a class="nav-link" href="#">Thông tin</a></li>
+                        <li class="nav-item @ViewBag.LienHe"><a class="nav-link" href="#">Liên hệ</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -73,11 +74,16 @@
                     <ul>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            var userName = "user" + UserLogin[0].Substring(1, UserLogin[0].Length - 1);
-                            <li>
-                                <a href="~/Account/Logout">
-                                    @userName
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="@userLogin.getImage()" width="20" height="20" >
+                                    &nbsp;
+                                    @userLogin.getTenHienThi()
                                 </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#"><i class="fa fa-th"></i>&nbsp; Trang quản trị</a>
+                                    <a class="dropdown-item text-danger" href="~/Account/Logout"><i class="fas fa-power-off"></i>&nbsp; Đăng xuất</a>
+                                </div>
                             </li>
                         }
                         else
@@ -100,28 +106,28 @@
                 <a href="#" class="close-side"><i class="fa fa-times"></i></a>
                 <ul>
                     <li class="cart-box">
-                    <ul class="cart-list">
-                        <li>
-                            <a href="#" class="photo"><img src="~/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Vật phẩm 1</a></h6>
-                            <p>1x - <span class="price">80.000 VND</span></p>
-                        </li>
-                        <li>
-                            <a href="#" class="photo"><img src="~/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Vật phẩm 2</a></h6>
-                            <p>1x - <span class="price">60.000 VND</span></p>
-                        </li>
-                        <li>
-                            <a href="#" class="photo"><img src="~/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
-                            <h6><a href="#">Vật phẩm 3</a></h6>
-                            <p>1x - <span class="price">40.000 VND</span></p>
-                        </li>
-                        <li class="total">
-                            <a href="#" class="btn btn-default hvr-hover btn-cart">Xem chi tiết</a>
-                            <span class="float-right"><strong>Tổng</strong>: 180.000 VND</span>
-                        </li>
-                    </ul>
-                </li>
+                        <ul class="cart-list">
+                            <li>
+                                <a href="#" class="photo"><img src="~/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+                                <h6><a href="#">Vật phẩm 1</a></h6>
+                                <p>1x - <span class="price">80.000 VND</span></p>
+                            </li>
+                            <li>
+                                <a href="#" class="photo"><img src="~/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+                                <h6><a href="#">Vật phẩm 2</a></h6>
+                                <p>1x - <span class="price">60.000 VND</span></p>
+                            </li>
+                            <li>
+                                <a href="#" class="photo"><img src="~/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+                                <h6><a href="#">Vật phẩm 3</a></h6>
+                                <p>1x - <span class="price">40.000 VND</span></p>
+                            </li>
+                            <li class="total">
+                                <a href="#" class="btn btn-default hvr-hover btn-cart">Xem chi tiết</a>
+                                <span class="float-right"><strong>Tổng</strong>: 180.000 VND</span>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <!-- End Side Menu -->

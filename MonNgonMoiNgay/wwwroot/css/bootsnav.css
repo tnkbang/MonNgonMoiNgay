@@ -535,12 +535,11 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:
         -moz-border-radius: 0px;
         -webkit-border-radius: 0px;
         -o-border-radius: 0px;
-        border-radius: 0px;
-        padding: 0;
+        border-radius: .25rem;
+        top: 62px;
         width: 200px;
-        background: #000000;
 		border: none;
-		padding: 30px 0;
+		padding: 10px 0;
     }
     
     nav.navbar.bootsnav li.dropdown ul.dropdown-menu > li a:hover,

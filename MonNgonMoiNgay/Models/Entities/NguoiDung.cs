@@ -73,10 +73,20 @@ namespace MonNgonMoiNgay.Models.Entities
             }
             return sb.ToString();
         }
+
+        public string getTenHienThi()
+        {
+            var nd = db.NguoiDungs.FirstOrDefault(x => x.MaNd == this.MaNd);
+            if(String.IsNullOrEmpty(nd.HoLot) && String.IsNullOrEmpty(nd.Ten))
+            {
+                return "user" + nd.MaNd.Substring(1, nd.MaNd.Length - 1);
+            }
+            return nd.Ten;
+        }
         public string getImage()
         {
             var nd = db.NguoiDungs.FirstOrDefault(x => x.MaNd == this.MaNd);
-            if (nd.ImgAvt == null) return "/Content/Img/userAvt/avt-default.png";
+            if (nd.ImgAvt == null) return "/Content/Images/Resources/avt-default.png";
             if (nd.ImgAvt.ToLower().StartsWith("http")) return nd.ImgAvt;
             return "/Content/Img/userAvt/" + nd.ImgAvt;
         }

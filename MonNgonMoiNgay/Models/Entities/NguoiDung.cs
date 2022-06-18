@@ -87,8 +87,7 @@ namespace MonNgonMoiNgay.Models.Entities
         {
             var nd = db.NguoiDungs.FirstOrDefault(x => x.MaNd == this.MaNd);
             if (nd.ImgAvt == null) return "/Content/Images/Resources/avt-default.png";
-            if (nd.ImgAvt.ToLower().StartsWith("http")) return nd.ImgAvt;
-            return "/Content/Img/userAvt/" + nd.ImgAvt;
+            return "/Content/Images/UserAvt/" + nd.ImgAvt;
         }
     }
 }

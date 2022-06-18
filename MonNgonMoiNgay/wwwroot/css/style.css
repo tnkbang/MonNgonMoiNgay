@@ -2665,3 +2665,11 @@
     width: 50%;
     text-transform: capitalize;
 }
+
+/* Img avt header */
+
+.img-header{
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}

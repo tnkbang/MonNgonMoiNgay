@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Content\FilesPost\" />
+    <Folder Include="wwwroot\Content\Images\UserAvt\" />
   </ItemGroup>
 
 </Project>

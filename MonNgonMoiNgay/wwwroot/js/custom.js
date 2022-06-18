@@ -105,6 +105,14 @@
 
 	$(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip();
+
+		//Danh sách bài đăng tại trang chủ được mặc định lọc theo bài đăng mới nhất
+		var $grid = $('.special-list').isotope({
+			itemSelector: '.special-grid'
+		});
+		$grid.isotope({
+			filter: '.new-post'
+		});
 	});
 
 	/* ..............................................

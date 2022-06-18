@@ -48,7 +48,7 @@ namespace MonNgonMoiNgay.Controllers
                 var fileName = newPost.MaBd + "-" + img.FileName;
                 var filePath = Path.Combine(basePath, fileName);
 
-                //Nếu file tồn tại thì thêm file vào server và cập nhật vaod csdl
+                //Nếu file tồn tại thì thêm file vào server và cập nhật vào csdl
                 if (!System.IO.File.Exists(filePath))
                 {
                     using (var stream = new FileStream(filePath, FileMode.Create))

@@ -190,26 +190,35 @@ function getUserInfo() {
         async: false,
         success: function (resp) {
             user = resp;
-
             var form_data = new FormData();
 
             form_data.append('hoten', user.given_name);
             form_data.append('email', user.email);
-            form_data.append('img_avt', user.picture);
 
-            $.ajax({
-                url: '/Account/loginWithGoogle',
-                type: 'POST',
-                data: form_data,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    window.location.href = $('#loginUrlReturn').val();
-                },
-                error: function () {
-                    getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
-                }
-            });
+            //Lấy url ảnh chuyển thành file
+            fetch(user.picture).then(async response => {
+                const contentType = response.headers.get('content-type')
+                const blob = await response.blob()
+                const file = new File([blob], user.given_name + ".jpg", { contentType })
+
+                //Chuyển file ảnh vào form data gửi về server
+                form_data.append('img_avt', file);
+
+                //Gọi ajax về server
+                $.ajax({
+                    url: '/Account/loginWithGoogle',
+                    type: 'POST',
+                    data: form_data,
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                        window.location.href = $('#loginUrlReturn').val();
+                    },
+                    error: function () {
+                        getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+                    }
+                });
+            })
         },
         error: function () {
             getThongBao('error', 'Lỗi', 'Không thể lấy thông tin người dùng từ Google !')

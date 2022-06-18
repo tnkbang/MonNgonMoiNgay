@@ -76,7 +76,7 @@ namespace MonNgonMoiNgay.Controllers
 
         //Đăng nhập với tài khoản google
         [AllowAnonymous]
-        public async Task<IActionResult> loginWithGoogle(string hoten, string email, string img_avt)
+        public async Task<IActionResult> loginWithGoogle(string hoten, string email, IFormFile img_avt)
         {
             var user = await db.NguoiDungs.FirstOrDefaultAsync(x => x.Email == email);
             if (user == null)
@@ -88,7 +88,28 @@ namespace MonNgonMoiNgay.Controllers
                 {
                     userLogin.HoLot = hoten.Substring(0, hoten.LastIndexOf(' '));
                     userLogin.Ten = hoten.Substring(hoten.LastIndexOf(' ') + 1);
-                    userLogin.ImgAvt = img_avt;
+
+                    //Khai báo đường dẫn lưu file
+                    var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\wwwroot\\Content\\Images\\UserAvt\\");
+                    bool basePathExists = Directory.Exists(basePath);
+
+                    //Nếu thư mục không có thì tạo mới
+                    if (!basePathExists) Directory.CreateDirectory(basePath);
+
+                    var fileName = "avt-" + userLogin.MaNd + "-" + DateTime.Now.Millisecond + ".jpg";
+                    var filePath = Path.Combine(basePath, fileName);
+
+                    //Nếu file tồn tại thì thêm file vào server và cập nhật vào csdl
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await img_avt.CopyToAsync(stream);
+                        }
+
+                        userLogin.ImgAvt = fileName;
+                    }
+
                     db.SaveChanges();
                 }
 

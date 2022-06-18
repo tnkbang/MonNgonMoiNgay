@@ -46,7 +46,7 @@ namespace MonNgonMoiNgay.Models.Entities
         MonNgonMoiNgayContext db = new MonNgonMoiNgayContext();
         public string setMaUser()
         {
-            NguoiDung nd = db.NguoiDungs.OrderByDescending(x => x.MaNd).FirstOrDefault();
+            var nd = db.NguoiDungs.OrderByDescending(x => x.MaNd).FirstOrDefault();
             if (nd == null)
             {
                 return "U000001";

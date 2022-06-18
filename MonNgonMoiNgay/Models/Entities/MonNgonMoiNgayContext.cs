@@ -45,7 +45,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<BaiDang>(entity =>
             {
                 entity.HasKey(e => e.MaBd)
-                    .HasName("PK__BaiDang__2E67755D10CB161D");
+                    .HasName("PK__BaiDang__2E67755D7C31E509");
 
                 entity.ToTable("BaiDang");
 
@@ -58,6 +58,8 @@ namespace MonNgonMoiNgay.Models.Entities
                 entity.Property(e => e.DiaChi)
                     .HasMaxLength(100)
                     .HasColumnName("Dia_Chi");
+
+                entity.Property(e => e.GiaTien).HasColumnName("Gia_Tien");
 
                 entity.Property(e => e.MaLoai)
                     .HasMaxLength(3)
@@ -112,7 +114,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<BaiDangDuocLuu>(entity =>
             {
                 entity.HasKey(e => new { e.MaBd, e.MaNd })
-                    .HasName("PK__BaiDangD__5C815D863147B914");
+                    .HasName("PK__BaiDangD__5C815D86E63EA36F");
 
                 entity.ToTable("BaiDangDuocLuu");
 
@@ -148,7 +150,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<DayBaiDang>(entity =>
             {
                 entity.HasKey(e => new { e.MaBd, e.MaNd })
-                    .HasName("PK__DayBaiDa__5C815D866E5C4F66");
+                    .HasName("PK__DayBaiDa__5C815D86259E9F78");
 
                 entity.ToTable("DayBaiDang");
 
@@ -184,7 +186,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<HinhAnh>(entity =>
             {
                 entity.HasKey(e => new { e.MaBd, e.UrlImage })
-                    .HasName("PK__HinhAnh__3C1736C558DE79CC");
+                    .HasName("PK__HinhAnh__3C1736C5DEA280E7");
 
                 entity.ToTable("HinhAnh");
 
@@ -208,7 +210,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<LoaiMonAn>(entity =>
             {
                 entity.HasKey(e => e.MaLoai)
-                    .HasName("PK__LoaiMonA__586312F9208B9C02");
+                    .HasName("PK__LoaiMonA__586312F9666BF458");
 
                 entity.ToTable("LoaiMonAn");
 
@@ -226,7 +228,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<LoaiNd>(entity =>
             {
                 entity.HasKey(e => e.MaLoai)
-                    .HasName("PK__LoaiND__586312F9F3EC2A3E");
+                    .HasName("PK__LoaiND__586312F946E049DB");
 
                 entity.ToTable("LoaiND");
 
@@ -244,11 +246,11 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<NguoiDung>(entity =>
             {
                 entity.HasKey(e => e.MaNd)
-                    .HasName("PK__NguoiDun__2E628DB6977DF260");
+                    .HasName("PK__NguoiDun__2E628DB6A9394839");
 
                 entity.ToTable("NguoiDung");
 
-                entity.HasIndex(e => e.Email, "UQ__NguoiDun__A9D105345A6071A8")
+                entity.HasIndex(e => e.Email, "UQ__NguoiDun__A9D105341E21DCC1")
                     .IsUnique();
 
                 entity.Property(e => e.MaNd)
@@ -312,7 +314,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<PhanHoi>(entity =>
             {
                 entity.HasKey(e => e.MaPh)
-                    .HasName("PK__PhanHoi__2E629DF0151EF96E");
+                    .HasName("PK__PhanHoi__2E629DF05E88F16C");
 
                 entity.ToTable("PhanHoi");
 
@@ -350,7 +352,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<QuanHuyen>(entity =>
             {
                 entity.HasKey(e => e.MaQh)
-                    .HasName("PK__QuanHuye__2E616511F6D64A5A");
+                    .HasName("PK__QuanHuye__2E61651117BBBB29");
 
                 entity.ToTable("QuanHuyen");
 
@@ -380,7 +382,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<ThongBao>(entity =>
             {
                 entity.HasKey(e => e.MaTb)
-                    .HasName("PK__ThongBao__2E62FB754CE47421");
+                    .HasName("PK__ThongBao__2E62FB756742B83B");
 
                 entity.ToTable("ThongBao");
 
@@ -471,7 +473,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<TinhTp>(entity =>
             {
                 entity.HasKey(e => e.MaTp)
-                    .HasName("PK__TinhTP__2E62FB677B96AD52");
+                    .HasName("PK__TinhTP__2E62FB676FDD87AF");
 
                 entity.ToTable("TinhTP");
 
@@ -489,7 +491,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<XaPhuong>(entity =>
             {
                 entity.HasKey(e => e.MaXp)
-                    .HasName("PK__XaPhuong__2E62DAE2D475AF91");
+                    .HasName("PK__XaPhuong__2E62DAE2169EE195");
 
                 entity.ToTable("XaPhuong");
 
@@ -519,7 +521,7 @@ namespace MonNgonMoiNgay.Models.Entities
             modelBuilder.Entity<YeuThichBaiDang>(entity =>
             {
                 entity.HasKey(e => new { e.MaBd, e.MaNd })
-                    .HasName("PK__YeuThich__5C815D86E8D56D9B");
+                    .HasName("PK__YeuThich__5C815D86A4DEC3A9");
 
                 entity.ToTable("YeuThichBaiDang");
 

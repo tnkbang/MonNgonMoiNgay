@@ -189,6 +189,9 @@
 //My Custom
 $(function () {
 
+	//Định dạng số tiền
+	$('#pstGiaTien').number(true, 0, ',', '.');
+
 	//Khởi tạo mảng chứa file ảnh
 	var listFile = [];
 
@@ -256,16 +259,77 @@ $(function () {
 		clearImgChoose();
 	})
 
+	//Xử lý hiển thị quận/huyện sau khi chọn tỉnh
+	$('#pstTP').on('change', function () {
+		var tinhTP = document.getElementById('pstTP');
+		var quanHuyen = document.getElementById('pstQH');
+		var xaPhuong = document.getElementById('pstXP');
+
+		$.ajax({
+			url: '/Post/getQuanHuyen',
+			type: 'POST',
+			data: { ma: tinhTP.value },
+			success: function (data) {
+
+				//Gán các giá trị của select quận/huyện và xã/phường về mặc định
+				quanHuyen.innerHTML = "";
+				$('#pstQH').append($('<option>').val('0').text('Chọn Quận/Huyện'));
+				xaPhuong.innerHTML = "";
+				$('#pstXP').append($('<option>').val('0').text('Chọn Xã/Phường'));
+
+				//Chạy vòng lặp để gán giá trị quận/huyện từ kết quả trả về
+				if (data.tt) {
+					for (var i = 0; i < data.qh.length; i++) {
+						$('#pstQH').append($('<option>').val(data.qh[i].maQh).text(data.qh[i].tenQh));
+					}
+				}
+			},
+			error: function () {
+				getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+			}
+		})
+	})
+
+	//Xử lý hiển thị xã/phường sau khi chọn quận/huyện
+	$('#pstQH').on('change', function () {
+		var quanHuyen = document.getElementById('pstQH');
+		var xaPhuong = document.getElementById('pstXP');
+
+		$.ajax({
+			url: '/Post/getXaPhuong',
+			type: 'POST',
+			data: { ma: quanHuyen.value },
+			success: function (data) {
+
+				//Gán giá trị của select xã/phường về mặc định
+				xaPhuong.innerHTML = "";
+				$('#pstXP').append($('<option>').val('0').text('Chọn Xã/Phường'));
+
+				//Chạy vòng lặp để gán giá trị xã/phường từ kết quả trả về
+				if (data.tt) {
+					for (var i = 0; i < data.xp.length; i++) {
+						$('#pstXP').append($('<option>').val(data.xp[i].maXp).text(data.xp[i].tenXp));
+					}
+				}
+			},
+			error: function () {
+				getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+			}
+		})
+	})
+
 	//Xử lý tạo bài đăng mới
 	$('#frmCreatePost').on('submit', function () {
 		event.preventDefault();
 
 		var loaiMon = document.getElementById('pstLoai');
 		var tenMon = document.getElementById('pstTenMon');
+		var giaTien = document.getElementById('pstGiaTien');
 		var moTa = document.getElementById('pstMoTa');
 		var tinhTP = document.getElementById('pstTP');
 		var quanHuyen = document.getElementById('pstQH');
 		var xaPhuong = document.getElementById('pstXP');
+		var diaChi = document.getElementById('pstDiaChi');
 		var form_data = new FormData();
 
 		//Kiểm tra ảnh món ăn ít nhất phải có 1 ảnh
@@ -288,8 +352,10 @@ $(function () {
 
 		form_data.append('loai', loaiMon.value);
 		form_data.append('ten', tenMon.value);
+		form_data.append('gia', $('#pstGiaTien').val());
 		form_data.append('mota', moTa.value);
-		form_data.append('vitri', tinhTP.value + ' - ' + quanHuyen.value + ' - ' + xaPhuong.value);
+		form_data.append('xp', xaPhuong.value);
+		form_data.append('diachi', diaChi.value);
 
 		//Gán từng ảnh trong listFile vào form data
 		for (var i = 0; i < listFile.length; i++) {
@@ -308,10 +374,12 @@ $(function () {
 				//Làm rỗng list ảnh để thêm lần sau không bị chồng ảnh và làm rỗng các input nhập vào
 				loaiMon.value = "0";
 				tenMon.value = null;
+				giaTien.value = null;
 				moTa.value = null;
 				tinhTP.value = "0";
 				quanHuyen.value = "0";
 				xaPhuong.value = "0";
+				diaChi.value = null;
 				clearImgChoose();
 
 				window.location.href = "/";

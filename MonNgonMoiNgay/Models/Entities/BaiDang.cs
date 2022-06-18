@@ -19,6 +19,7 @@ namespace MonNgonMoiNgay.Models.Entities
         public DateTime ThoiGian { get; set; }
         public string TenMon { get; set; } = null!;
         public string? MoTa { get; set; }
+        public int GiaTien { get; set; }
         public string? MaXp { get; set; }
         public string? DiaChi { get; set; }
         public int TrangThai { get; set; }

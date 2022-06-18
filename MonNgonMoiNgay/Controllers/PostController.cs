@@ -17,9 +17,10 @@ namespace MonNgonMoiNgay.Controllers
             return View();
         }
 
+        //Thêm mới bài đăng
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> getCreateNew(string loai, string ten, string mota, string vitri, IList<IFormFile> images)
+        public async Task<IActionResult> getCreateNew(string loai, string ten, int gia, string mota, string xp, string diachi, IList<IFormFile> images)
         {
             //Tạo mới bài đăng và thêm các thuộc tính cần thiết
             BaiDang newPost = new BaiDang();
@@ -28,8 +29,10 @@ namespace MonNgonMoiNgay.Controllers
             newPost.MaNd = User.Claims.ToList()[0].Value;
             newPost.ThoiGian = DateTime.Now;
             newPost.TenMon = ten;
+            newPost.GiaTien = gia;
             newPost.MoTa = mota;
-            //newPost.DiaChi = vitri;
+            newPost.MaXp = xp;
+            newPost.DiaChi = diachi;
             newPost.TrangThai = 1;
             db.BaiDangs.Add(newPost);
 
@@ -65,15 +68,24 @@ namespace MonNgonMoiNgay.Controllers
             return Json(new { tt = true });
         }
 
+        //Xử lý trả về quận huyện theo mã tỉnh
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> setTrangThai(string mabd)
+        public IActionResult getQuanHuyen(string ma)
         {
-            var bd = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaNd == User.Claims.ToList()[0].Value && x.MaBd == mabd);
-            bd.TrangThai = 0;
-            db.SaveChanges();
+            var qh = db.QuanHuyens.Where(x => x.MaTp == ma).ToList();
 
-            return Json(new { tt = true });
+            return qh.Count() != 0 ? Json(new { tt = true, qh }) : Json(new { tt = false });
+        }
+
+        //Xử lý trả về xã phường theo mã quận huyện
+        [HttpPost]
+        [Authorize]
+        public IActionResult getXaPhuong(string ma)
+        {
+            var xp = db.XaPhuongs.Where(x => x.MaQh == ma).ToList();
+
+            return xp.Count() != 0 ? Json(new { tt = true, xp }) : Json(new { tt = false });
         }
     }
 }

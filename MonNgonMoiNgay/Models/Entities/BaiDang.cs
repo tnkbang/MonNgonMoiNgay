@@ -47,5 +47,10 @@ namespace MonNgonMoiNgay.Models.Entities
             string ma = maND + "-" + Convert.ToString(1000 + temp + 1).Substring(1);
             return ma;
         }
+        public string getOneImage()
+        {
+            var img = db.HinhAnhs.FirstOrDefault(x => x.MaBd == this.MaBd);
+            return "/Content/FilesPost/" + img.UrlImage;
+        }
     }
 }

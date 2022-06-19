@@ -116,10 +116,10 @@
 	});
 
 	/* ..............................................
-	   Owl Carousel Instagram Feed
+	   Owl Carousel Food Feed
 	   ................................................. */
 
-	$('.main-instagram').owlCarousel({
+	$('.main-food').owlCarousel({
 		loop: true,
 		margin: 0,
 		dots: false,

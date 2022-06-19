@@ -13,16 +13,55 @@ namespace MonNgonMoiNgay.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        MonNgonMoiNgayContext db = new MonNgonMoiNgayContext();
 
-        public HomeController(ILogger<HomeController> logger)
+        //Struct đếm sl yêu thích
+        struct DemYT
         {
-            _logger = logger;
-        }
+            public int sl;
+            public string MaBd;
+        };
 
         [AllowAnonymous]
         public IActionResult Index()
         {
+            //Tạo ViewData cho bài đăng mới đăng (trong vòng 7 ngày) và bài đăng được đề cử bởi Admin hoặc nhân viên
+            ViewData["PostNew"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).ToList();
+            ViewData["PostVote"] = (from bd in db.BaiDangs
+                                    join dbd in db.DayBaiDangs on bd.MaBd equals dbd.MaBd
+                                    join nd in db.NguoiDungs on dbd.MaNd equals nd.MaNd
+                                    where nd.MaLoai == "01" && nd.MaLoai == "03"
+                                    orderby dbd.ThoiGian descending
+                                    select bd).ToList();
+
+            //Xử lý hiển thị top 10 bài đăng được yêu thích nhất
+            var list = (from bd in db.BaiDangs
+                        join yt in db.YeuThichBaiDangs on bd.MaBd equals yt.MaBd
+                        select bd).ToList();
+
+            List<BaiDang> result = new List<BaiDang>();
+            List<DemYT> slyt = new List<DemYT>();
+            
+            //Chạy lặp gán mã bài đăng và số lượt yt vào danh sách slyt
+            foreach (var bd in list)
+            {
+                var temp = db.YeuThichBaiDangs.Where(x => x.MaBd == bd.MaBd).ToList().Count();
+                slyt.Add(new DemYT { MaBd = bd.MaBd, sl = temp });
+            }
+
+            //Sắp xếp lượt yêu thích từ cao đến thấp
+            slyt.OrderByDescending(x => x.sl);
+
+            //Chạy lặp gán bài đăng vào result
+            foreach(var yt in slyt)
+            {
+                var temp = db.BaiDangs.FirstOrDefault(x => x.MaBd == yt.MaBd);
+                result.Add(temp);
+            }
+
+            //Gán result vào ViewData để trả về View
+            ViewData["PostLike"] = result.Take(10).ToList();
+
             return View();
         }
     }

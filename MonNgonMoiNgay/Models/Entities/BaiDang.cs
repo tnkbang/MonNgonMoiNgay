@@ -52,5 +52,20 @@ namespace MonNgonMoiNgay.Models.Entities
             var img = db.HinhAnhs.FirstOrDefault(x => x.MaBd == this.MaBd);
             return "/Content/FilesPost/" + img.UrlImage;
         }
+
+        public List<HinhAnh> getListImages()
+        {
+            return db.HinhAnhs.Where(x => x.MaBd == this.MaBd).ToList();
+        }
+
+        public int getSLLuu()
+        {
+            return db.BaiDangDuocLuus.Where(x => x.MaBd == this.MaBd).Count();
+        }
+
+        public int getSLYeuThich()
+        {
+            return db.YeuThichBaiDangs.Where(x => x.MaBd == this.MaBd).Count();
+        }
     }
 }

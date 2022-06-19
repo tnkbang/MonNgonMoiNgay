@@ -87,5 +87,20 @@ namespace MonNgonMoiNgay.Controllers
 
             return xp.Count() != 0 ? Json(new { tt = true, xp }) : Json(new { tt = false });
         }
+
+        //Hiển thị trang detail bài đăng
+        [Authorize]
+        public IActionResult Detail(string id)
+        {
+            var baidang = db.BaiDangs.FirstOrDefault(x => x.MaBd == id);
+
+            if (baidang == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["PostSimilar"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).ToList();
+            return View(baidang);
+        }
     }
 }

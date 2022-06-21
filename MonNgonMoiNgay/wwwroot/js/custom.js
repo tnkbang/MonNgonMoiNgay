@@ -398,3 +398,27 @@ $(function () {
 		})
 	})
 });
+
+//Hàm xử lý lưu bài đăng
+function setLuuBaiDang(mabd, elm) {
+
+	event.preventDefault();
+
+    $.ajax({
+        url: '/Post/LuuBaiDang',
+        type: 'POST',
+        data: { id: mabd },
+        success: function (data) {
+			if (data.tt) {
+				$(elm).addClass('disabled')
+                getThongBao('success', 'Thành công', 'Bạn có thể xem lại trong phần bài đăng đã lưu !')
+            }
+            else {
+                getThongBao('warning', 'Thông báo', 'Bạn đã lưu bài đăng này rồi !')
+            }
+        },
+        error: function () {
+            getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+        }
+    })
+}

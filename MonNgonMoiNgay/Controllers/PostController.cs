@@ -102,5 +102,28 @@ namespace MonNgonMoiNgay.Controllers
             ViewData["PostSimilar"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).ToList();
             return View(baidang);
         }
+
+        //Chức năng lưu lại bài đăng của người dùng
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> LuuBaiDang(string id)
+        {
+            var baidang = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaBd == id);
+            var saved = await db.BaiDangDuocLuus.FirstOrDefaultAsync(x => x.MaBd == id && x.MaNd == User.Claims.ToList()[0].Value);
+
+            if(baidang != null && saved == null)
+            {
+                BaiDangDuocLuu save = new BaiDangDuocLuu();
+                save.MaBd = baidang.MaBd;
+                save.MaNd = User.Claims.ToList()[0].Value;
+                save.ThoiGian = DateTime.Now;
+
+                db.BaiDangDuocLuus.Add(save);
+                db.SaveChanges();
+
+                return Json(new { tt = true });
+            }
+            return Json(new { tt = false });
+        }
     }
 }

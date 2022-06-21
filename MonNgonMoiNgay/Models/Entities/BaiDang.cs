@@ -67,5 +67,12 @@ namespace MonNgonMoiNgay.Models.Entities
         {
             return db.YeuThichBaiDangs.Where(x => x.MaBd == this.MaBd).Count();
         }
+
+        public bool isSave()
+        {
+            var saved = db.BaiDangDuocLuus.FirstOrDefault(x => x.MaBd == this.MaBd);
+            if (saved != null) return true;
+            return false;
+        }
     }
 }

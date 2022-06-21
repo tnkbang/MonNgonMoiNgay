@@ -95,7 +95,23 @@
                                 <div class="mask-icon">
                                     <ul>
                                         <li><a href="~/Post/Detail?id=@post.MaBd" data-toggle="tooltip" data-placement="right" title="Xem chi tiết"><i class="fas fa-eye"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a></li>
+                                        <li>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                @if (post.isSave() || post.MaNd.Equals(User.Claims.ToList()[0].Value))
+                                                {
+                                                    <a href="#" data-toggle="tooltip" class="btn disabled" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" data-toggle="tooltip" class="btn" data-placement="right" onclick="setLuuBaiDang('@post.MaBd', this)" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="~/Account/Login" data-toggle="tooltip" class="btn" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a>
+                                            }
+                                        </li>
                                         <li><a href="#" data-toggle="tooltip" data-placement="right" title="Yêu thích"><i class="far fa-heart"></i></a></li>
                                     </ul>
                                     <a class="cart" href="#">Thêm vào giỏ hàng</a>
@@ -132,7 +148,23 @@
                                 <div class="mask-icon">
                                     <ul>
                                         <li><a href="~/Post/Detail?id=@post.MaBd" data-toggle="tooltip" data-placement="right" title="Xem chi tiết"><i class="fas fa-eye"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a></li>
+                                        <li>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                @if (post.isSave() || post.MaNd.Equals(User.Claims.ToList()[0].Value))
+                                                {
+                                                    <a href="#" data-toggle="tooltip" class="btn disabled" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" data-toggle="tooltip" class="btn" data-placement="right" onclick="setLuuBaiDang('@post.MaBd', this)" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="~/Account/Login" data-toggle="tooltip" class="btn" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a>
+                                            }
+                                        </li>
                                         <li><a href="#" data-toggle="tooltip" data-placement="right" title="Yêu thích"><i class="far fa-heart"></i></a></li>
                                     </ul>
                                     <a class="cart" href="#">Thêm vào giỏ hàng</a>
@@ -169,7 +201,23 @@
                                 <div class="mask-icon">
                                     <ul>
                                         <li><a href="~/Post/Detail?id=@post.MaBd" data-toggle="tooltip" data-placement="right" title="Xem chi tiết"><i class="fas fa-eye"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a></li>
+                                        <li>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                @if (post.isSave() || post.MaNd.Equals(User.Claims.ToList()[0].Value))
+                                                {
+                                                    <a href="#" data-toggle="tooltip" class="btn disabled" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" data-toggle="tooltip" class="btn" data-placement="right" onclick="setLuuBaiDang('@post.MaBd', this)" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="~/Account/Login" data-toggle="tooltip" class="btn" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a>
+                                            }
+                                        </li>
                                         <li><a href="#" data-toggle="tooltip" data-placement="right" title="Yêu thích"><i class="far fa-heart"></i></a></li>
                                     </ul>
                                     <a class="cart" href="#">Thêm vào giỏ hàng</a>

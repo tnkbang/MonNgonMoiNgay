@@ -74,7 +74,14 @@
                     <div class="add-to-btn">
                         <div class="add-comp">
                             <a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Yêu thích</a>
-                            <a class="btn hvr-hover" href="#"><i class="fa fa-bookmark"></i> Lưu lại</a>
+                            @if (Model.isSave())
+                            {
+                                <a class="btn hvr-hover disabled" href="#"><i class="fa fa-bookmark"></i> Lưu lại</a>
+                            }
+                            else
+                            {
+                                <a class="btn hvr-hover" href="#" onclick="setLuuBaiDang('@Model.MaBd', this)"><i class="fa fa-bookmark"></i> Lưu lại</a>
+                            }
                         </div>
                         @*<div class="share-bar">
                             <a class="btn hvr-hover" href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>

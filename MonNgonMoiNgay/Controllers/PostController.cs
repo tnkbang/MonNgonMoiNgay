@@ -99,7 +99,7 @@ namespace MonNgonMoiNgay.Controllers
                 return NotFound();
             }
 
-            ViewData["PostSimilar"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).ToList();
+            ViewData["PostSimilar"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).OrderByDescending(x => x.ThoiGian).ToList();
             return View(baidang);
         }
 
@@ -119,6 +119,29 @@ namespace MonNgonMoiNgay.Controllers
                 save.ThoiGian = DateTime.Now;
 
                 db.BaiDangDuocLuus.Add(save);
+                db.SaveChanges();
+
+                return Json(new { tt = true });
+            }
+            return Json(new { tt = false });
+        }
+
+        //Chức năng yêu thích bài đăng của người dùng
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> YeuThichBaiDang(string id)
+        {
+            var baidang = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaBd == id);
+            var yt = await db.YeuThichBaiDangs.FirstOrDefaultAsync(x => x.MaBd == id && x.MaNd == User.Claims.ToList()[0].Value);
+
+            if (baidang != null && yt == null)
+            {
+                YeuThichBaiDang newYT = new YeuThichBaiDang();
+                newYT.MaBd = baidang.MaBd;
+                newYT.MaNd = User.Claims.ToList()[0].Value;
+                newYT.ThoiGian = DateTime.Now;
+
+                db.YeuThichBaiDangs.Add(newYT);
                 db.SaveChanges();
 
                 return Json(new { tt = true });

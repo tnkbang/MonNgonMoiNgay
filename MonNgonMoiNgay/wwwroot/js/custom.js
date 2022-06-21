@@ -422,3 +422,27 @@ function setLuuBaiDang(mabd, elm) {
         }
     })
 }
+
+//Hàm xử lý yêu thích bài đăng
+function setYeuThichBaiDang(mabd, elm) {
+
+	event.preventDefault();
+
+	$.ajax({
+		url: '/Post/YeuThichBaiDang',
+		type: 'POST',
+		data: { id: mabd },
+		success: function (data) {
+			if (data.tt) {
+				$(elm).addClass('disabled')
+				getThongBao('success', 'Thành công', 'Bạn có thể xem lại trong phần bài đăng đã thích !')
+			}
+			else {
+				getThongBao('warning', 'Thông báo', 'Bạn đã thích bài đăng này rồi !')
+			}
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+		}
+	})
+}

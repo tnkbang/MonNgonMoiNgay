@@ -68,10 +68,17 @@ namespace MonNgonMoiNgay.Models.Entities
             return db.YeuThichBaiDangs.Where(x => x.MaBd == this.MaBd).Count();
         }
 
-        public bool isSave()
+        public bool isSave(string maNd)
         {
-            var saved = db.BaiDangDuocLuus.FirstOrDefault(x => x.MaBd == this.MaBd);
+            var saved = db.BaiDangDuocLuus.FirstOrDefault(x => x.MaBd == this.MaBd && x.MaNd == maNd);
             if (saved != null) return true;
+            return false;
+        }
+
+        public bool isLike(string maNd)
+        {
+            var liked = db.YeuThichBaiDangs.FirstOrDefault(x => x.MaBd == this.MaBd && x.MaNd == maNd);
+            if (liked != null) return true;
             return false;
         }
     }

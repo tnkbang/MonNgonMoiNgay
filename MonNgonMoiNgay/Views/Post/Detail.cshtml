@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var PostSimilar = ViewData["PostSimilar"] as List<BaiDang>;
+    var MaUser = User.Claims.ToList()[0].Value;
 }
 @using MonNgonMoiNgay.Models.Entities
 @model MonNgonMoiNgay.Models.Entities.BaiDang
@@ -73,8 +74,15 @@
 
                     <div class="add-to-btn">
                         <div class="add-comp">
-                            <a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Yêu thích</a>
-                            @if (Model.isSave())
+                            @if (Model.isLike(MaUser) || Model.MaNd.Equals(User.Claims.ToList()[0].Value))
+                            {
+                                <a class="btn hvr-hover disabled" href="#"><i class="fas fa-heart"></i> Yêu thích</a>
+                            }
+                            else
+                            {
+                                <a class="btn hvr-hover" href="#" onclick="setYeuThichBaiDang('@Model.MaBd', this)"><i class="fas fa-heart"></i> Yêu thích</a>
+                            }
+                            @if (Model.isSave(MaUser) || Model.MaNd.Equals(User.Claims.ToList()[0].Value))
                             {
                                 <a class="btn hvr-hover disabled" href="#"><i class="fa fa-bookmark"></i> Lưu lại</a>
                             }

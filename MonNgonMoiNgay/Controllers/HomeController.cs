@@ -26,7 +26,7 @@ namespace MonNgonMoiNgay.Controllers
         public IActionResult Index()
         {
             //Tạo ViewData cho bài đăng mới đăng (trong vòng 7 ngày) và bài đăng được đề cử bởi Admin hoặc nhân viên
-            ViewData["PostNew"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).ToList();
+            ViewData["PostNew"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).OrderByDescending(x => x.ThoiGian).ToList();
             ViewData["PostVote"] = (from bd in db.BaiDangs
                                     join dbd in db.DayBaiDangs on bd.MaBd equals dbd.MaBd
                                     join nd in db.NguoiDungs on dbd.MaNd equals nd.MaNd

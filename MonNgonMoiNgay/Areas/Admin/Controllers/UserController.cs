@@ -13,31 +13,33 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult fList()
+        public async Task<IActionResult> List(string? q, int? p, string? l)
         {
-            return View();
-        }
-        public async Task<IActionResult> List(string? q, int? P)
-        {
-
-            if (q != null)
-            {
-                P = 1;
-            }
-            else
-            {
-                q = null;
-            }
-
+            ViewBag.Loai = l;
+            ViewData["LoaiNd"] = db.LoaiNds.ToList();
             var nd = from u in db.NguoiDungs select u;
+
+            //Lọc người dùng theo họ tên
             if (!String.IsNullOrEmpty(q))
             {
-                nd = nd.Where(s => s.HoLot.Contains(q) || s.Ten.Contains(q));
+                nd = nd.Where(s => string.Concat(s.HoLot, " ", s.Ten).Contains(q));
             }
 
+            //Select trả về khác rỗng và khác 01 (01 là trường hợp admin không hiển thị, thay vào đó là hiển thị tất cả)
+            if (!String.IsNullOrEmpty(l) && l != "01")
+            {
+                nd = nd.Where(s => s.MaLoai == l);
+            }
+
+            //Số lượng người dùng được trả về trên một trang
             int pageSize = 1;
 
-            return View(await PaginatedList<NguoiDung>.CreateAsync(nd.AsNoTracking(), P ?? 1, pageSize));
+            //Chờ đợi xử lý phân trang rồi mới trả về view
+            //Các tham số của phân trang như sau:
+            //      nd.AsNoTracking() là danh sách người dùng chỉ xem
+            //      p là trang muốn hiển thị, ở đây nếu không nhập thì ngầm hiểu trang hiển thị là 1 tức là trang đầu
+            //      pageSize là số số lượng người hiển thị trên trang
+            return View(await PaginatedList<NguoiDung>.CreateAsync(nd.AsNoTracking(), p ?? 1, pageSize));
         }
     }
 }

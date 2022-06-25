@@ -95,6 +95,20 @@
         easingType: 'linear',
         scrollSpeed: 900,
         animation: 'fade'
-    }); 	   
+	});
  
 })(jQuery); 
+
+//Xử lý tìm kiếm người dùng và chọn loại người dùng
+$('#search-user').on('submit', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/List?q=' + $('#inp-search-user').val();
+})
+$('#btn-search-user').on('click', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/List?q=' + $('#inp-search-user').val();
+})
+$('#select-loai-user').on('change', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/List?l=' + $('#select-loai-user').val();
+})

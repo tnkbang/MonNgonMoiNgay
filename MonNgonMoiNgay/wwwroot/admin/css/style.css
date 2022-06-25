@@ -2349,7 +2349,7 @@ ul.two-part-sp li{
 }
 .product-status-wrap th, .product-status-wrap td {
     padding: 10px;
-    text-align: left;
+    text-align: center;
     font-size: 14px;
 	color:#303030;
 }

@@ -4697,6 +4697,9 @@ div#sparklinehome canvas {
 	background-color: #65b12d;
     border-color: #65b12d;
 }
+.warning-md a.cancel{
+    background-color: #8c7979;
+}
 .danger-md a{
 	background-color: #D80027;
     border-color: #D80027;

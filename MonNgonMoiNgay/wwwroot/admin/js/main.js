@@ -112,3 +112,53 @@ $('#select-loai-user').on('change', function () {
 	event.preventDefault();
 	window.location.href = '/Admin/User/List?l=' + $('#select-loai-user').val();
 })
+
+//Xử lý khóa người dùng
+var thisUserLock, btnUserLock;
+function setUserLock(maUser, elm) {
+	thisUserLock = maUser;
+	btnUserLock = elm;
+
+	var title = document.getElementById('modal-lock-user-title');
+	var content = document.getElementById('modal-lock-user-content');
+	var btn = document.getElementById('confirm-lock-user');
+	if ($(btnUserLock).hasClass('fa-lock')) {
+		title.innerHTML = 'Bạn thật sự muốn khóa?'
+		content.innerHTML = 'Khi khóa người dùng, tài khoản này sẽ không thể đăng nhập vào hệ thống và thực hiện các chức năng. Bạn thật sự chắc chắn về hành động này ?'
+		btn.innerHTML = 'Khóa'
+	}
+	else {
+		title.innerHTML = 'Bạn thật sự muốn mở khóa?'
+		content.innerHTML = 'Khi mở khóa người dùng, tài khoản này sẽ khôi phục hoạt động và có thể thao tác với các chức năng trong hệ thống. Bạn thật sự chắc chắn về hành động này ?'
+		btn.innerHTML = 'Mở khóa'
+    }
+}
+$('#cancel-lock-user').on('click', function () {
+	thisUserLock = btnUserLock = null;
+})
+$('#confirm-lock-user').on('click', function () {
+	$.ajax({
+		url: '/Admin/User/LockUser',
+		type: 'POST',
+		data: { ma: thisUserLock },
+		success: function (data) {
+			if (data.tt) {
+				$(btnUserLock).removeClass('fa-unlock').addClass('fa-lock')
+				$($(btnUserLock).parent()[0]).attr("data-original-title", "Khóa")
+				$($(btnUserLock).parent().parent().parent().children()[5]).html('Hoạt động')
+				getThongBao('success', 'Thành công', 'Mở khóa người dùng thành công !')
+				thisUserLock = btnUserLock = null;
+			}
+			else {
+				$(btnUserLock).removeClass('fa-lock').addClass('fa-unlock')
+				$($(btnUserLock).parent()[0]).attr("data-original-title", "Mở khóa")
+				$($(btnUserLock).parent().parent().parent().children()[5]).html('Bị khóa')
+				getThongBao('success', 'Thành công', 'Khóa người dùng thành công !')
+				thisUserLock = btnUserLock = null;
+			}
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+		}
+	})
+})

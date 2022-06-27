@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MonNgonMoiNgay.Areas.Admin.Models;
 using MonNgonMoiNgay.Models.Entities;
 
 namespace MonNgonMoiNgay.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "01")]
     public class UserController : Controller
     {
         MonNgonMoiNgayContext db = new MonNgonMoiNgayContext();
@@ -12,7 +14,6 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
         {
             return View();
         }
-
         public async Task<IActionResult> List(string? q, int? p, string? l)
         {
             ViewBag.Loai = l;
@@ -54,6 +55,13 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             db.SaveChanges();
 
             return Json(new { tt = user.TrangThai });
+        }
+
+        //Trang thông tin đầy đủ người dùng
+        public IActionResult Detail(string id)
+        {
+            var user = db.NguoiDungs.FirstOrDefault(x => x.MaNd == id);
+            return user != null ? View(user) : Redirect("/Access/NotFound");
         }
     }
 }

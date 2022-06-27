@@ -31,9 +31,16 @@ namespace MonNgonMoiNgay.Controllers
             var user = db.NguoiDungs.Where(x => x.Email == email && x.MatKhau == temp.mahoaMatKhau(pass)).FirstOrDefault();
             if (user != null)
             {
+                //Kiểm tra nếu người dùng bị khóa thì không đăng nhập được
+                if (!user.TrangThai)
+                {
+                    return Json(new { tt = false, mess = "Tài khoản của bạn đã bị khóa !" });
+                }
+
                 //Tạo list lưu chủ thể đăng nhập
                 var claims = new List<Claim>() {
                         new Claim("MaNd", user.MaNd),
+                        new Claim(ClaimTypes.Role, user.MaLoai),
                         new Claim("LoaiNd", user.MaLoai == "01" ? "Admin" : user.MaLoai == "02" ? "User" : user.MaLoai == "03" ? "NguoiBanHang" : "NguoiDung"),
                         new Claim("Email", user.Email),
                         new Claim("ImgAvt", user.getImage())
@@ -115,8 +122,10 @@ namespace MonNgonMoiNgay.Controllers
 
                 return Json(new { tt = true, mess = "Đăng nhập thành công !" });
             }
+
             await getLogin(email, "userloginwithgoogle" + email, false);
-            return Json(new { tt = true, mess = "Đăng nhập thành công !" });
+
+            return user.TrangThai ? Json(new { tt = true }) : Json(new { tt = false, mess = "Tài khoản của bạn đã bị khóa !" });
         }
 
         //Tạo mới tài khoản

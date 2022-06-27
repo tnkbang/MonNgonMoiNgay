@@ -211,8 +211,15 @@ function getUserInfo() {
                     data: form_data,
                     contentType: false,
                     processData: false,
-                    success: function () {
-                        window.location.href = $('#loginUrlReturn').val();
+                    success: function (data) {
+                        if (data.tt) {
+                            window.location.href = $('#loginUrlReturn').val();
+                        }
+                        else {
+                            document.getElementById('erroLogin').innerHTML = data.mess;
+                            $('#erroLogin').show('slow');
+                            $('#erroLogin').delay(5000).hide('slow');
+                        }
                     },
                     error: function () {
                         getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')

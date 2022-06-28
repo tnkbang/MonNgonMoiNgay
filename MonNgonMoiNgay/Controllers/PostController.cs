@@ -99,7 +99,7 @@ namespace MonNgonMoiNgay.Controllers
                 return NotFound();
             }
 
-            ViewData["PostSimilar"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).OrderByDescending(x => x.ThoiGian).ToList();
+            ViewData["PostSimilar"] = db.BaiDangs.Where(x => x.MaLoai == baidang.MaLoai && x.TrangThai == 1).OrderByDescending(x => x.ThoiGian).ToList();
             return View(baidang);
         }
 

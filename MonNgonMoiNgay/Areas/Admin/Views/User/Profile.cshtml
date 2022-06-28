@@ -1,0 +1,292 @@
+﻿@{
+    ViewData["Title"] = "Thông tin của " + @Model.HoLot + " " + @Model.Ten;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model MonNgonMoiNgay.Models.Entities.NguoiDung
+
+<div class="breadcome-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcome-list">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <ul class="breadcome-menu" style="text-align: left;">
+                                <li>
+                                    <a href="~/Admin/Home/Index">Trang quản trị</a> <span class="bread-slash">/</span>
+                                </li>
+                                <li>
+                                    <a href="~/Admin/User/List">DS người dùng</a> <span class="bread-slash">/</span>
+                                </li>
+                                <li>
+                                    <span class="bread-blod">Thông tin</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Single pro tab review Start-->
+<div class="single-pro-review-area mt-t-30 mg-b-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="profile-info-inner">
+                    <div class="profile-img">
+                        <img src="@Model.getImage()" alt="@Model.HoLot @Model.Ten" />
+                    </div>
+                    <div class="profile-details-hr">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr">
+                                    <p><b>Mã</b><br /> @Model.MaNd</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                    @if(String.IsNullOrEmpty(Model.HoLot ?? Model.Ten))
+                                    {
+                                        <p><b>Họ Tên</b><br /> Chưa cập nhật</p>
+                                    }
+                                    else
+                                    {
+                                        <p><b>Họ Tên</b><br /> @Model.HoLot @Model.Ten</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr">
+                                    <p><b>Vai trò</b><br /> @Model.getRoleName()</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                    @if (String.IsNullOrEmpty(Model.Sdt))
+                                    {
+                                        <p><b>SDT</b><br /> Chưa cập nhật</p>
+                                    }
+                                    else
+                                    {
+                                        <p><b>Sđt</b><br /> @Model.Sdt</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr">
+                                    @if (String.IsNullOrEmpty(Model.NgaySinh.ToString()))
+                                    {
+                                        <p><b>Ngày sinh</b><br /> Chưa cập nhật</p>
+                                    }
+                                    else
+                                    {
+                                        <p><b>Ngày sinh</b><br /> @Model.NgaySinh</p>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                    @if (String.IsNullOrEmpty(Model.GioiTinh.ToString()))
+                                    {
+                                        <p><b>Giới tính</b><br /> Chưa cập nhật</p>
+                                    }
+                                    else
+                                    {
+                                        switch (Model.GioiTinh)
+                                        {
+                                            case 1:
+                                                <p><b>Giới tính</b><br /> Nam</p>
+                                                break;
+                                            case 2:
+                                                <p><b>Giới tính</b><br /> Nữ</p>
+                                                break;
+                                            default:
+                                                <p><b>Giới tính</b><br /> Khác</p>
+                                                break;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="address-hr">
+                                    @if (String.IsNullOrEmpty(Model.DiaChi))
+                                    {
+                                        <p><b>Địa chỉ</b><br /> Chưa cập nhật</p>
+                                    }
+                                    else
+                                    {
+                                        <p><b>Địa chỉ</b><br /> @Model.DiaChi</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="address-hr">
+                                    <a href="#" data-toggle="tooltip" title="Đã đăng"><i class="fa fa-edit"></i></a>
+                                    <h3>@Model.getSLPost()</h3>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="address-hr">
+                                    <a data-toggle="tooltip" title="Yêu thích" href="#"><i class="fa fa-heart"></i></a>
+                                    <h3>@Model.getSLYeuThich()</h3>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="address-hr">
+                                    <a data-toggle="tooltip" title="Đã lưu" href="#"><i class="fa fa-bookmark"></i></a>
+                                    <h3>@Model.getSLLuu()</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <div class="product-payment-inner-st res-mg-t-30 analysis-progrebar-ctn">
+                    <ul id="myTabedu1" class="tab-review-design">
+                        <li class="active"><a href="#myPost">Đã đăng</a></li>
+                        <li><a href="#myLike">Yêu thích</a></li>
+                        <li><a href="#mySave">Đã lưu</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content custom-product-edit">
+                        <div class="product-tab-list tab-pane fade active in" id="myPost">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="review-content-section">
+                                        <div class="chat-discussion" style="height: auto">
+                                            @if (Model.getSLPost() == 0)
+                                            {
+                                                <div class="col-12 text-center"><p>Không có bài đăng nào!</p></div>
+                                            }
+                                            else
+                                            {
+                                                foreach(var post in Model.getListPost())
+                                                {
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="courses-inner res-mg-b-30">
+                                                            <div class="courses-title">
+                                                                <a href="#"><img src="@post.getOneImage()" alt=""></a>
+                                                                <h2>@post.TenMon</h2>
+                                                            </div>
+                                                            <div class="courses-alaltic">
+                                                                <span class="cr-ic-r"><span class="course-icon" data-toggle="tooltip" title="Ngày đăng"><i class="fa fa-clock-o"></i></span> @post.ThoiGian.ToString("dd/MM/yyyy")</span>
+                                                                <span class="cr-ic-r"><span class="course-icon" data-toggle="tooltip" title="Yêu thích"><i class="fa fa-heart"></i></span> @post.getSLYeuThich()</span>
+                                                                <span class="cr-ic-r"><span class="course-icon" data-toggle="tooltip" title="Đã lưu"><i class="fa fa-bookmark"></i></span> @post.getSLLuu()</span>
+                                                            </div>
+                                                            <div class="course-des">
+                                                                <p><b>Mô tả:</b> @post.MoTa</p>
+                                                                <p><b>Giá tiền:</b> @post.GiaTien VNĐ</p>
+                                                                <p><b>Địa chỉ:</b> @post.DiaChi</p>
+                                                            </div>
+                                                            <div class="product-buttons">
+                                                                <a href="~/Post/Detail?id=@post.MaBd" class="button-default cart-btn">Xem chi tiết</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-tab-list tab-pane fade" id="myLike">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="review-content-section">
+                                        <div class="chat-discussion" style="height: auto">
+                                            @if (Model.getSLYeuThich() == 0)
+                                            {
+                                                <div class="col-12 text-center"><p>Không có bài đăng nào!</p></div>
+                                            }
+                                            else
+                                            {
+                                                foreach(var post in Model.getListYeuThich())
+                                                {
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="courses-inner res-mg-b-30">
+                                                            <div class="courses-title">
+                                                                <a href="#"><img src="@post.getOneImage()" alt=""></a>
+                                                                <h2>@post.TenMon</h2>
+                                                            </div>
+                                                            <div class="courses-alaltic">
+                                                                <span class="cr-ic-r"><span class="course-icon" data-toggle="tooltip" title="Ngày đăng"><i class="fa fa-clock-o"></i></span> @post.ThoiGian.ToString("dd/MM/yyyy")</span>
+                                                                <span class="cr-ic-r"><span class="course-icon" data-toggle="tooltip" title="Yêu thích"><i class="fa fa-heart"></i></span> @post.getSLYeuThich()</span>
+                                                                <span class="cr-ic-r"><span class="course-icon" data-toggle="tooltip" title="Đã lưu"><i class="fa fa-bookmark"></i></span> @post.getSLLuu()</span>
+                                                            </div>
+                                                            <div class="course-des">
+                                                                <p><b>Mô tả:</b> @post.MoTa</p>
+                                                                <p><b>Giá tiền:</b> @post.GiaTien VNĐ</p>
+                                                                <p><b>Địa chỉ:</b> @post.DiaChi</p>
+                                                            </div>
+                                                            <div class="product-buttons">
+                                                                <a href="~/Post/Detail?id=@post.MaBd" class="button-default cart-btn">Xem chi tiết</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-tab-list tab-pane fade" id="mySave">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="review-content-section">
+                                        <div class="chat-discussion" style="height: auto">
+                                            @if (Model.getSLLuu() == 0)
+                                            {
+                                                <div class="col-12 text-center"><p>Không có bài đăng nào!</p></div>
+                                            }
+                                            else
+                                            {
+                                                foreach(var post in Model.getListLuu())
+                                                {
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="courses-inner res-mg-b-30">
+                                                            <div class="courses-title">
+                                                                <a href="#"><img src="@post.getOneImage()" alt=""></a>
+                                                                <h2>@post.TenMon</h2>
+                                                            </div>
+                                                            <div class="courses-alaltic">
+                                                                <span class="cr-ic-r"><span class="course-icon" data-toggle="tooltip" title="Ngày đăng"><i class="fa fa-clock-o"></i></span> @post.ThoiGian.ToString("dd/MM/yyyy")</span>
+                                                                <span class="cr-ic-r"><span class="course-icon" data-toggle="tooltip" title="Yêu thích"><i class="fa fa-heart"></i></span> @post.getSLYeuThich()</span>
+                                                                <span class="cr-ic-r"><span class="course-icon" data-toggle="tooltip" title="Đã lưu"><i class="fa fa-bookmark"></i></span> @post.getSLLuu()</span>
+                                                            </div>
+                                                            <div class="course-des">
+                                                                <p><b>Mô tả:</b> @post.MoTa</p>
+                                                                <p><b>Giá tiền:</b> @post.GiaTien VNĐ</p>
+                                                                <p><b>Địa chỉ:</b> @post.DiaChi</p>
+                                                            </div>
+                                                            <div class="product-buttons">
+                                                                <a href="~/Post/Detail?id=@post.MaBd" class="button-default cart-btn">Xem chi tiết</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

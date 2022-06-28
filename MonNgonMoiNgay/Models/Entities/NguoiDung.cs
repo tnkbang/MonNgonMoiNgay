@@ -89,5 +89,51 @@ namespace MonNgonMoiNgay.Models.Entities
             if (nd.ImgAvt == null) return "/Content/Images/Resources/avt-default.png";
             return "/Content/Images/UserAvt/" + nd.ImgAvt;
         }
+
+        public string getRoleName()
+        {
+            var roleName = db.LoaiNds.FirstOrDefault(x => x.MaLoai == this.MaLoai).TenLoai;
+            return roleName.Equals("User") ? "Khách vãng lai" : roleName;
+        }
+
+        public int getSLPost()
+        {
+            return db.BaiDangs.Where(x => x.MaNd == this.MaNd).Count();
+        }
+
+        public List<BaiDang> getListPost()
+        {
+            return db.BaiDangs.Where(x => x.MaNd == this.MaNd).ToList();
+        }
+
+        public int getSLYeuThich()
+        {
+            return db.YeuThichBaiDangs.Where(x => x.MaNd == this.MaNd).Count();
+        }
+
+        public List<BaiDang> getListYeuThich()
+        {
+            var yt = from p in db.BaiDangs
+                     join l in db.YeuThichBaiDangs on p.MaBd equals l.MaBd
+                     where l.MaNd == this.MaNd
+                     orderby p.ThoiGian descending
+                     select p;
+            return yt.ToList();
+        }
+
+        public int getSLLuu()
+        {
+            return db.BaiDangDuocLuus.Where(x => x.MaNd == this.MaNd).Count();
+        }
+
+        public List<BaiDang> getListLuu()
+        {
+            var luu = from p in db.BaiDangs
+                     join l in db.BaiDangDuocLuus on p.MaBd equals l.MaBd
+                     where l.MaNd == this.MaNd
+                     orderby p.ThoiGian descending
+                     select p;
+            return luu.ToList();
+        }
     }
 }

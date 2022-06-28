@@ -108,11 +108,11 @@
                                             }
                                             if (post.isLike(MaUser) || post.MaNd.Equals(User.Claims.ToList()[0].Value))
                                             {
-                                                <li><a href="#" data-toggle="tooltip" class="btn disabled" data-placement="right" title="Yêu thích"><i class="far fa-heart"></i></a></li>
+                                                <li><a href="#" data-toggle="tooltip" class="btn disabled" data-placement="right" title="Yêu thích"><i class="fa fa-heart"></i></a></li>
                                             }
                                             else
                                             {
-                                                <li><a href="#" data-toggle="tooltip" class="btn" data-placement="right" onclick="setYeuThichBaiDang('@post.MaBd', this)" title="Yêu thích"><i class="far fa-heart"></i></a></li>
+                                                <li><a href="#" data-toggle="tooltip" class="btn" data-placement="right" onclick="setYeuThichBaiDang('@post.MaBd', this)" title="Yêu thích"><i class="fa fa-heart"></i></a></li>
                                             }
                                         }
                                         else

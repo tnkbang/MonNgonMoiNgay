@@ -58,7 +58,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
         }
 
         //Trang thông tin đầy đủ người dùng
-        public IActionResult Detail(string id)
+        public IActionResult Profile(string id)
         {
             var user = db.NguoiDungs.FirstOrDefault(x => x.MaNd == id);
             return user != null ? View(user) : Redirect("/Access/NotFound");

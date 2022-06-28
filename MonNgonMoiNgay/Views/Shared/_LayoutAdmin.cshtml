@@ -1,6 +1,13 @@
 ﻿@{
     Layout = null;
+    NguoiDung userLogin = new NguoiDung();
+
+    if (User.Identity.IsAuthenticated)
+    {
+        userLogin.MaNd = User.Claims.ToList()[0].Value;
+    }
 }
+@using MonNgonMoiNgay.Models.Entities
 
 <!doctype html>
 <html class="no-js" lang="en">
@@ -238,7 +245,7 @@
                                                 <li class="nav-item">
                                                     <a href="#" class="nav-link">Trang quản trị</a>
                                                 </li>
-                                                <li class="nav-item">
+                                                @*<li class="nav-item">
                                                     <a href="#" class="nav-link">Thông tin</a>
                                                 </li>
                                                 <li class="nav-item">
@@ -255,7 +262,7 @@
                                                 </li>
                                                 <li class="nav-item">
                                                     <a href="#" class="nav-link">Hỗ trợ</a>
-                                                </li>
+                                                </li>*@
                                             </ul>
                                         </div>
                                     </div>
@@ -386,8 +393,8 @@
                                                 </li>
                                                 <li class="nav-item">
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                                        <img src="~/Content/Images/Resources/avt-default.png" alt="" />
-                                                        <span class="admin-name">User Admin</span>
+                                                        <img src="@userLogin.getImage()" alt="" />
+                                                        <span class="admin-name">@userLogin.getTenHienThi()</span>
                                                         <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                                     </a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">

@@ -90,14 +90,15 @@
                             {
                                 <a class="btn hvr-hover" href="#" onclick="setLuuBaiDang('@Model.MaBd', this)"><i class="fa fa-bookmark"></i> Lưu lại</a>
                             }
+                            @if (Model.MaNd.Equals(User.Claims.ToList()[0].Value))
+                            {
+                                <a class="btn hvr-hover disabled" href="#" data-toggle="tooltip" title="Gửi tin cho người đăng"><i class="fa fa-send-o"></i> Chat</a>
+                            }
+                            else
+                            {
+                                <a class="btn hvr-hover" href="#" data-toggle="tooltip" onclick="openchat('@Model.MaNd')" title="Gửi tin cho người đăng"><i class="fa fa-send-o"></i> Chat</a>
+                            }
                         </div>
-                        @*<div class="share-bar">
-                            <a class="btn hvr-hover" href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-                            <a class="btn hvr-hover" href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a>
-                            <a class="btn hvr-hover" href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-                            <a class="btn hvr-hover" href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
-                            <a class="btn hvr-hover" href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
-                        </div>*@
                     </div>
                 </div>
             </div>

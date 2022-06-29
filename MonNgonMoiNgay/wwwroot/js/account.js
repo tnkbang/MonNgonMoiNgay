@@ -170,12 +170,12 @@ function gup(url, name) {
 }
 
 function validateToken(token) {
-    getUserInfo();
     $.ajax(
         {
             url: VALIDURL + token,
             data: null,
             success: function (responseText) {
+                getUserInfo();
             },
             error: function () {
                 getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu đến Google !')

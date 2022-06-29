@@ -61,7 +61,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
         public IActionResult Profile(string id)
         {
             var user = db.NguoiDungs.FirstOrDefault(x => x.MaNd == id);
-            return user != null ? View(user) : Redirect("/Access/NotFound");
+            return user != null ? View(user) : NotFound();
         }
     }
 }

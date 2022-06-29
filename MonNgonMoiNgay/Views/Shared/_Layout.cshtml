@@ -34,6 +34,8 @@
     <link rel="stylesheet" href="~/css/toastr.css" />
     <!-- Font Style -->
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
+    <!-- Chat -->
+    <link rel="stylesheet" href="~/css/chat.css" />
 </head>
 
 <body>
@@ -179,6 +181,27 @@
     </footer>
     <!-- End Footer  -->
 
+    <!-- Popup chat -->
+    <div class="chat-box">
+        <div class="chat-box-header">
+            <label id="chat-header">User Name</label>
+            <span class="chat-box-toggle"><i class="fa fa-times"></i></span>
+        </div>
+        <div class="chat-box-body">
+            <div class="chat-box-overlay">
+            </div>
+            <div class="chat-logs">
+                <p class="text-center">Chưa có tin nhắn nào</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <form>
+                <input type="text" id="chat-input" placeholder="Nhập tin nhắn vào đây..." />
+                <button type="submit" class="chat-submit" id="chat-submit"><i class="fa fa-send"></i></button>
+            </form>
+        </div>
+    </div>
+
     <a href="#" id="back-to-top" title="Về đầu trang" style="display: none;">&uarr;</a>
 
     <!-- ALL JS FILES -->
@@ -199,5 +222,7 @@
     <script src="~/js/form-validator.min.js"></script>
     <script src="~/js/contact-form-script.js"></script>
     <script src="~/js/custom.js"></script>
+     <!-- Chat -->
+    <script src="~/js/chat.js"></script>
 </body>
 </html>

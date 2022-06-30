@@ -156,5 +156,13 @@ namespace MonNgonMoiNgay.Controllers
             await getLogin(newUser.Email, pass, false);
             return Json(new { tt = true, mess = "Đăng ký tài khoản thành công !" });
         }
+
+        //Cập nhật thông tin tài khoản
+        [Authorize]
+        public IActionResult ChangeProfile()
+        {
+            var user = db.NguoiDungs.FirstOrDefault(x => x.MaNd == User.Claims.First().Value);
+            return View(user);
+        }
     }
 }

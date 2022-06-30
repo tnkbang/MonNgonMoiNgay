@@ -18,6 +18,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
         {
             ViewBag.Loai = l;
             ViewData["LoaiNd"] = db.LoaiNds.ToList();
+            ViewBag.QLUser = "active-focus";
             var nd = from u in db.NguoiDungs select u;
 
             //Lọc người dùng theo họ tên

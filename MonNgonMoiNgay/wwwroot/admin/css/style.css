@@ -418,7 +418,7 @@ body {}
    z-index:999;
 }
 .header-right-info ul.header-right-menu li .dropdown-header-top.author-log{
-   width:200px;
+   width: auto;
    padding:10px 0px;
 }
 .header-right-info ul.header-right-menu li .dropdown-header-top.author-log li{
@@ -443,7 +443,7 @@ body {}
    left:-170px;
 }
 .header-right-info ul.header-right-menu li .author-log{
-   left:-2px;
+   left:-40px;
 }
 .header-right-info ul.header-right-menu li.open .author-message-top, .header-right-info ul.header-right-menu li.open .notification-author, .header-right-info ul.header-right-menu li.open .author-log{
    opacity:1;
@@ -4726,4 +4726,8 @@ div#sparklinehome canvas {
 .footer-copy-right a{
 	color:#fff;
 	text-decoration:none;
+}
+
+.active-focus {
+    color: #006DF0;
 }

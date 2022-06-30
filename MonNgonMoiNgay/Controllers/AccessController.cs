@@ -6,7 +6,6 @@ namespace MonNgonMoiNgay.Controllers
     public class AccessController : Controller
     {
         //Trang không có quyền truy cập
-        [Route("error/403")]
         public IActionResult Denied()
         {
             Response.StatusCode = 403;

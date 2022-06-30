@@ -11,6 +11,8 @@
             }).type('Vui lòng chờ....', { delay: 500 })
                 .go()
 
+            $('#tieude-login').html("Đăng nhập - Món Ngon Mỗi Ngày")
+
             setTimeout(async () => {
                 document.querySelector('.box').style.display = 'block'
                 document.getElementById('loading-text').style.display = 'none'
@@ -28,6 +30,8 @@
                 waitUntilVisible: true
             }).type('Vui lòng chờ....', { delay: 500 })
                 .go()
+
+            $('#tieude-login').html("Đăng ký tài khoản - Món Ngon Mỗi Ngày")
 
             setTimeout(async () => {
                 document.querySelector('.sign-up').style.display = 'block'

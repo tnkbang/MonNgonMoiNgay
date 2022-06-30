@@ -118,6 +118,10 @@ namespace MonNgonMoiNgay.Controllers
                 save.MaNd = User.Claims.ToList()[0].Value;
                 save.ThoiGian = DateTime.Now;
 
+                NotificationController notification = new NotificationController();
+                var temp = db.BaiDangDuocLuus.Where(x => x.MaBd == save.MaBd).Count();
+                notification.setThongBao(baidang.MaNd, "Lượt lưu mới", "Bài đăng " + baidang.TenMon + " nhận được lượt lưu thứ " + temp + ".", "/Post/Detail?id=" + save.MaBd);
+
                 db.BaiDangDuocLuus.Add(save);
                 db.SaveChanges();
 
@@ -143,6 +147,10 @@ namespace MonNgonMoiNgay.Controllers
 
                 db.YeuThichBaiDangs.Add(newYT);
                 db.SaveChanges();
+
+                NotificationController notification = new NotificationController();
+                var temp = db.YeuThichBaiDangs.Where(x => x.MaBd == newYT.MaBd).Count();
+                notification.setThongBao(baidang.MaNd, "Lượt thích mới", "Bài đăng " + baidang.TenMon + " nhận được lượt thích thứ " + temp + ".", "/Post/Detail?id=" + newYT.MaBd);
 
                 return Json(new { tt = true });
             }

@@ -34,7 +34,6 @@ namespace MonNgonMoiNgay.Models.Entities
                     list.Remove(tn[i - 1]);
                 }
             }
-
             return list;
         }
         public int getSLTinNhanChuaXem(string maND)

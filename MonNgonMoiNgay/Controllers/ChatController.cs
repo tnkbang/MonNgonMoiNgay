@@ -96,7 +96,7 @@ namespace MonNgonMoiNgay.Controllers
         {
             TinNhan tn = new TinNhan();
             List<dynamic> list = new List<dynamic>();
-            foreach (var m in tn.getTinNhanChuaXem(User.Claims.First().Value))
+            foreach (var m in tn.getTinNhanChuaXem(User.Claims.First().Value).OrderByDescending(x => x.ThoiGian))
             {
                 var temp = new
                 {

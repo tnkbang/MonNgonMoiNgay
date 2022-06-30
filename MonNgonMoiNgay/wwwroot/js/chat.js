@@ -14,6 +14,9 @@ $("#chat-submit").click(function (e) {
         type: 'POST',
         data: { maNN: messUserReceived, noidung: msg },
         success: function (data) {
+            if (INDEX == 0) {
+                $(".chat-logs").html("");
+            }
             generate_message('self', data.imgAvt, data.noiDung, data.thoiGian);
             $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight }, 1000);
             $("#chat-input").val('');
@@ -92,7 +95,7 @@ function openchat(ma) {
     $(".chat-box").toggle('scale');
 }
 
-//Làm ghi nội dung thông báo của tin nhắn
+//Hàm ghi nội dung thông báo của tin nhắn
 function generate_ping_mess(ma, img, time, hoten, noidung) {
     var str = "";
     str += '<li style="width: 100%">';
@@ -134,3 +137,67 @@ function myReloadPingChat() {
         }
     })
 }
+
+//Hàm ghi nội dung của thông báo
+function generate_ping(link, time, tieude, noidung) {
+    var str = "";
+    str += '<li style="width: 100%">';
+    str += '    <a href="' + link + '" >';
+    str += '        <div class="notification-icon">';
+    str += '            <i class="fa fa-bell" aria-hidden="true"></i>';
+    str += '        </div>';
+    str += '        <div class="notification-content">';
+    str += '            <span class="notification-date">' + time + '</span>';
+    str += '            <h2>' + tieude + '</h2>';
+    str += '            <p>' + noidung + '</p>';
+    str += '        </div>';
+    str += '    </a>';
+    str += '</li>';
+
+    $("#mCSB_3_container").append(str);
+}
+
+//Tự động nhận thông báo mới
+function myReloadPing() {
+    $.ajax({
+        url: '/Notification/getThongBaoChuaXem',
+        type: 'POST',
+        success: function (data) {
+            $("#mCSB_3_container").html("");
+            if (data.sl > 0) {
+                $.each(data.thongBao, function (index, value) {
+                    generate_ping(value.link, value.time, value.tieude, value.noidung);
+                })
+                $('#icon-noti-ping').addClass('indicator-nt');
+            }
+            else {
+                $("#mCSB_3_container").html('<p class="text-center" style="padding-top: 10px;">Không có thông báo mới nào.</p>');
+                $('#icon-noti-ping').removeClass('indicator-nt');
+            }
+        },
+        error: function () {
+            getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+        }
+    })
+}
+
+//Set đã xem tất cả thông báo
+$('#view-all-noti').on('click', function () {
+    $.ajax({
+        url: '/Notification/setXemTatCaThongBao',
+        type: 'POST',
+        success: function (data) {
+            $("#mCSB_3_container").html("");
+            if (data.tt) {
+                getThongBao('success', 'Thành công', 'Đã xem tất cả thông báo !');
+                $('#icon-noti-ping').removeClass('indicator-nt');
+            }
+            else {
+                getThongBao('warning', 'Thông báo', 'Không có thông báo mới nào !');
+            }
+        },
+        error: function () {
+            getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+        }
+    })
+})

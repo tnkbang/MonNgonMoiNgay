@@ -285,27 +285,15 @@
                                                     </div>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-bell" aria-hidden="true"></i><span class="indicator-nt"></span></a>
+                                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-bell" aria-hidden="true"></i><span id="icon-noti-ping" class="indicator-nt"></span></a>
                                                     <div role="menu" class="notification-author dropdown-menu animated zoomIn">
                                                         <div class="notification-single-top">
                                                             <h1>Thông báo</h1>
                                                         </div>
                                                         <ul class="notification-menu">
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="educate-icon educate-checked edu-checked-pro admin-check-pro" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
-                                                                        <h2>Advanda Cro</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
                                                         </ul>
                                                         <div class="notification-view">
-                                                            <a href="#">Xem tất cả</a>
+                                                            <a href="#" id="view-all-noti" style="color: #0066ff">Đã xem hết</a>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -660,6 +648,7 @@
         <script>
             $(document).ready(function() {
                 setInterval(myReloadPingChat, 1000);
+                setInterval(myReloadPing, 1000);
             })
         </script>
     }

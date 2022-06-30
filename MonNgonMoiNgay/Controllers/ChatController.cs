@@ -51,7 +51,7 @@ namespace MonNgonMoiNgay.Controllers
                 list.Add(temp);
             }
             setXemTatCaTinNhan(User.Claims.First().Value);
-            return Json(new { tt = true, USend = usersend, UReceived = userreceived, TinNhan = list });
+            return Json(new { tt = true, USend = usersend, UReceived = userreceived, soluong = list.Count(), TinNhan = list });
         }
 
         //Gửi tin nhắn cho người dùng khác
@@ -71,7 +71,7 @@ namespace MonNgonMoiNgay.Controllers
             db.TinNhans.Add(tn);
             db.SaveChanges();
 
-            return Json(new { tt = true, Img_Avt = User.Claims.FirstOrDefault(x=>x.Type.Equals("ImgAvt")).Value, NoiDung = tn.NoiDung, ThoiGian = customDateTime(tn.ThoiGian) });
+            return Json(new { tt = true, ImgAvt = User.Claims.FirstOrDefault(x=>x.Type.Equals("ImgAvt")).Value, NoiDung = tn.NoiDung, ThoiGian = customDateTime(tn.ThoiGian) });
         }
 
         //Đã xem tất cả tin nhắn
@@ -88,6 +88,27 @@ namespace MonNgonMoiNgay.Controllers
             db.SaveChanges();
 
             return Json(new { tt = true });
+        }
+
+        //Lấy tất cả tin chưa xem
+        [HttpPost]
+        public IActionResult getTinNhanChuaXem()
+        {
+            TinNhan tn = new TinNhan();
+            List<dynamic> list = new List<dynamic>();
+            foreach (var m in tn.getTinNhanChuaXem(User.Claims.First().Value))
+            {
+                var temp = new
+                {
+                    maNG = m.NguoiGui,
+                    image = m.getUser(m.NguoiGui).getImage(),
+                    hoten = m.getUser(m.NguoiGui).getTenHienThi(),
+                    thoigian = customDateTime(m.ThoiGian),
+                    noidung = m.NoiDung
+                };
+                list.Add(temp);
+            }
+            return Json(new { TinNhan = list, sl = list.Count() });
         }
 
         //Custom datetime

@@ -157,7 +157,7 @@ namespace MonNgonMoiNgay.Controllers
             return Json(new { tt = true, mess = "Đăng ký tài khoản thành công !" });
         }
 
-        //Cập nhật thông tin tài khoản
+        //Trang cập nhật thông tin tài khoản
         [Authorize]
         public IActionResult ChangeProfile()
         {
@@ -165,6 +165,7 @@ namespace MonNgonMoiNgay.Controllers
             return View(user);
         }
 
+        //Cập nhật thông tin tài khoản
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> updateProfile(string holot, string ten, DateTime ngaysinh, int gioitinh, string sdt, string diachi, IFormFile imgavt)
@@ -202,6 +203,28 @@ namespace MonNgonMoiNgay.Controllers
                 user.ImgAvt = fileName;
             }
 
+            db.SaveChanges();
+
+            return Json(new { tt = true });
+        }
+
+        //Kiểm tra mật khẩu
+        [Authorize]
+        [HttpPost]
+        public IActionResult checkPass(string pass)
+        {
+            var user = db.NguoiDungs.FirstOrDefault(x => x.MaNd == User.Claims.First().Value);
+
+            return Json(new { tt = !String.IsNullOrEmpty(pass) && user.mahoaMatKhau(pass).Equals(user.MatKhau) ? true : false });
+        }
+
+        //Cập nhật mật khẩu mới
+        [Authorize]
+        [HttpPost]
+        public IActionResult updatePass(string pass)
+        {
+            var user = db.NguoiDungs.FirstOrDefault(x => x.MaNd == User.Claims.First().Value);
+            user.MatKhau = user.mahoaMatKhau(pass);
             db.SaveChanges();
 
             return Json(new { tt = true });

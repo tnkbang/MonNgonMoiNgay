@@ -294,3 +294,92 @@ var imagesPreview = function (input, placeImagePreview) {
         }
     }
 };
+
+//Trạng thái có thể đổi mật khẩu
+var isChangePassOld = false;
+var isChangePassNew = false;
+var isChangePassRe = false;
+
+//Kiểm tra mật khẩu nhập vào
+$('#passOld').on('change', function () {
+    $.ajax({
+        url: '/Account/checkPass',
+        type: 'POST',
+        data: { pass: $('#passOld').val() },
+        success: function (data) {
+            if (!data.tt) {
+                document.getElementById('passOld').style.borderColor = '#e74c3c';
+                $('#lbl-passOld').addClass('text-danger').removeClass('text-success');
+                $('#lbl-passOld').html('Mật khẩu không chính xác !');
+                isChangePassOld = false;
+            }
+            else {
+                document.getElementById('passOld').style.borderColor = '#3c763d';
+                $('#lbl-passOld').removeClass('text-danger').addClass('text-success');
+                $('#lbl-passOld').html('Mật khẩu');
+                isChangePassOld = true;
+            }
+        },
+        error: function () {
+            getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+        }
+    });
+})
+
+$('#passNew').on('change', function () {
+    if ($('#passNew').val() != "") {
+        document.getElementById('passNew').style.borderColor = '#3c763d';
+        $('#lbl-passNew').removeClass('text-danger').addClass('text-success');
+        $('#lbl-passNew').html('Mật khẩu mới');
+        isChangePassNew = true;
+    }
+    else {
+        document.getElementById('passNew').style.borderColor = '#e74c3c';
+        $('#lbl-passNew').addClass('text-danger').removeClass('text-success');
+        $('#lbl-passNew').html('Mật khẩu mới không được để trống !');
+        isChangePassNew = false;
+    }
+})
+
+//Kiểm tra trùng khớp mật khẩu
+$('#passRe').on('change', function () {
+    if ($('#passRe').val() != $('#passNew').val()) {
+        document.getElementById('passRe').style.borderColor = '#e74c3c';
+        $('#lbl-passRe').addClass('text-danger').removeClass('text-success');
+        $('#lbl-passRe').html('Nhập lại không chính xác !');
+        isChangePassRe = false;
+    }
+    else {
+        document.getElementById('passRe').style.borderColor = '#3c763d';
+        $('#lbl-passRe').removeClass('text-danger').addClass('text-success');
+        $('#lbl-passRe').html('Nhập lại mật khẩu mới');
+        isChangePassRe = true;
+    }
+})
+
+//Xử lý thay đổi mật khẩu
+$('#confirm-change-pass').on('click', function () {
+    var passRe = document.getElementById('passRe');
+    var passOld = document.getElementById('passOld');
+    if (isChangePassOld && isChangePassNew && isChangePassRe) {
+        $.ajax({
+            url: '/Account/updatePass',
+            type: 'POST',
+            data: { pass: $('#passNew').val() },
+            success: function (data) {
+                if (data.tt) {
+                    getThongBao('success', 'Thành công', 'Đổi mật khẩu thành công !')
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                }
+            },
+            error: function () {
+                getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+            }
+        });
+    }
+    else {
+        getThongBao('warning', 'Thông báo', 'Có tham số chưa hợp lệ !')
+    }
+})

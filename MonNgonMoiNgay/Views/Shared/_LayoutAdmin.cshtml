@@ -66,6 +66,14 @@
 </head>
 
 <body>
+    <!--Local custom style input-->
+    <style>
+        .has-float-label .form-control:placeholder-shown:not(:focus) + * {
+            font-size: 100%;
+            opacity: .5;
+            top: 32%;
+        }
+    </style>
     <!-- Start Left menu area -->
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
@@ -178,7 +186,7 @@
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
                                                         <li><a href="/Admin/User/Detail?id=@userLogin.MaNd"><span class="edu-icon edu-home-admin author-log-ic"></span>Trang cá nhân</a></li>
                                                         <li><a href="/Account/ChangeProfile"><span class="edu-icon edu-user-rounded author-log-ic"></span>Thay đổi thông tin</a></li>
-                                                        <li><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Đổi mật khẩu</a> </li>
+                                                        <li data-toggle="modal" data-target="#modal-change-pass"><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Đổi mật khẩu</a> </li>
                                                         <li><a style="color: firebrick" href="/Account/Logout"><span class="edu-icon edu-locked author-log-ic"></span>Đăng xuất</a></li>
                                                     </ul>
                                                 </li>
@@ -239,6 +247,40 @@
                 <input type="text" id="chat-input" placeholder="Nhập tin nhắn vào đây..." />
                 <button type="submit" class="chat-submit" id="chat-submit"><i class="fa fa-send"></i></button>
             </form>
+        </div>
+    </div>
+
+    <!-- Popup change password-->
+    <div id="modal-change-pass" class="modal modal-edu-general Customwidth-popup-WarningModal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-close-area modal-close-df">
+                    <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                </div>
+                <div class="modal-body">
+                    <h2 id="modal-change-pass-title">Đổi mật khẩu</h2>
+                    <form id="user-change-pass">
+                        <div class="col-12">
+                            <div class="form-group has-float-label">
+                                <input class="form-control" id="passOld" required type="password" maxlength="30" placeholder="Nhập mật khẩu..." value="" />
+                                <label id="lbl-passOld" for="passOld">Mật khẩu</label>
+                            </div>
+                            <div class="form-group has-float-label">
+                                <input class="form-control" id="passNew" required type="password" maxlength="30" placeholder="Nhập mật khẩu mới ..." value="" />
+                                <label for="passNew">Mật khẩu mới</label>
+                            </div>
+                            <div class="form-group has-float-label">
+                                <input class="form-control" id="passRe" required type="password" maxlength="30" placeholder="Nhập lại mật khẩu mới ..." value="" />
+                                <label id="lbl-passRe" for="passRe">Nhập lại mật khẩu mới</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer warning-md">
+                    <a id="cancel-change-pass" data-dismiss="modal" href="#" class="cancel">Nghĩ lại</a>
+                    <a id="confirm-change-pass" href="#">Xác nhận</a>
+                </div>
+            </div>
         </div>
     </div>
 

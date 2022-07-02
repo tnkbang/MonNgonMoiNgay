@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MonNgonMoiNgay.Models;
 using MonNgonMoiNgay.Models.Entities;
+using System.Net;
 using System.Security.Claims;
 
 namespace MonNgonMoiNgay.Controllers
@@ -83,7 +84,7 @@ namespace MonNgonMoiNgay.Controllers
 
         //Đăng nhập với tài khoản google
         [AllowAnonymous]
-        public async Task<IActionResult> loginWithGoogle(string hoten, string email, IFormFile img_avt)
+        public async Task<IActionResult> loginWithGoogle(string hoten, string email, string img_avt)
         {
             var user = await db.NguoiDungs.FirstOrDefaultAsync(x => x.Email == email);
             if (user == null)
@@ -109,9 +110,10 @@ namespace MonNgonMoiNgay.Controllers
                     //Nếu file không tồn tại thì thêm file vào server và cập nhật vào csdl
                     if (!System.IO.File.Exists(filePath))
                     {
-                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        using (WebClient webClient = new WebClient())
                         {
-                            await img_avt.CopyToAsync(stream);
+                            byte[] dataArr = webClient.DownloadData(img_avt);
+                            System.IO.File.WriteAllBytes(filePath, dataArr);
                         }
 
                         userLogin.ImgAvt = fileName;

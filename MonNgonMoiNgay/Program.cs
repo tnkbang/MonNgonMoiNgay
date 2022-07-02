@@ -6,17 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSession();
 builder.Services.AddDistributedMemoryCache();
 
-//Access-Control-Allow-Origin
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("https://lh3.googleusercontent.com", "https://localhost:9090");
-                      });
-});
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -49,9 +38,6 @@ app.UseStaticFiles();
 app.UseSession();
 
 app.UseRouting();
-
-//Using CORS
-app.UseCors(MyAllowSpecificOrigins);
 
 //Using Authentication
 app.UseAuthentication();

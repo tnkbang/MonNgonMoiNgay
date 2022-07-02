@@ -9,7 +9,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("https://lh3.googleusercontent.com");
+                          policy.WithOrigins("https://lh3.googleusercontent.com", "https://localhost:9090");
                       });
 });
 

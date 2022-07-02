@@ -86,7 +86,7 @@ namespace MonNgonMoiNgay.Models.Entities
         public string getImage()
         {
             var nd = db.NguoiDungs.FirstOrDefault(x => x.MaNd == this.MaNd);
-            if (nd.ImgAvt == null) return "/Content/Images/Resources/avt-default.png";
+            if (String.IsNullOrEmpty(nd.ImgAvt)) return "/Content/Images/Resources/avt-default.png";
             return "/Content/Images/UserAvt/" + nd.ImgAvt;
         }
 

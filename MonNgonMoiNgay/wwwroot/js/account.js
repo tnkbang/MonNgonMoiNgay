@@ -236,3 +236,61 @@ function getUserInfo() {
         }
     });
 }
+
+//Cập nhật thông tin người dùng
+$('#user-update-info').on('submit', function () {
+    event.preventDefault();
+    var inp = document.getElementsByClassName('user-change-inp');
+
+    var form_data = new FormData();
+    form_data.append('holot', inp[0].value);
+    form_data.append('ten', inp[1].value);
+    form_data.append('ngaysinh', inp[2].value);
+    form_data.append('gioitinh', inp[3].value);
+    form_data.append('sdt', inp[4].value);
+    form_data.append('diachi', inp[5].value);
+    form_data.append('imgavt', $('#user-change-img').prop('files')[0]);
+
+    $.ajax({
+        url: '/Account/updateProfile',
+        type: 'POST',
+        data: form_data,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.tt) {
+                history.back();
+            }
+        },
+        error: function () {
+            getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+        }
+    });
+})
+
+//Bắt sự kiện hiện ảnh xem trước
+$('#user-change-img').on('change', function () {
+    if ($('#user-change-img').prop('files').length != 0) {
+        $('div.preview-images').html('');
+        $('.fake-btn').html($('#user-change-img').prop('files')[0].name);
+        imagesPreview(this, 'div.preview-images');
+    }
+    else {
+        $('div.preview-images').html('');
+        $('.fake-btn').html('Kéo thả hoặc chọn ảnh để tải lên');
+    }
+})
+
+//Xử lý gán ảnh được thêm từ input vào div hiển thị xem trước
+var imagesPreview = function (input, placeImagePreview) {
+    if (input.files) {
+        for (i = 0; i < input.files.length; i++) {
+            var reader = new FileReader();
+
+            reader.onload = function (event) {
+                $($.parseHTML('<img>')).attr('src', event.target.result).attr('class', 'img-preview').appendTo(placeImagePreview);
+            }
+            reader.readAsDataURL(input.files[i]);
+        }
+    }
+};

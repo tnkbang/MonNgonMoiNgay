@@ -106,7 +106,7 @@ namespace MonNgonMoiNgay.Controllers
                     var fileName = "avt-" + userLogin.MaNd + "-" + DateTime.Now.Millisecond + ".jpg";
                     var filePath = Path.Combine(basePath, fileName);
 
-                    //Nếu file tồn tại thì thêm file vào server và cập nhật vào csdl
+                    //Nếu file không tồn tại thì thêm file vào server và cập nhật vào csdl
                     if (!System.IO.File.Exists(filePath))
                     {
                         using (var stream = new FileStream(filePath, FileMode.Create))
@@ -163,6 +163,48 @@ namespace MonNgonMoiNgay.Controllers
         {
             var user = db.NguoiDungs.FirstOrDefault(x => x.MaNd == User.Claims.First().Value);
             return View(user);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> updateProfile(string holot, string ten, DateTime ngaysinh, int gioitinh, string sdt, string diachi, IFormFile imgavt)
+        {
+            var user = db.NguoiDungs.FirstOrDefault(x => x.MaNd == User.Claims.First().Value);
+
+            user.HoLot = holot;
+            user.Ten = ten;
+            user.NgaySinh = ngaysinh;
+            user.GioiTinh = gioitinh.Equals(0) ? null : gioitinh;
+            user.Sdt = sdt;
+            user.DiaChi = diachi;
+
+            //Khai báo đường dẫn lưu file
+            var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\wwwroot\\Content\\Images\\UserAvt\\");
+            bool basePathExists = Directory.Exists(basePath);
+
+            var fileName = "avt-" + user.MaNd + "-" + DateTime.Now.Millisecond + ".jpg";
+            var filePath = Path.Combine(basePath, fileName);
+
+            //Xóa file cũ khỏi server
+            if(!String.IsNullOrEmpty(user.ImgAvt) && System.IO.File.Exists(Path.Combine(basePath, user.ImgAvt)))
+            {
+                System.IO.File.Delete(basePath + user.ImgAvt);
+            }
+
+            //Thêm file vào server và cập nhật vào csdl
+            if (fileName != null && !System.IO.File.Exists(filePath))
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imgavt.CopyToAsync(stream);
+                }
+
+                user.ImgAvt = fileName;
+            }
+
+            db.SaveChanges();
+
+            return Json(new { tt = true });
         }
     }
 }

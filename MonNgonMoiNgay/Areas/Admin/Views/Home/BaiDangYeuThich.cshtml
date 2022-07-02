@@ -1,0 +1,44 @@
+﻿@using MonNgonMoiNgay.Models.Entities
+@{
+    ViewData["Title"] = "Trang cá nhân";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+   
+    NguoiDung userLogin = new NguoiDung();
+     if (User.Identity.IsAuthenticated)
+    {
+        userLogin.MaNd = User.Claims.ToList()[0].Value;
+    }
+}
+@model List<MonNgonMoiNgay.Models.Entities.YeuThichBaiDang>
+<h2>Danh sách bài đăng yêu thích của tôi</h2>
+<div>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary" style=" background-color:blanchedalmond">
+                    <h4 class="page-header" style="text-align:center"> @Html.DisplayFor(modelItem => item.MaBdNavigation.TenMon)</h4>
+                    <div style="text-align:center">
+                        <img src="@item.MaBdNavigation.getOneImage()" class="img-fluid" alt="Image" width="100">
+                    </div>
+                    <div id="ttgiatien" style="text-align:center; background-color:antiquewhite">
+                        @Html.DisplayFor(modelItem => item.MaBdNavigation.GiaTien) VND<br />
+                    </div>
+                    <div id="mabai" style="text-align:center">
+                        @Html.DisplayFor(modelItem => item.MaBd)<br />
+                    </div>
+                    <div style="text-align:center">
+                    <a class="btn btn-info btn-sm" href="@Url.Action("Detail", "Post", new {id =item.MaBd })"><i class="fa fa-info" aria-hidden="true"></i>
+                        Chi tiết
+                    </a>
+            
+                    <a class="btn btn-info btn-sm" id="btnan" href="@Url.Action("Edit", "Post", new {id =item.MaBd })"><i class="fa fa-pencil" aria-hidden="true"></i>
+                        Sửa
+                    </a>
+                    </div>
+                    </div>
+                </div>
+        }
+            <br />
+    </div>
+</div>

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MonNgonMoiNgay.Areas.Admin.Models;
 using MonNgonMoiNgay.Models;
 using MonNgonMoiNgay.Models.Entities;
 using System.Diagnostics;
@@ -63,6 +65,21 @@ namespace MonNgonMoiNgay.Controllers
             ViewData["PostLike"] = result.Take(10).ToList();
 
             return View();
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Search(string? d, int? p)
+        {
+            var lb = from c in db.BaiDangs select c;
+            if (!String.IsNullOrEmpty(d))
+            {
+                lb = lb.Where(s => s.TenMon.Contains(d));
+            }
+            int pageSize = 5;
+
+            ViewBag.Search = d;
+
+            return View(await PaginatedList<BaiDang>.CreateAsync(lb.AsNoTracking(), p ?? 1, pageSize));
         }
     }
 }

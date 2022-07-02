@@ -1,0 +1,35 @@
+﻿@using MonNgonMoiNgay.Models.Entities
+@{
+    ViewData["Title"] = "Trang cá nhân";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+   
+    NguoiDung userLogin = new NguoiDung();
+     if (User.Identity.IsAuthenticated)
+    {
+        userLogin.MaNd = User.Claims.ToList()[0].Value;
+    }
+}
+@model List<MonNgonMoiNgay.Models.Entities.DayBaiDang>
+<h2>Danh sách bài đăng đã đề cử của tôi</h2>
+<div>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary" style=" background-color:blanchedalmond">
+                    <h4 class="page-header" style="text-align:center"> @Html.DisplayFor(modelItem => item.MaBdNavigation.TenMon)</h4>
+                    <div style="text-align:center">
+                        <img src="@item.MaBdNavigation.getOneImage()" class="img-fluid" alt="Image" width="100">
+                    </div>
+                    <div id="ttgiatien" style="text-align:center; background-color:antiquewhite">
+                        @Html.DisplayFor(modelItem => item.MaBdNavigation.GiaTien) VND<br />
+                    </div>
+                    <div id="mabai" style="text-align:center">
+                        @Html.DisplayFor(modelItem => item.MaBd)<br />
+                    </div>
+                    </div>
+                </div>
+        }
+            <br />
+    </div>
+</div>

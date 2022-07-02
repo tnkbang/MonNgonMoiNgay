@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Danh sách bài đăng đẩy";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var Push = ViewData["Push"] as List<BaiDang>;
+}
+@using MonNgonMoiNgay.Models.Entities
+
+<div class="product-status mg-b-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="product-status-wrap">
+                    <div class="asset-inner">
+                        <table>
+                            <tr>
+                                <td>
+                                    Mã người dùng
+                                </td>
+                                <td>
+                                    Mã bài đăng
+                                </td>
+                                <td>
+                                    Tên món
+                                </td>
+                                <td>
+                                    Hình ảnh
+                                </td>
+                                <td>
+                                    Thời gian đẩy
+                                </td>
+                                <td>
+                                    Mô tả
+                                </td>
+                            </tr>
+                            @foreach (var item in Push)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.MaNd)</td>
+                                    <td>@Html.DisplayFor(modeItem => item.MaBd)</td>
+                                    <td>@Html.DisplayFor(modeItem => item.TenMon)</td>
+                                    <td><img src="@item.getOneImage()" class="img-fluid" alt="Image"><br /></td>
+                                    <td>@Html.DisplayFor(modeItem => item.ThoiGian)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MoTa)</td>
+                                </tr>
+                            }
+                            @if (Push.Count == 0)
+                            {
+                                <tr><td colspan="7">Rất tiếc không có kết quả trả về hợp lệ !</td></tr>
+                            }
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

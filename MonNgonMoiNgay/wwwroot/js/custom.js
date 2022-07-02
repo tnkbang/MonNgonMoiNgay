@@ -1,4 +1,5 @@
-﻿(function($) {
+﻿
+(function($) {
     "use strict";
 	
 	/* ..............................................
@@ -440,6 +441,79 @@ function setYeuThichBaiDang(mabd, elm) {
 			else {
 				getThongBao('warning', 'Thông báo', 'Bạn đã thích bài đăng này rồi !')
 			}
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+		}
+	})
+}
+
+//hàm phản hồi
+$('#frmCreateRepost').on('submit', function () {
+	event.preventDefault();
+
+	var tieude = document.getElementById('pstTieuDe');
+	var noidung = document.getElementById('pstNoiDung');
+	var form_data = new FormData();
+
+
+	//Kiểm tra mục cần phản hồi
+	if (tieude.value == "0") {
+		getThongBao('error', 'Lỗi', 'Vui lòng nhập mục cần phản hồi!')
+		return;
+	}
+
+
+	form_data.append('td', tieude.value);
+	form_data.append('nd', noidung.value);
+
+
+	//Gọi ajax xử lý tạo repost
+	$.ajax({
+		url: '/Post/setPhanHoi',
+		type: 'POST',
+		data: form_data,
+		contentType: false,
+		processData: false,
+		success: function (form_data) {
+			if (form_data.tt) {
+				getThongBao('success', 'Thành công', 'đã gửi phản hồi thành công !')
+				tieude.value = null;
+				noidung.value = null;
+				window.location.href = "/";
+			}
+			else {
+				alert('thất bại')
+			}
+
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+		}
+	})
+})
+
+// xử lý tìm kiêm món ăn theo tên
+$('#search-post').on('submit', function () {
+	event.preventDefault();
+	window.location.href = '/Home/Search?d=' + $('#inp-search-post').val();
+})
+$('#btn-search-post').on('click', function () {
+	event.preventDefault();
+	window.location.href = '/Home/Search?d=' + $('#inp-search-post').val();
+})
+
+//Xử lý giỏ hàng
+function setGioHang(ma) {
+	event.preventDefault();
+	$.ajax({
+		url: '/Post/AddToCart',
+		type: 'POST',
+		data: {id: ma},
+		success: function (data) {
+			if (data.tt) {
+				getThongBao('success', 'Thành công', 'Thêm giỏ hàng thành công !');
+            }
 		},
 		error: function () {
 			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')

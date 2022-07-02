@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Phản hồi người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PhanHoi = "active";
+}
+@using MonNgonMoiNgay.Models.Entities
+<div class="offset-lg-4 col-lg-4 offset-md-2 col-md-6 offset-sm-1 col-sm-10" style="margin-top: 15px">
+    <form id="frmCreateRepost" enctype="multipart/form-data" method="post">
+        <div class="form-group has-float-label">
+            <input class="form-control" id="pstTieuDe" required type="text" maxlength="50" placeholder="Nhập mục cần phản hồi..." />
+            <label for="pstTieuDe">Tiêu đề</label>
+        </div>
+        <div class="form-group has-float-label">
+            <textarea class="form-control" id="pstNoiDung" required rows="8" maxlength="200" placeholder="Nhập nội dung phản hồi...."></textarea>
+            <label for="pstNoiDung">Nội dung</label>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success btn-post">Gửi phản hồi</button>
+        </div>
+    </form>
+</div>

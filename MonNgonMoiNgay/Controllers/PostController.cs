@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MonNgonMoiNgay.Models;
 using MonNgonMoiNgay.Models.Entities;
+using Newtonsoft.Json;
 
 namespace MonNgonMoiNgay.Controllers
 {
@@ -111,7 +113,7 @@ namespace MonNgonMoiNgay.Controllers
             var baidang = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaBd == id);
             var saved = await db.BaiDangDuocLuus.FirstOrDefaultAsync(x => x.MaBd == id && x.MaNd == User.Claims.ToList()[0].Value);
 
-            if(baidang != null && saved == null)
+            if (baidang != null && saved == null)
             {
                 BaiDangDuocLuu save = new BaiDangDuocLuu();
                 save.MaBd = baidang.MaBd;
@@ -155,6 +157,286 @@ namespace MonNgonMoiNgay.Controllers
                 return Json(new { tt = true });
             }
             return Json(new { tt = false });
+        }
+
+        //Chức năng phản hồi của người dùng
+        [Authorize]
+        public IActionResult CreatePhanHoi()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult setPhanHoi(string td, string nd)
+        {
+            try
+            {
+                PhanHoi phhoi = new PhanHoi();
+                phhoi.MaPh = phhoi.setMaPh(User.Claims.ToList()[0].Value);
+                phhoi.MaNd = User.Claims.ToList()[0].Value;
+                phhoi.ChiMuc = td;
+                phhoi.NoiDung = nd;
+                phhoi.ThoiGian = DateTime.Now;
+
+                db.PhanHois.Add(phhoi);
+                db.SaveChanges();
+
+                return Json(new { tt = true });
+            }
+            catch (Exception)
+            {
+                return Json(new { tt = false });
+            }
+
+        }
+
+        //Trang bài đăng
+        [Authorize]
+        public IActionResult BaiDang()
+        {
+            ViewData["PostNew"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).OrderByDescending(x => x.ThoiGian).ToList();
+            ViewData["PostVote"] = (from bd in db.BaiDangs
+                                    join dbd in db.DayBaiDangs on bd.MaBd equals dbd.MaBd
+                                    join nd in db.NguoiDungs on dbd.MaNd equals nd.MaNd
+                                    where nd.MaLoai == "01" && nd.MaLoai == "03"
+                                    orderby dbd.ThoiGian descending
+                                    select bd).ToList();
+
+            //Xử lý hiển thị top 10 bài đăng được yêu thích nhất
+            var list = (from bd in db.BaiDangs
+                        join yt in db.YeuThichBaiDangs on bd.MaBd equals yt.MaBd
+                        select bd).ToList();
+
+            List<BaiDang> result = new List<BaiDang>();
+            List<DemYT> slyt = new List<DemYT>();
+
+            //Chạy lặp gán mã bài đăng và số lượt yt vào danh sách slyt
+            foreach (var bd in list)
+            {
+                var temp = db.YeuThichBaiDangs.Where(x => x.MaBd == bd.MaBd).ToList().Count();
+                slyt.Add(new DemYT { MaBd = bd.MaBd, sl = temp });
+            }
+
+            //Sắp xếp lượt yêu thích từ cao đến thấp
+            slyt.OrderByDescending(x => x.sl);
+
+            //Chạy lặp gán bài đăng vào result
+            foreach (var yt in slyt)
+            {
+                var temp = db.BaiDangs.FirstOrDefault(x => x.MaBd == yt.MaBd);
+                result.Add(temp);
+            }
+
+            //Gán result vào ViewData để trả về View
+            ViewData["PostLike"] = result.Take(10).ToList();
+            return View();
+        }
+
+        struct DemYT
+        {
+            public int sl;
+            public string MaBd;
+        };
+
+        [Authorize]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var m = await db.BaiDangs.FindAsync(id);
+            if (m == null)
+            {
+                return NotFound();
+            }
+            ViewData["LoaiMonAn"] = db.LoaiMonAns.ToList();
+            ViewData["TinhTP"] = db.TinhTps.ToList();
+            return View(m);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("MaBd,MaLoai,MaNd,ThoiGian,TenMon,MoTa,GiaTien,MaXP,DiaChi,TrangThai")] BaiDang bd)
+        {
+            if (id != bd.MaBd)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.Update(bd);
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BaiDangExists(bd.MaBd))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["LoaiMonAn"] = db.LoaiMonAns.ToList();
+            ViewData["TinhTP"] = db.TinhTps.ToList();
+            return View(bd);
+        }
+
+        private bool BaiDangExists(string id)
+        {
+            return db.BaiDangs.Any(e => e.MaBd == id);
+        }
+
+        //Chức năng đề cử bài đăng của người dùng
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> DeCuBaiDang(string id)
+        {
+            ViewBag.DeCu = "active-focus";
+            var baidang = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaBd == id);
+            var decubaidang = await db.DayBaiDangs.FirstOrDefaultAsync(x => x.MaBd == id && x.MaNd == User.Claims.ToList()[0].Value);
+
+            if (baidang != null && decubaidang == null)
+            {
+                DayBaiDang day = new DayBaiDang();
+                day.MaBd = baidang.MaBd;
+                day.MaNd = User.Claims.ToList()[0].Value;
+                day.ThoiGian = DateTime.Now;
+
+                db.DayBaiDangs.Add(day);
+                db.SaveChanges();
+
+                return Json(new { tt = true });
+            }
+            return Json(new { tt = false });
+        }
+
+        public IActionResult listdecu()
+        {
+            List<DayBaiDang> decubai = db.DayBaiDangs.ToList();
+            return View(decubai);
+        }
+
+        // Key lưu chuỗi json của Cart
+        public const string CARTKEY = "cart";
+
+        // Lấy cart từ Session (danh sách CartItem)
+        List<CartItem> GetCartItems()
+        {
+
+            var session = HttpContext.Session;
+            string jsoncart = session.GetString(CARTKEY);
+            if (jsoncart != null)
+            {
+                return JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);
+            }
+            return new List<CartItem>();
+        }
+
+        // Xóa cart khỏi session
+        void ClearCart()
+        {
+            var session = HttpContext.Session;
+            session.Remove(CARTKEY);
+        }
+
+        // Lưu Cart (Danh sách CartItem) vào session
+        void SaveCartSession(List<CartItem> ls)
+        {
+            var session = HttpContext.Session;
+            string jsoncart = JsonConvert.SerializeObject(ls);
+            session.SetString(CARTKEY, jsoncart);
+        }
+
+        [Authorize]
+        /// Thêm sản phẩm vào cart
+        [HttpPost]
+        public IActionResult AddToCart(string id)
+        {
+
+            var product = db.BaiDangs.FirstOrDefault(p => p.MaBd == id);
+            if (product == null)
+                return NotFound("Không có sản phẩm");
+
+
+            // Xử lý đưa vào Cart ...
+            var cart = GetCartItems();
+            var cartitem = cart.Find(p => p.baidang.MaBd == id);
+            if (cartitem != null)
+            {
+                // Đã tồn tại, tăng thêm 1
+                cartitem.quantity++;
+            }
+            else
+            {
+                //  Thêm mới
+                cart.Add(new CartItem() { quantity = 1, baidang = product });
+            }
+            // Lưu cart vào Session
+            SaveCartSession(cart);
+            // Chuyển đến trang hiện thị Cart
+            //return RedirectToAction(nameof(Cart));
+            return Json(new { tt = true });
+        }
+
+        /// xóa item trong cart
+
+        public IActionResult RemoveCart(string id)
+        {
+
+            // Xử lý xóa một mục của Cart ...
+            var cart = GetCartItems();
+            var cartitem = cart.Find(p => p.baidang.MaBd == id);
+            if (cartitem != null)
+            {
+                // Đã tồn tại, tăng thêm 1
+                cart.Remove(cartitem);
+            }
+
+            SaveCartSession(cart);
+            return RedirectToAction(nameof(Cart));
+        }
+
+        /// Cập nhật
+
+        [HttpPost]
+        public IActionResult UpdateCart(string id, int quantity)
+        {
+            // Cập nhật Cart thay đổi số lượng quantity ...
+            var cart = GetCartItems();
+            var cartitem = cart.Find(p => p.baidang.MaBd == id);
+            if (cartitem != null)
+            {
+                // Đã tồn tại, tăng thêm 1
+                cartitem.quantity = quantity;
+            }
+            SaveCartSession(cart);
+            // Trả về mã thành công (không có nội dung gì - chỉ để Ajax gọi)
+
+            return RedirectToAction(nameof(Cart));
+        }
+
+        // Hiện thị giỏ hàng
+        public IActionResult Cart()
+        {
+            return View(GetCartItems());
+        }
+
+
+        public IActionResult CheckOut()
+        {
+            // Xử lý khi đặt hàng
+            return View();
         }
     }
 }

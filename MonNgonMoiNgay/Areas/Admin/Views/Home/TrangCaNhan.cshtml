@@ -1,0 +1,52 @@
+﻿@using MonNgonMoiNgay.Models.Entities
+@{
+    ViewData["Title"] = "Trang cá nhân";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    NguoiDung userLogin = new NguoiDung();
+     if (User.Identity.IsAuthenticated)
+    {
+        userLogin.MaNd = User.Claims.ToList()[0].Value;
+    }
+}
+@model List<MonNgonMoiNgay.Models.Entities.BaiDang>
+<h2>Danh sách bài đăng của tôi</h2>
+
+<div>
+    <a class="btn btn-info btn-success" href="@Url.Action("CreateNew", "Post")"><i class="fa fa-plus" aria-hidden="true"></i>
+            create
+    </a>
+    
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary" style=" background-color:blanchedalmond">
+                    <h4 class="page-header" style="text-align:center"> @Html.DisplayFor(modelItem => item.TenMon)</h4>
+                    <div style="text-align:center">
+                     <img src="@item.getOneImage()" class="img-fluid" alt="Image" width="100">
+                     
+                    </div>
+                    <div id="ttgiatien" style="text-align:center; background-color:antiquewhite">
+                        @Html.DisplayFor(modelItem => item.GiaTien) VND<br />
+                    </div>
+                    <div id="mabai" style="text-align:center">
+                        @Html.DisplayFor(modelItem => item.MaBd)<br />
+                    </div>
+                    <div style="text-align:center">
+                    <a class="btn btn-info btn-sm" href="#" onclick="setDeCuBaiDang('@item.MaBd', this)" title="Push"><i class="fa fa-bookmark" style="padding-left: 3px"> Đề cử</i></a>
+                    <a class="btn btn-info btn-sm" href="@Url.Action("Detail", "Post", new {id =item.MaBd })"><i class="fa fa-info" aria-hidden="true"></i>
+                        Chi tiết
+                    </a>
+            
+                    <a class="btn btn-info btn-sm" id="btnan" href="@Url.Action("Edit", "Post", new {id =item.MaBd })"><i class="fa fa-pencil" aria-hidden="true"></i>
+                        Sửa
+                    </a>
+                    </div>
+                    </div>
+                </div>
+        }
+            <br />
+    </div>
+</div>
+<script src="~/js/jquery-3.2.1.min.js" ></script>
+<script src="~/js/admin.js" ></script>

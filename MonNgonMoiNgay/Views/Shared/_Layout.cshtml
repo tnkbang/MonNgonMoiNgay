@@ -55,6 +55,12 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class="search-contain input-group">
+                            <form role="search" class="sr-input-func" id="search-post">
+                                <input id="inp-search-post" type="text" placeholder="Tìm kiếm món ăn..." class="search-int form-control">
+                                <a href="#" id="btn-search-post"><i class="fa fa-search"></i></a>
+                            </form>
+                        </li>
                         <li class="nav-item @ViewBag.TrangChu"><a class="nav-link" href="/">Trang chủ</a></li>
                         <li class="nav-item @ViewBag.BaiDang"><a class="nav-link" href="#">Bài đăng</a></li>
                         <li class="dropdown">
@@ -66,7 +72,7 @@
                                 <li><a href="#">444444444</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item @ViewBag.ThongTin"><a class="nav-link" href="#">Thông tin</a></li>
+                        <li class="nav-item @ViewBag.PhanHoi"><a class="nav-link" href="#">Phản hồi</a></li>
                         <li class="nav-item @ViewBag.LienHe"><a class="nav-link" href="#">Liên hệ</a></li>
                     </ul>
                 </div>
@@ -83,7 +89,7 @@
                                     @userLogin.getTenHienThi()
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#"><i class="fa fa-th"></i>&nbsp; Trang quản trị</a>
+                                    <a class="dropdown-item" href="/Admin/User/Index"><i class="fa fa-th"></i>&nbsp; Trang quản trị</a>
                                     <a class="dropdown-item text-danger" href="~/Account/Logout"><i class="fas fa-power-off"></i>&nbsp; Đăng xuất</a>
                                 </div>
                             </li>
@@ -125,7 +131,7 @@
                                 <p>1x - <span class="price">40.000 VND</span></p>
                             </li>
                             <li class="total">
-                                <a href="#" class="btn btn-default hvr-hover btn-cart">Xem chi tiết</a>
+                                <a href="/Post/Cart" class="btn btn-default hvr-hover btn-cart">Xem chi tiết</a>
                                 <span class="float-right"><strong>Tổng</strong>: 180.000 VND</span>
                             </li>
                         </ul>

@@ -94,16 +94,16 @@
                             </li>
                         }
                         <li>
-                            <a title="Quản lý bài đăng" href="#" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.QLPost">QL Bài đăng</span></a>
+                            <a title="Quản lý bài đăng" href="/Admin/User/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.QLPost">QL Bài đăng</span></a>
                         </li>
                         <li>
-                            <a title="Ẩn bài đăng" href="#" aria-expanded="false"><span class="educate-icon educate-form icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.An">Ẩn bài đăng</span></a>
+                            <a title="Ẩn bài đăng" href="/Admin/User/ListAn" aria-expanded="false"><span class="educate-icon educate-form icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.An">Ẩn bài đăng</span></a>
                         </li>
                         <li>
-                            <a title="Đẩy bài đăng" href="#" aria-expanded="false"><span class="educate-icon educate-interface icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.Day">Dẩy bài đăng</span></a>
+                            <a title="Đẩy bài đăng" href="/Admin/User/ListDay" aria-expanded="false"><span class="educate-icon educate-interface icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.Day">Dẩy bài đăng</span></a>
                         </li>
                         <li>
-                            <a title="Đề cử bài đăng" href="#" aria-expanded="false"><span class="educate-icon educate-department icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.DeCu">Đề cử</span></a>
+                            <a title="Đề cử bài đăng" href="/Admin/Home/BaiDangDeCu" aria-expanded="false"><span class="educate-icon educate-department icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.DeCu">Đề cử</span></a>
                         </li>
                         <li>
                             <a title="Thống kê" href="#" aria-expanded="false"><span class="educate-icon educate-charts icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.ThongKe">Thống kê</span></a>
@@ -338,6 +338,7 @@
             })
         </script>
     }
+    @RenderSection("scripts", required:false)
 </body>
 
 </html>

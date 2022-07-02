@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Cart session
+builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
+
 //Access-Control-Allow-Origin
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
@@ -40,6 +44,9 @@ app.UseStatusCodePagesWithReExecute("/error/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+//Using cart session
+app.UseSession();
 
 app.UseRouting();
 

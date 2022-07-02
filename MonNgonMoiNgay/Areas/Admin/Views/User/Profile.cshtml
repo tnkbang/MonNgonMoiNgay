@@ -82,7 +82,7 @@
                                     }
                                     else
                                     {
-                                        <p><b>Ngày sinh</b><br /> @Model.NgaySinh</p>
+                                        <p><b>Ngày sinh</b><br /> @Model.NgaySinh?.ToString("dd/MM/yyyy")</p>
                                     }
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
                                             {
                                                 foreach(var post in Model.getListPost())
                                                 {
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 5px;">
                                                         <div class="courses-inner res-mg-b-30">
                                                             <div class="courses-title">
                                                                 <a href="#"><img src="@post.getOneImage()" alt=""></a>
@@ -209,7 +209,7 @@
                                             {
                                                 foreach(var post in Model.getListYeuThich())
                                                 {
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 5px;">
                                                         <div class="courses-inner res-mg-b-30">
                                                             <div class="courses-title">
                                                                 <a href="#"><img src="@post.getOneImage()" alt=""></a>
@@ -250,7 +250,7 @@
                                             {
                                                 foreach(var post in Model.getListLuu())
                                                 {
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 5px;">
                                                         <div class="courses-inner res-mg-b-30">
                                                             <div class="courses-title">
                                                                 <a href="#"><img src="@post.getOneImage()" alt=""></a>

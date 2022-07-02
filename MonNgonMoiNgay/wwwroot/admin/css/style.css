@@ -4808,3 +4808,31 @@ div#sparklinehome canvas {
         width: 100%;
         border-radius: 10px;
     }
+
+.why-text {
+    background: #fff;
+    padding: 15px;
+}
+
+    .why-text h4 {
+        font-size: 16px;
+        font-weight: 700;
+        padding-bottom: 15px;
+    }
+
+    .why-text label {
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .why-text h5 {
+        font-size: 18px;
+        font-family: 'Poppins', sans-serif;
+        padding: 4px;
+        display: inline-block;
+        background: #b0b435;
+        color: #ffffff;
+        font-weight: 600;
+    }

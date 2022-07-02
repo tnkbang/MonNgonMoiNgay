@@ -6,14 +6,11 @@ using MonNgonMoiNgay.Models.Entities;
 
 namespace MonNgonMoiNgay.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "01")]
+    [Authorize]
     public class UserController : Controller
     {
         MonNgonMoiNgayContext db = new MonNgonMoiNgayContext();
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        [Authorize(Roles = "01")]
         public async Task<IActionResult> List(string? q, int? p, string? l)
         {
             ViewBag.Loai = l;
@@ -45,6 +42,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
         }
 
         //Khóa hoặc mở khóa người dùng
+        [Authorize(Roles = "01")]
         [HttpPost]
         public async Task<IActionResult> LockUser(string ma)
         {
@@ -65,15 +63,6 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             return user != null ? View(user) : NotFound();
         }
 
-
-
-
-
-
-
-
-
-
         public IActionResult Index()
         {
             ViewBag.QLPost = "active-focus";
@@ -87,7 +76,6 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> DayBaiDang(string id)
         {
-            ViewBag.Day = "active-focus";
             var baidang = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaBd == id);
             var daybaidang = await db.DayBaiDangs.FirstOrDefaultAsync(x => x.MaBd == id && x.MaNd == User.Claims.ToList()[0].Value);
 
@@ -109,6 +97,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult ListDay()
         {
+            ViewBag.Day = "active-focus";
             ViewData["Push"] = (from bd in db.BaiDangs
                                 join dbd in db.DayBaiDangs on bd.MaBd equals dbd.MaBd
                                 orderby dbd.ThoiGian descending

@@ -18,18 +18,20 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
 
         public IActionResult BaiDangYeuThich()
         {
-            var bdyt = db.YeuThichBaiDangs
-                .Include(x => x.MaBdNavigation)
-                .Where(x => x.MaNd == User.Claims.ToList()[0].Value).ToList();
-            return View(bdyt);
+            ViewBag.YeuThich = "active-focus";
+            var bd = (from baidang in db.BaiDangs
+                      join yeuthich in db.YeuThichBaiDangs on baidang.MaBd equals yeuthich.MaBd
+                      where yeuthich.MaNd == User.Claims.First().Value
+                      orderby yeuthich.ThoiGian descending
+                      select baidang).ToList();
+            return View(bd);
         }
 
         public IActionResult BaiDangDeCu()
         {
-            var bddc = db.DayBaiDangs
-                .Include(x => x.MaBdNavigation)
-                .Where(x => x.MaNd == User.Claims.ToList()[0].Value).ToList();
-            return View(bddc);
+            ViewBag.DeCu = "active-focus";
+            var bd = db.BaiDangs.OrderByDescending(x => x.ThoiGian).ToList();
+            return View(bd);
         }
     }
 }

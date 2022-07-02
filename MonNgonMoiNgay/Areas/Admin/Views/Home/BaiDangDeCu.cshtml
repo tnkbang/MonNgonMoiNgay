@@ -9,27 +9,55 @@
         userLogin.MaNd = User.Claims.ToList()[0].Value;
     }
 }
-@model List<MonNgonMoiNgay.Models.Entities.DayBaiDang>
-<h2>Danh sách bài đăng đã đề cử của tôi</h2>
-<div>
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary" style=" background-color:blanchedalmond">
-                    <h4 class="page-header" style="text-align:center"> @Html.DisplayFor(modelItem => item.MaBdNavigation.TenMon)</h4>
-                    <div style="text-align:center">
-                        <img src="@item.MaBdNavigation.getOneImage()" class="img-fluid" alt="Image" width="100">
-                    </div>
-                    <div id="ttgiatien" style="text-align:center; background-color:antiquewhite">
-                        @Html.DisplayFor(modelItem => item.MaBdNavigation.GiaTien) VND<br />
-                    </div>
-                    <div id="mabai" style="text-align:center">
-                        @Html.DisplayFor(modelItem => item.MaBd)<br />
-                    </div>
+@model List<MonNgonMoiNgay.Models.Entities.BaiDang>
+
+<div class="breadcome-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcome-list">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="breadcome-heading">
+                                <a href="~/Admin/User/Index">Trang quản trị</a> <span class="bread-slash">/</span>
+                                <span class="bread-blod">Đề cử bài đăng</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-        }
-            <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="courses-area">
+    <div class="container-fluid">
+        <div class="row mg-b-15">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="courses-inner mg-t-30 review-content-section">
+                        <div class="courses-title">
+                            <a href="#"><img src="@item.getOneImage()" alt=""></a>
+                            <h2>@item.TenMon</h2>
+                        </div>
+                        <div class="courses-alaltic">
+                            <span class="cr-ic-r" data-toggle="tooltip" title="Ngày đăng"><span class="course-icon"><i class="fa fa-clock-o"></i></span> @item.ThoiGian.ToString("dd/MM/yyyy")</span>
+                            <span class="cr-ic-r" data-toggle="tooltip" title="Yêu thích"><span class="course-icon"><i class="fa fa-heart"></i></span> @item.getSLYeuThich()</span>
+                            <span class="cr-ic-r" data-toggle="tooltip" title="Đã lưu"><span class="course-icon"><i class="fa fa-bookmark"></i></span> @item.getSLLuu()</span>
+                        </div>
+                        <div class="course-des">
+                            <p><b>Mô tả:</b> @item.MoTa</p>
+                            <p><b>Giá tiền:</b> @item.GiaTien VNĐ</p>
+                            <p><b>Địa chỉ:</b> @item.DiaChi</p>
+                        </div>
+                        <div class="product-buttons">
+                            <button onclick="javascript: window.location.href = '/Post/Detail?id=@item.MaBd';" data-toggle="tooltip" title="Xem chi tiết" class="button-default cart-btn">Xem</button>
+                            <button data-toggle="tooltip" title="Đề cử với mọi người" onclick="setDayBaiDang('@item.MaBd', this)" class="button-default cart-btn">Đề cử</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>

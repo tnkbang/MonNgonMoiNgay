@@ -92,18 +92,21 @@
                             <li>
                                 <a title="Quản lý người dùng" href="/Admin/User/List" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.QLUser">QL Người dùng</span></a>
                             </li>
+                            <li>
+                                <a title="Đề cử bài đăng" href="/Admin/Home/BaiDangDeCu" aria-expanded="false"><span class="educate-icon educate-department icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.DeCu">Đề cử</span></a>
+                            </li>
                         }
                         <li>
                             <a title="Quản lý bài đăng" href="/Admin/User/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.QLPost">QL Bài đăng</span></a>
                         </li>
                         <li>
-                            <a title="Ẩn bài đăng" href="/Admin/User/ListAn" aria-expanded="false"><span class="educate-icon educate-form icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.An">Ẩn bài đăng</span></a>
+                            <a title="Bài đăng đã thích" href="/Admin/Home/BaiDangYeuThich" aria-expanded="false"><span class="educate-icon educate-form icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.YeuThich">Bài đăng yêu thích</span></a>
                         </li>
                         <li>
-                            <a title="Đẩy bài đăng" href="/Admin/User/ListDay" aria-expanded="false"><span class="educate-icon educate-interface icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.Day">Dẩy bài đăng</span></a>
+                            <a title="Bài đăng đã ẩn" href="/Admin/User/ListAn" aria-expanded="false"><span class="educate-icon educate-form icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.An">Bài đăng đã ẩn</span></a>
                         </li>
                         <li>
-                            <a title="Đề cử bài đăng" href="/Admin/Home/BaiDangDeCu" aria-expanded="false"><span class="educate-icon educate-department icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.DeCu">Đề cử</span></a>
+                            <a title="Bài đăng đã đẩy" href="/Admin/User/ListDay" aria-expanded="false"><span class="educate-icon educate-interface icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.Day">Bìa đăng đã đẩy</span></a>
                         </li>
                         <li>
                             <a title="Thống kê" href="#" aria-expanded="false"><span class="educate-icon educate-charts icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.ThongKe">Thống kê</span></a>
@@ -184,7 +187,7 @@
                                                         <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                                     </a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                        <li><a href="/Admin/User/Detail?id=@userLogin.MaNd"><span class="edu-icon edu-home-admin author-log-ic"></span>Trang cá nhân</a></li>
+                                                        <li><a href="/Admin/User/Profile?id=@userLogin.MaNd"><span class="edu-icon edu-home-admin author-log-ic"></span>Trang cá nhân</a></li>
                                                         <li><a href="/Account/ChangeProfile"><span class="edu-icon edu-user-rounded author-log-ic"></span>Thay đổi thông tin</a></li>
                                                         <li data-toggle="modal" data-target="#modal-change-pass"><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Đổi mật khẩu</a> </li>
                                                         <li><a style="color: firebrick" href="/Account/Logout"><span class="edu-icon edu-locked author-log-ic"></span>Đăng xuất</a></li>
@@ -211,11 +214,12 @@
                                         @if (User.Claims.ToList()[1].Value == "01")
                                         {
                                             <li><a href="/Admin/User/List">Ql Người dùng</a></li>
+                                            <li><a href="/Admin/User/BaiDangDeCu">Đề cử bài đăng</a></li>
                                         }
                                         <li><a href="#">Ql Bài đăng</a></li>
-                                        <li><a href="#">Ẩn bài đăng</a></li>
-                                        <li><a href="#">Đẩy bài đăng</a></li>
-                                        <li><a href="#">Đề cử bài đăng</a></li>
+                                        <li><a href="/Admin/Home/BaiDangYeuThich">BĐ yêu thích</a></li>
+                                        <li><a href="/Admin/User/ListAn">BĐ đã ẩn</a></li>
+                                        <li><a href="/Admin/User/ListDay">BĐ đã đẩy</a></li>
                                         <li><a href="#">Thống kê</a></li>
                                     </ul>
                                 </nav>

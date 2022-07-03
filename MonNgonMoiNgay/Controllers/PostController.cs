@@ -332,6 +332,29 @@ namespace MonNgonMoiNgay.Controllers
         // Key lưu chuỗi json của Cart
         public const string CARTKEY = "cart";
 
+        //Lấy thông tin cart qua ajax
+        [HttpPost]
+        public IActionResult getCart()
+        {
+            List<dynamic> result = new List<dynamic>();
+            var total = 0;
+            foreach (var item in GetCartItems())
+            {
+                var temp = new
+                {
+                    ma = item.baidang.MaBd,
+                    ten= item.baidang.TenMon,
+                    img = item.baidang.getOneImage(),
+                    sl = item.quantity,
+                    gia = item.baidang.GiaTien
+                };
+                result.Add(temp);
+                total += item.quantity * item.baidang.GiaTien;
+            }
+
+            return Json(new { cart = result, tong = total.ToString("n0"), count = GetCartItems().Count });
+        }
+
         // Lấy cart từ Session (danh sách CartItem)
         List<CartItem> GetCartItems()
         {
@@ -361,10 +384,12 @@ namespace MonNgonMoiNgay.Controllers
         }
 
         [Authorize]
-        /// Thêm sản phẩm vào cart
+        // Thêm sản phẩm vào cart
         [HttpPost]
         public IActionResult AddToCart(string id)
         {
+            //Kiểm tra tồn tại cart hay chưa
+            bool check = false;
 
             var product = db.BaiDangs.FirstOrDefault(p => p.MaBd == id);
             if (product == null)
@@ -378,6 +403,7 @@ namespace MonNgonMoiNgay.Controllers
             {
                 // Đã tồn tại, tăng thêm 1
                 cartitem.quantity++;
+                check = true;
             }
             else
             {
@@ -386,13 +412,23 @@ namespace MonNgonMoiNgay.Controllers
             }
             // Lưu cart vào Session
             SaveCartSession(cart);
+
+            var total = 0;
+            foreach (var item in GetCartItems())
+            {
+                total += item.quantity * item.baidang.GiaTien;
+            }
+
             // Chuyển đến trang hiện thị Cart
             //return RedirectToAction(nameof(Cart));
-            return Json(new { tt = true });
+            if (check)
+            {
+                return Json(new { ma = product.MaBd, ten = product.TenMon, img = product.getOneImage(), sl = cartitem.quantity, gia = product.GiaTien, tong = total.ToString("n0"), count = GetCartItems().Count });
+            }
+            return Json(new { ma = product.MaBd, ten = product.TenMon, img = product.getOneImage(), sl = 1, gia = product.GiaTien, tong = total.ToString("n0"), count = GetCartItems().Count });
         }
 
-        /// xóa item trong cart
-
+        // xóa item trong cart
         public IActionResult RemoveCart(string id)
         {
 
@@ -401,7 +437,6 @@ namespace MonNgonMoiNgay.Controllers
             var cartitem = cart.Find(p => p.baidang.MaBd == id);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
                 cart.Remove(cartitem);
             }
 
@@ -409,8 +444,7 @@ namespace MonNgonMoiNgay.Controllers
             return RedirectToAction(nameof(Cart));
         }
 
-        /// Cập nhật
-
+        // Cập nhật
         [HttpPost]
         public IActionResult UpdateCart(string id, int quantity)
         {
@@ -419,12 +453,10 @@ namespace MonNgonMoiNgay.Controllers
             var cartitem = cart.Find(p => p.baidang.MaBd == id);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
                 cartitem.quantity = quantity;
             }
             SaveCartSession(cart);
             // Trả về mã thành công (không có nội dung gì - chỉ để Ajax gọi)
-
             return RedirectToAction(nameof(Cart));
         }
 

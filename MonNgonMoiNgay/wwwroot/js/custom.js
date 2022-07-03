@@ -511,12 +511,32 @@ function setGioHang(ma) {
 		type: 'POST',
 		data: {id: ma},
 		success: function (data) {
-			if (data.tt) {
-				getThongBao('success', 'Thành công', 'Thêm giỏ hàng thành công !');
+			if (data.sl == 1) {
+				generate_cart_item(data.ma, data.ten, data.img, data.sl, data.gia);
+				$('#count-cart').html(data.count)
+				$('#total-cart').html('<strong>Tổng</strong>: ' + data.tong);
+			}
+			else {
+				$('#cart-item-' + data.ma).html(data.sl + 'x - <span class="price">' + data.gia + ' VND</span>');
+				$('#count-cart').html(data.count)
+				$('#total-cart').html('<strong>Tổng</strong>: ' + data.tong);
             }
+			getThongBao('success', 'Thành công', 'Thêm giỏ hàng thành công !');
 		},
 		error: function () {
 			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
 		}
 	})
+}
+
+//Hàm ghi nội dung cart
+function generate_cart_item(ma, ten, img, sl, gia) {
+	var str = "";
+	str += '<li>';
+	str += '    <a href="#" class="photo"><img src="' + img + '" class="cart-thumb" alt="" /></a>';
+	str += '    <h6><a href="/Post/Detail?id=' + ma + '">' + ten + '</a></h6>';
+	str += '    <p id="cart-item-' + ma + '">' + sl + 'x - <span class="price">' + gia + ' VND</span></p>';
+	str += '</li>';
+
+	$('.cart-list > li:last').before(str);
 }

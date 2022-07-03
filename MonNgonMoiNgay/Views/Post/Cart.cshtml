@@ -58,11 +58,11 @@
                       type: "POST",
                       url:"/Post/UpdateCart",
                       data: {
-                          Mabd: Mabd,
+                          id: Mabd,
                           quantity:quantity
                       },
                       success: function (result) {
-                          window.location.href = "/Post/Cart";
+                          window.location.reload();
                       }
                   });
               });

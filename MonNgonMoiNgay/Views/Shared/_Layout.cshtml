@@ -7,6 +7,7 @@
     {
         userLogin.MaNd = User.Claims.ToList()[0].Value;
     }
+
 }
 @using MonNgonMoiNgay.Models.Entities
 
@@ -94,7 +95,7 @@
                         <li class="side-menu">
                             <a href="#">
                                 <i class="fas fa-shopping-cart"></i>
-                                <span class="badge" style="color: deepskyblue">3</span>
+                                <span class="badge" id="count-cart" style="color: deepskyblue">0</span>
                                 <p>&nbsp;</p>
                             </a>
                         </li>
@@ -108,24 +109,9 @@
                 <ul>
                     <li class="cart-box">
                         <ul class="cart-list">
-                            <li>
-                                <a href="#" class="photo"><img src="~/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
-                                <h6><a href="#">Vật phẩm 1</a></h6>
-                                <p>1x - <span class="price">80.000 VND</span></p>
-                            </li>
-                            <li>
-                                <a href="#" class="photo"><img src="~/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
-                                <h6><a href="#">Vật phẩm 2</a></h6>
-                                <p>1x - <span class="price">60.000 VND</span></p>
-                            </li>
-                            <li>
-                                <a href="#" class="photo"><img src="~/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
-                                <h6><a href="#">Vật phẩm 3</a></h6>
-                                <p>1x - <span class="price">40.000 VND</span></p>
-                            </li>
                             <li class="total">
                                 <a href="/Post/Cart" class="btn btn-default hvr-hover btn-cart">Xem chi tiết</a>
-                                <span class="float-right"><strong>Tổng</strong>: 180.000 VND</span>
+                                <span id="total-cart" class="float-right"><strong>Tổng</strong>: 0 VND</span>
                             </li>
                         </ul>
                     </li>
@@ -223,5 +209,27 @@
     <script src="~/js/custom.js"></script>
      <!-- Chat -->
     <script src="~/js/chat.js"></script>
+    <!-- Tự động nhận tin nhắn nếu có đăng nhập-->
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script>
+            $(document).ready(function() {
+                $.ajax({
+                    url: '/Post/getCart',
+                    type: 'POST',
+                    success: function(data) {
+                        $.each(data.cart, function(index, value) {
+                            generate_cart_item(value.ma, value.ten, value.img, value.sl, value.gia);
+                        })
+                        $('#count-cart').html(data.count)
+                        $('#total-cart').html('<strong>Tổng</strong>: ' + data.tong);
+                    },
+                    error: function() {
+                        getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+                    }
+                })
+            })
+        </script>
+    }
 </body>
 </html>

@@ -59,7 +59,7 @@
             <div class="col-xl-7 col-lg-7 col-md-6">
                 <div class="single-product-details">
                     <h2>@Model.TenMon</h2>
-                    <h5>@Model.GiaTien VNĐ</h5>
+                    <h5>@Model.GiaTien.ToString("n0") VNĐ</h5>
                     <p class="available-stock"><span> @Model.getSLLuu() lưu bài / @Model.getSLYeuThich() yêu thích</span><p>
                         <h4>Mô tả chi tiết:</h4>
                     <p>
@@ -151,7 +151,7 @@
                                 <div class="why-text">
                                     <h4>@post.TenMon</h4>
                                     <label>@post.MoTa</label>
-                                    <h5>@post.GiaTien VNĐ</h5>
+                                    <h5>@post.GiaTien.ToString("n0") VNĐ</h5>
                                 </div>
                             </div>
                         </div>

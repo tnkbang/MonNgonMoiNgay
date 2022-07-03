@@ -24,21 +24,31 @@ namespace MonNgonMoiNgay.Controllers
             public string MaBd;
         };
 
+        //Struc đếm sl bài đăng công khai của 1 người dùng
+        struct DemBD
+        {
+            public int sl;
+            public string MaNd;
+        };
+
         [AllowAnonymous]
         public IActionResult Index()
         {
             //Tạo ViewData cho bài đăng mới đăng (trong vòng 7 ngày) và bài đăng được đề cử bởi Admin hoặc nhân viên
             ViewData["PostNew"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).OrderByDescending(x => x.ThoiGian).ToList();
+
+            //Bài đăng được đề xuất
             ViewData["PostVote"] = (from bd in db.BaiDangs
                                     join dbd in db.DayBaiDangs on bd.MaBd equals dbd.MaBd
                                     join nd in db.NguoiDungs on dbd.MaNd equals nd.MaNd
-                                    where nd.MaLoai == "01" && nd.MaLoai == "03"
+                                    where nd.MaLoai == "01" || nd.MaLoai == "03"
                                     orderby dbd.ThoiGian descending
-                                    select bd).ToList();
+                                    select bd).Where(x => x.TrangThai == 1).ToList();
 
-            //Xử lý hiển thị top 10 bài đăng được yêu thích nhất
+            //Xử lý hiển thị top 20 bài đăng được yêu thích nhất
             var list = (from bd in db.BaiDangs
                         join yt in db.YeuThichBaiDangs on bd.MaBd equals yt.MaBd
+                        where bd.TrangThai == 1
                         select bd).ToList();
 
             List<BaiDang> result = new List<BaiDang>();
@@ -52,7 +62,7 @@ namespace MonNgonMoiNgay.Controllers
             }
 
             //Sắp xếp lượt yêu thích từ cao đến thấp
-            slyt.OrderByDescending(x => x.sl);
+            slyt.OrderByDescending(x => x.sl).Take(20);
 
             //Chạy lặp gán bài đăng vào result
             foreach(var yt in slyt)
@@ -62,7 +72,16 @@ namespace MonNgonMoiNgay.Controllers
             }
 
             //Gán result vào ViewData để trả về View
-            ViewData["PostLike"] = result.Take(10).ToList();
+            ViewData["PostLike"] = result.ToList();
+
+
+            //Xử lý ảnh dưới trang chỉ lấy 20 ảnh ngẫu nhiên
+            List<HinhAnh> viewImg = (from ha in db.HinhAnhs
+                                     join bd in db.BaiDangs on ha.MaBd equals bd.MaBd
+                                     where bd.TrangThai == 1
+                                     select ha).ToList();
+            var rnd = new Random();
+            ViewData["FooterImg"] = viewImg.OrderBy(x => rnd.Next()).Take(20).ToList();
 
             return View();
         }

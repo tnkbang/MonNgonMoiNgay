@@ -1,6 +1,6 @@
 ﻿@using MonNgonMoiNgay.Models.Entities
 @{
-    ViewData["Title"] = "Trang cá nhân";
+    ViewData["Title"] = "Bài đăng đã thích";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
    
     NguoiDung userLogin = new NguoiDung();
@@ -55,6 +55,12 @@
                             <button onclick="javascript: window.location.href = '/Post/Detail?id=@item.MaBd';" data-toggle="tooltip" title="Xem chi tiết" class="button-default cart-btn">Xem</button>
                         </div>
                     </div>
+                </div>
+            }
+            @if(Model.Count == 0)
+            {
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <p>Bạn hiện không có thích bài đăng nào!</p>
                 </div>
             }
         </div>

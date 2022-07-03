@@ -83,6 +83,15 @@ namespace MonNgonMoiNgay.Models.Entities
             }
             return nd.Ten;
         }
+        public string getFullName()
+        {
+            var nd = db.NguoiDungs.FirstOrDefault(x => x.MaNd == this.MaNd);
+            if (String.IsNullOrEmpty(nd.HoLot) && String.IsNullOrEmpty(nd.Ten))
+            {
+                return "user" + nd.MaNd.Substring(1, nd.MaNd.Length - 1);
+            }
+            return nd.HoLot + " " + nd.Ten;
+        }
         public string getImage()
         {
             var nd = db.NguoiDungs.FirstOrDefault(x => x.MaNd == this.MaNd);

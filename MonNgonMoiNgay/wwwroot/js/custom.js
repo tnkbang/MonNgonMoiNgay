@@ -378,7 +378,7 @@ $(function () {
 			data: form_data,
 			contentType: false,
 			processData: false,
-			success: function () {
+			success: function (data) {
 
 				//Làm rỗng list ảnh để thêm lần sau không bị chồng ảnh và làm rỗng các input nhập vào
 				loaiMon.value = "0";
@@ -391,7 +391,7 @@ $(function () {
 				diaChi.value = null;
 				clearImgChoose();
 
-				window.location.href = "/";
+				window.location.href = "/Post/Detail?id=" + data.ma;
 			},
 			error: function () {
 				getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')

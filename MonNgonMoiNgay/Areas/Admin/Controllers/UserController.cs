@@ -93,6 +93,8 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             }
             return Json(new { tt = false });
         }
+
+        //Bài đăng đã đẩy
         [Authorize]
         [HttpGet]
         public IActionResult ListDay()
@@ -100,16 +102,19 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             ViewBag.Day = "active-focus";
             ViewData["Push"] = (from bd in db.BaiDangs
                                 join dbd in db.DayBaiDangs on bd.MaBd equals dbd.MaBd
+                                where dbd.MaNd == User.Claims.First().Value
                                 orderby dbd.ThoiGian descending
                                 select bd).ToList();
             return View();
         }
+
+        //Bài đăng đã ẩn
         [Authorize]
         [HttpGet]
         public IActionResult ListAn()
         {
             ViewBag.An = "active-focus";
-            List<BaiDang> anbaidang = db.BaiDangs.Where(x => x.TrangThai == 0).ToList();
+            List<BaiDang> anbaidang = db.BaiDangs.Where(x => x.TrangThai == 0 && x.MaNd == User.Claims.First().Value).ToList();
             return View(anbaidang);
         }
 
@@ -118,7 +123,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> AnBaiDang(string id)
         {
-            var baidang = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaBd == id);
+            var baidang = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaBd == id && x.MaNd == User.Claims.First().Value);
 
             if (baidang != null && baidang.TrangThai != 0)
             {
@@ -128,13 +133,75 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
 
                 return Json(new { tt = true });
             }
-            else if (baidang != null && baidang.TrangThai == 0)
+            return Json(new { tt = false });
+        }
+
+        //Chức năng bỏ ẩn bài đăng của người dùng
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> BoAnBaiDang(string id)
+        {
+            var baidang = await db.BaiDangs.FirstOrDefaultAsync(x => x.MaBd == id && x.MaNd == User.Claims.First().Value);
+
+            if (baidang != null && baidang.TrangThai == 0)
             {
                 baidang.TrangThai = 1;
+
                 db.SaveChanges();
+
                 return Json(new { tt = true });
             }
             return Json(new { tt = false });
+        }
+
+        //Bài đăng đã lưu
+        [Authorize]
+        public IActionResult ListSave()
+        {
+            ViewBag.Save = "active-focus";
+            var luu = (from bd in db.BaiDangs
+                                join l in db.BaiDangDuocLuus on bd.MaBd equals l.MaBd
+                                where l.MaNd == User.Claims.First().Value
+                                orderby l.ThoiGian descending
+                                select bd).ToList();
+            return View(luu);
+        }
+
+        //Chức năng bỏ lưu bài đăng của người dùng
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> setBoLuuBaiDang(string id)
+        {
+            var baidang = await db.BaiDangDuocLuus.FirstOrDefaultAsync(x => x.MaBd == id && x.MaNd == User.Claims.First().Value);
+
+            if (baidang != null)
+            {
+                db.BaiDangDuocLuus.Remove(baidang);
+                db.SaveChanges();
+
+                return Json(new { tt = true });
+            }
+
+            return Json(new { tt = false });
+        }
+
+        //Chức năng xem phản hồi
+        [Authorize(Roles = "01, 03")]
+        public async Task<IActionResult> ViewPhanHoi(string? q, int? p)
+        {
+            ViewBag.PhanHoi = "active-focus";
+            var ph = from temp in db.PhanHois select temp;
+
+            //Lọc phản hồi
+            if (!String.IsNullOrEmpty(q))
+            {
+                ph = ph.Where(s => s.ChiMuc.Contains(q) || s.NoiDung.Contains(q) || s.MaNd.Contains(q) || s.MaPh.Contains(q));
+            }
+
+            //Số lượng phản hồi được trả về trên một trang
+            int pageSize = 10;
+
+            return View(await PaginatedList<PhanHoi>.CreateAsync(ph.AsNoTracking(), p ?? 1, pageSize));
         }
     }
 }

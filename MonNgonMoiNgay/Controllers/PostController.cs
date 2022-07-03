@@ -16,6 +16,7 @@ namespace MonNgonMoiNgay.Controllers
         {
             ViewData["LoaiMonAn"] = db.LoaiMonAns.ToList();
             ViewData["TinhTP"] = db.TinhTps.ToList();
+            ViewBag.DangBai = "active";
             return View();
         }
 
@@ -67,7 +68,7 @@ namespace MonNgonMoiNgay.Controllers
 
             db.SaveChanges();
 
-            return Json(new { tt = true });
+            return Json(new { ma = newPost.MaBd });
         }
 
         //Xử lý trả về quận huyện theo mã tỉnh
@@ -91,7 +92,7 @@ namespace MonNgonMoiNgay.Controllers
         }
 
         //Hiển thị trang detail bài đăng
-        [Authorize]
+        [AllowAnonymous]
         public IActionResult Detail(string id)
         {
             var baidang = db.BaiDangs.FirstOrDefault(x => x.MaBd == id);
@@ -101,7 +102,7 @@ namespace MonNgonMoiNgay.Controllers
                 return NotFound();
             }
 
-            ViewData["PostSimilar"] = db.BaiDangs.Where(x => x.MaLoai == baidang.MaLoai && x.TrangThai == 1).OrderByDescending(x => x.ThoiGian).ToList();
+            ViewData["PostSimilar"] = db.BaiDangs.Where(x => x.MaLoai == baidang.MaLoai && x.TrangThai == 1 && x.MaBd != id).OrderByDescending(x => x.ThoiGian).ToList();
             return View(baidang);
         }
 
@@ -163,6 +164,7 @@ namespace MonNgonMoiNgay.Controllers
         [Authorize]
         public IActionResult CreatePhanHoi()
         {
+            ViewBag.PhanHoi = "active";
             return View();
         }
 

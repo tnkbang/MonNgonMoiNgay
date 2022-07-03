@@ -3133,3 +3133,49 @@ ul.cart-list > li.total > .btn:hover {
     height: 22px;
     border-radius: 50%;
 }
+
+/* Custom Search bar */
+
+.searchbar {
+    margin-bottom: auto;
+    margin-top: auto;
+    border-radius: 40px;
+    margin: 0 20px;
+}
+
+.search_input {
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 0;
+    caret-color: transparent;
+    line-height: 40px;
+    transition: width 0.4s linear;
+}
+
+.searchbar:hover {
+    border: 1px solid;
+}
+
+.searchbar:hover .search_input {
+    padding-left: 10px;
+    width: 180px;
+    caret-color: red;
+    transition: width 0.4s linear;
+}
+
+.searchbar:hover .search_icon {
+    color: #e74c3c;
+}
+
+.search_icon {
+    height: 40px;
+    width: 40px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: black;
+    text-decoration: none;
+}

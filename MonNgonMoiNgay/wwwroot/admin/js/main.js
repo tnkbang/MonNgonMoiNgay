@@ -218,3 +218,81 @@ function setAnBaiDang(mabd, elm) {
 		}
 	})
 }
+
+//Hàm xử lý hủy ẩn bài đăng
+function setBoAnBaiDang(mabd, elm) {
+
+	event.preventDefault();
+
+	$.ajax({
+		url: 'BoAnBaiDang',
+		type: 'POST',
+		data: { id: mabd },
+		success: function (data) {
+			if (data.tt) {
+				$($(elm).parents()[2]).hide('slow')
+				getThongBao('success', 'Thành công', 'Bài đăng của bạn đã công khai với mọi người.')
+			}
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về server')
+		}
+	})
+}
+
+//Hàm xử lý đề cử bài đăng
+function setDeCuBaiDang(mabd, elm) {
+
+	event.preventDefault();
+
+	$.ajax({
+		url: '/Post/DeCuBaiDang',
+		type: 'POST',
+		data: { id: mabd },
+		success: function (data) {
+			if (data.tt) {
+				$(elm).addClass('disabled')
+				getThongBao('success', 'Thành công', 'Bạn có thể xem lại trong phần bài đăng đã đề cử !');
+			}
+			else {
+				getThongBao('warning', 'Thông báo', 'Bạn đã đề cử bài đăng này rồi !')
+			}
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+		}
+	})
+}
+
+//Xử lý tìm kiếm phản hồi
+$('#search-phanhoi').on('submit', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/ViewPhanHoi?q=' + $('#inp-search-phanhoi').val();
+})
+$('#btn-search-phanhoi').on('click', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/ViewPhanHoi?q=' + $('#inp-search-phanhoi').val();
+})
+
+//Hàm xử lý bỏ lưu bài đăng
+function setBoLuuBaiDang(mabd, elm) {
+	event.preventDefault();
+
+	$.ajax({
+		url: '/Admin/User/setBoLuuBaiDang',
+		type: 'POST',
+		data: { id: mabd },
+		success: function (data) {
+			if (data.tt) {
+				$($(elm).parents()[2]).hide('slow')
+				getThongBao('success', 'Thành công', 'Bỏ lưu bài đăng thành công !')
+			}
+			else {
+				getThongBao('error', 'Lỗi', 'Mã lệnh đã bị thay đổi !')
+			}
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về server')
+		}
+	})
+}

@@ -55,25 +55,18 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li class="search-contain input-group">
-                            <form role="search" class="sr-input-func" id="search-post">
-                                <input id="inp-search-post" type="text" placeholder="Tìm kiếm món ăn..." class="search-int form-control">
-                                <a href="#" id="btn-search-post"><i class="fa fa-search"></i></a>
-                            </form>
+                        <li class="nav-item">
+                            <div class="searchbar">
+                                <form role="search" id="search-post">
+                                    <input id="inp-search-post" class="search_input" type="text" name="" placeholder="Tìm kiếm món ăn...">
+                                    <a href="#" id="btn-search-post" class="search_icon"><i class="fas fa-search"></i></a>
+                                </form>
+                            </div>
                         </li>
                         <li class="nav-item @ViewBag.TrangChu"><a class="nav-link" href="/">Trang chủ</a></li>
-                        <li class="nav-item @ViewBag.BaiDang"><a class="nav-link" href="#">Bài đăng</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">DropDown</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">1111111</a></li>
-                                <li><a href="#">2222222222</a></li>
-                                <li><a href="#">333333333</a></li>
-                                <li><a href="#">444444444</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item @ViewBag.PhanHoi"><a class="nav-link" href="#">Phản hồi</a></li>
-                        <li class="nav-item @ViewBag.LienHe"><a class="nav-link" href="#">Liên hệ</a></li>
+                        <li class="nav-item @ViewBag.DangBai"><a class="nav-link" href="~/Post/CreateNew">Đăng bài</a></li>
+                        <li class="nav-item @ViewBag.PhanHoi"><a class="nav-link" href="~/Post/CreatePhanHoi">Phản hồi</a></li>
+                        <li class="nav-item @ViewBag.LienHe"><a class="nav-link" href="~/Home/LienHe">Liên hệ</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->

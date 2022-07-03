@@ -68,7 +68,7 @@
                         <table>
                             <tr>
                                 <th>Mã</th>
-                                <th>Image Avt</th>
+                                <th>Ảnh</th>
                                 <th>Họ Tên</th>
                                 <th>Email</th>
                                 <th>Ngày tạo</th>
@@ -80,7 +80,7 @@
                                 <tr>
                                     <td>@user.MaNd</td>
                                     <td><img src="@user.getImage()" alt="@user.HoLot @user.Ten" /></td>
-                                    <td>@user.HoLot @user.Ten</td>
+                                    <td>@user.getFullName()</td>
                                     <td>@user.Email</td>
                                     <td>@user.NgayTao?.ToString("dd/MM/yyyy")</td>
                                     <td>@{

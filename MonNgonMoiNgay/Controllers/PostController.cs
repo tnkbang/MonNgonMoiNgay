@@ -463,14 +463,14 @@ namespace MonNgonMoiNgay.Controllers
         // Hiện thị giỏ hàng
         public IActionResult Cart()
         {
+            ViewBag.GioHang = "active-focus";
             return View(GetCartItems());
         }
 
-
+        // Xử lý khi đặt hàng
         public IActionResult CheckOut()
         {
-            // Xử lý khi đặt hàng
-            return View();
+            return NotFound();
         }
     }
 }

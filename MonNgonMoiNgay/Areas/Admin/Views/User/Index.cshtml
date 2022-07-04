@@ -47,7 +47,14 @@
                         <div class="product-buttons">
                             <button onclick="javascript: window.location.href = '/Post/Detail?id=@item.MaBd';" data-toggle="tooltip" title="Xem chi tiết" class="button-default cart-btn">Xem</button>
                             <button data-toggle="tooltip" title="Đẩy bài đăng" onclick="setDayBaiDang('@item.MaBd', this)" class="button-default cart-btn">Đẩy</button>
-                            <button class="button-default cart-btn"  data-toggle="tooltip" title="Ẩn với mọi người" onclick="setAnBaiDang('@item.MaBd', this)">Ẩn</button>
+                            @if (item.isHide())
+                            {
+                                <button class="button-default cart-btn" data-toggle="tooltip" title="Ẩn với mọi người">Đã Ẩn</button>
+                            }
+                            else
+                            {
+                                <button class="button-default cart-btn"  data-toggle="tooltip" title="Ẩn với mọi người" onclick="setAnBaiDang('@item.MaBd', this)">Ẩn</button>   
+                            }
                         </div>
                     </div>
                 </div>

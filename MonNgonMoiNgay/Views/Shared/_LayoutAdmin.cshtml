@@ -106,16 +106,19 @@
                             <a title="Quản lý bài đăng" href="/Admin/User/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.QLPost">QL Bài đăng</span></a>
                         </li>
                         <li>
-                            <a title="Bài đăng đã thích" href="/Admin/Home/BaiDangYeuThich" aria-expanded="false"><span class="fa fa-heart-o icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.YeuThich">Bài đăng yêu thích</span></a>
-                        </li>
-                        <li>
                             <a title="Bài đăng đã ẩn" href="/Admin/User/ListAn" aria-expanded="false"><span class="fa fa-eye-slash icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.An">Bài đăng đã ẩn</span></a>
                         </li>
                         <li>
                             <a title="Bài đăng đã đẩy" href="/Admin/User/ListDay" aria-expanded="false"><span class="educate-icon educate-interface icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.Day">Bài đăng đã đẩy</span></a>
                         </li>
                         <li>
+                            <a title="Bài đăng đã thích" href="/Admin/Home/BaiDangYeuThich" aria-expanded="false"><span class="fa fa-heart-o icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.YeuThich">Bài đăng yêu thích</span></a>
+                        </li>
+                        <li>
                             <a title="Bài đăng đã lưu" href="/Admin/User/ListSave" aria-expanded="false"><span class="fa fa-bookmark-o icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.Save">Bài đăng đã lưu</span></a>
+                        </li>
+                        <li>
+                            <a title="Giỏ hàng" href="/Post/Cart" aria-expanded="false"><span class="fa fa-shopping-cart icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.GioHang">Giỏ hàng</span></a>
                         </li>
                         <li>
                             <a title="Thống kê" href="#" aria-expanded="false"><span class="educate-icon educate-charts icon-wrap" aria-hidden="true"></span> <span class="mini-click-non @ViewBag.ThongKe">Thống kê</span></a>
@@ -229,11 +232,12 @@
                                         {
                                             <li><a href="/Admin/User/ViewPhanHoi">Xem phản hồi</a></li>
                                         }
-                                        <li><a href="#">Ql Bài đăng</a></li>
-                                        <li><a href="/Admin/Home/BaiDangYeuThich">BĐ yêu thích</a></li>
+                                        <li><a href="/Admin/User/Index">Ql Bài đăng</a></li>
                                         <li><a href="/Admin/User/ListAn">BĐ đã ẩn</a></li>
                                         <li><a href="/Admin/User/ListDay">BĐ đã đẩy</a></li>
+                                        <li><a href="/Admin/Home/BaiDangYeuThich">BĐ yêu thích</a></li>
                                         <li><a href="/Admin/User/ListSave">BĐ đã lưu</a></li>
+                                        <li><a href="/Post/Cart">Giỏ hàng</a></li>
                                         <li><a href="#">Thống kê</a></li>
                                     </ul>
                                 </nav>
@@ -356,7 +360,6 @@
             })
         </script>
     }
-    @RenderSection("scripts", required:false)
 </body>
 
 </html>

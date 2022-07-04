@@ -81,5 +81,11 @@ namespace MonNgonMoiNgay.Models.Entities
             if (liked != null) return true;
             return false;
         }
+
+        public bool isHide()
+        {
+            var hide = db.BaiDangs.FirstOrDefault(x => x.MaBd == this.MaBd);
+            return hide.TrangThai == 0 ? true : false;
+        }
     }
 }

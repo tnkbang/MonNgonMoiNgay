@@ -164,12 +164,6 @@ $('#confirm-lock-user').on('click', function () {
 })
 
 
-
-
-
-
-
-
 //My Custom
 
 //Hàm xử lý đẩy bài đăng
@@ -206,7 +200,7 @@ function setAnBaiDang(mabd, elm) {
 		data: { id: mabd },
 		success: function (data) {
 			if (data.tt) {
-				$(elm).addClass('disabled')
+				$(elm).toggle('slow');
 				getThongBao('success', 'Thành công', 'Bạn có thể xem lại trong mục bài đăng của tôi')
 			}
 			else {
@@ -319,3 +313,21 @@ function setBoThichBaiDang(mabd, elm) {
 		}
 	})
 }
+
+//Xử lý cập nhật giỏ hàng
+$(".updatecartitem").click(function (event) {
+	event.preventDefault();
+	var Mabd = $(this).attr("data-productid");
+	var quantity = $("#quantity-" + Mabd).val();
+	$.ajax({
+		type: "POST",
+		url: "/Post/UpdateCart",
+		data: {
+			id: Mabd,
+			quantity: quantity
+		},
+		success: function (result) {
+			window.location.reload();
+		}
+	});
+});

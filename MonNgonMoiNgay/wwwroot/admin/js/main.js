@@ -296,3 +296,26 @@ function setBoLuuBaiDang(mabd, elm) {
 		}
 	})
 }
+
+//Hàm xử lý bỏ thích bài đăng
+function setBoThichBaiDang(mabd, elm) {
+	event.preventDefault();
+
+	$.ajax({
+		url: '/Admin/Home/setBoThichBaiDang',
+		type: 'POST',
+		data: { id: mabd },
+		success: function (data) {
+			if (data.tt) {
+				$($(elm).parents()[2]).hide('slow')
+				getThongBao('success', 'Thành công', 'Bỏ thích bài đăng thành công !')
+			}
+			else {
+				getThongBao('error', 'Lỗi', 'Mã lệnh đã bị thay đổi !')
+			}
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về server')
+		}
+	})
+}

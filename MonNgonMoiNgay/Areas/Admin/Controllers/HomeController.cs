@@ -27,6 +27,24 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             return View(bd);
         }
 
+        //Chức năng bỏ thích bài đăng của người dùng
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> setBoThichBaiDang(string id)
+        {
+            var yt = await db.YeuThichBaiDangs.FirstOrDefaultAsync(x => x.MaBd == id && x.MaNd == User.Claims.First().Value);
+
+            if (yt != null)
+            {
+                db.YeuThichBaiDangs.Remove(yt);
+                db.SaveChanges();
+
+                return Json(new { tt = true });
+            }
+
+            return Json(new { tt = false });
+        }
+
         public IActionResult BaiDangDeCu()
         {
             ViewBag.DeCu = "active-focus";

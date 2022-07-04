@@ -4,6 +4,7 @@
 
 }
 @model List<MonNgonMoiNgay.Models.Entities.BaiDang>
+@using MonNgonMoiNgay.Models.Entities
 
 <div class="breadcome-area">
     <div class="container-fluid">
@@ -46,6 +47,7 @@
                         </div>
                         <div class="product-buttons">
                             <button onclick="javascript: window.location.href = '/Post/Detail?id=@item.MaBd';" data-toggle="tooltip" title="Xem chi tiết" class="button-default cart-btn">Xem</button>
+                            <button data-toggle="tooltip" title="Chỉnh sửa" onclick="setEditPost('@item.MaBd')" class="button-default cart-btn">Sửa</button>
                             <button data-toggle="tooltip" title="Đẩy bài đăng" onclick="setDayBaiDang('@item.MaBd', this)" class="button-default cart-btn">Đẩy</button>
                             @if (item.isHide())
                             {
@@ -59,6 +61,48 @@
                     </div>
                 </div>
             }
+        </div>
+    </div>
+</div>
+
+<!-- Popup edit post-->
+<div id="modal-edit-post" class="modal modal-edu-general Customwidth-popup-WarningModal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-close-area modal-close-df">
+                <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="modal-body">
+                <h2 id="modal-change-pass-title">Chỉnh sửa bài đăng</h2>
+                <form id="frm-edit-post" method="post">
+                    <label class="form-group has-float-label">
+                        <select id="pst-edit-loai" required class="form-control custom-select">
+                            <option value="0" selected>Chọn loại món</option>
+                            @foreach (var loai in ViewData["LoaiMonAn"] as List<LoaiMonAn>)
+                            {
+                                <option value="@loai.MaLoai">@loai.TenLoai</option>
+                            }
+                        </select>
+                        <span>Loại Món</span>
+                    </label>
+                    <div class="form-group has-float-label">
+                        <input class="form-control" id="pst-edit-ten" required type="text" maxlength="50" placeholder="Nhập tên món ăn..." />
+                        <label for="pst-edit-ten">Tên Món</label>
+                    </div>
+                    <div class="form-group has-float-label">
+                        <input class="form-control" id="pst-edit-giatien" required type="text" maxlength="8" name="number" placeholder="Nhập giá tiền..." />
+                        <label for="pst-edit-giatien">Giá Tiền</label>
+                    </div>
+                    <div class="form-group has-float-label">
+                        <textarea class="form-control" id="pst-edit-mota" required rows="8" maxlength="500" placeholder="Nhập mô tả món ăn...."></textarea>
+                        <label for="pst-edit-mota">Mô Tả</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer warning-md">
+                <a id="cancel-edit-post" data-dismiss="modal" href="#" class="cancel">Nghĩ lại</a>
+                <a id="confirm-edit-post" href="#">Xác nhận</a>
+            </div>
         </div>
     </div>
 </div>

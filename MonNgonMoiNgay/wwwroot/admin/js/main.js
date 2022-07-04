@@ -331,3 +331,77 @@ $(".updatecartitem").click(function (event) {
 		}
 	});
 });
+
+//Chỉnh sửa bài đăng
+var maPostEdit = "";
+
+//Hiển popup chỉnh sửa bài đăng
+function setEditPost(ma) {
+	maPostEdit = ma;
+	var loaiMon = document.getElementById('pst-edit-loai');
+	var tenMon = document.getElementById('pst-edit-ten');
+	var giaTien = document.getElementById('pst-edit-giatien');
+	var moTa = document.getElementById('pst-edit-mota');
+
+	$.ajax({
+		type: "POST",
+		url: "/Post/getInfoPost",
+		data: { ma: ma },
+		success: function (data) {
+			console.log(data.info.tenMon)
+			loaiMon.value = data.info.maLoai;
+			tenMon.value = data.info.tenMon;
+			giaTien.value = data.info.giaTien;
+			moTa.value = data.info.moTa
+
+			$('#pst-edit-giatien').number(true, 0, ',', '.');
+			$('#modal-edit-post').modal('show')
+		}
+	});
+}
+
+//Định dạng số tiền
+$('#pst-edit-giatien').number(true, 0, ',', '.');
+
+//Xử lý chỉnh sửa bài đăng.
+$('#confirm-edit-post').on('click', function () {
+	var loaiMon = document.getElementById('pst-edit-loai');
+	var tenMon = document.getElementById('pst-edit-ten');
+	var moTa = document.getElementById('pst-edit-mota');
+
+	//Kiểm tra loại món đã được chọn
+	if (loaiMon.value == "0") {
+		getThongBao('error', 'Lỗi', 'Vui lòng chọn loại món!')
+		return;
+	}
+
+	var form_data = new FormData();
+	form_data.append('ma', maPostEdit);
+	form_data.append('loai', loaiMon.value);
+	form_data.append('ten', tenMon.value);
+	form_data.append('gia', $('#pst-edit-giatien').val());
+	form_data.append('mota', moTa.value);
+
+	//Gọi ajax xử lý tạo post
+	$.ajax({
+		url: '/Post/getEditPost',
+		type: 'POST',
+		data: form_data,
+		contentType: false,
+		processData: false,
+		success: function (data) {
+			if (data.tt) {
+				$('#modal-edit-post').modal('hide')
+				maPostEdit = "";
+				window.location.href = "/Post/Detail?id=" + maPostEdit;
+				//window.location.reload();
+			}
+			else {
+				getThongBao('error', 'Lỗi', 'Mã nguồn đã bị thay đổi !')
+            }
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+		}
+	})
+})

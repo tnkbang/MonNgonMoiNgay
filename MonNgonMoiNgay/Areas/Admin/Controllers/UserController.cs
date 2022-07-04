@@ -65,6 +65,8 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            ViewData["LoaiMonAn"] = db.LoaiMonAns.ToList();
+            ViewData["TinhTP"] = db.TinhTps.ToList();
             ViewBag.QLPost = "active-focus";
             //ViewData["listbd"] = db.BaiDangs.Where(s => s.MaNd == User.Claims.ToList()[0].Value).ToList();
             List<BaiDang> bai = db.BaiDangs.Where(s => s.MaNd == User.Claims.ToList()[0].Value).ToList();

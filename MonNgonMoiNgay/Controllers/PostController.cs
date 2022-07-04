@@ -71,6 +71,37 @@ namespace MonNgonMoiNgay.Controllers
             return Json(new { ma = newPost.MaBd });
         }
 
+        //Lấy thông tin bài đăng
+        [HttpPost]
+        [Authorize]
+        public IActionResult getInfoPost(string ma)
+        {
+            var post = db.BaiDangs.FirstOrDefault(x => x.MaBd == ma);
+            if (post == null) return Json(new { tt = false });
+
+            return Json(new { info = post });
+        }
+
+        //Chỉnh sửa bài đăng
+        [HttpPost]
+        [Authorize]
+        public IActionResult getEditPost( string ma, string loai, string ten, int gia, string mota, string xp, string diachi)
+        {
+            var post = db.BaiDangs.FirstOrDefault(x => x.MaBd == ma);
+            if (post == null) return Json(new { tt = false });
+
+            post.MaLoai = loai;
+            post.TenMon = ten;
+            post.GiaTien = gia;
+            post.MoTa = mota;
+            post.MaXp = xp;
+            post.DiaChi = diachi;
+
+            db.SaveChanges();
+
+            return Json(new { tt = true });
+        }
+
         //Xử lý trả về quận huyện theo mã tỉnh
         [HttpPost]
         [Authorize]

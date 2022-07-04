@@ -348,7 +348,6 @@ function setEditPost(ma) {
 		url: "/Post/getInfoPost",
 		data: { ma: ma },
 		success: function (data) {
-			console.log(data.info.tenMon)
 			loaiMon.value = data.info.maLoai;
 			tenMon.value = data.info.tenMon;
 			giaTien.value = data.info.giaTien;

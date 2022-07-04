@@ -352,6 +352,10 @@ $('#passRe').on('change', function () {
 $('#confirm-change-pass').on('click', function () {
     var passRe = document.getElementById('passRe');
     var passOld = document.getElementById('passOld');
+    var passNew = document.getElementById('passNew');
+    var lblpassRe = document.getElementById('lbl-passRe');
+    var lblpassOld = document.getElementById('lbl-passOld');
+    var lblpassNew = document.getElementById('lbl-passNew');
     if (isChangePassOld && isChangePassNew && isChangePassRe) {
         $.ajax({
             url: '/Account/updatePass',
@@ -360,9 +364,20 @@ $('#confirm-change-pass').on('click', function () {
             success: function (data) {
                 if (data.tt) {
                     getThongBao('success', 'Thành công', 'Đổi mật khẩu thành công !')
-                    setTimeout(function () {
-                        window.location.reload();
-                    }, 1000);
+
+                    passOld.value = null;
+                    passRe.value = null;
+                    passNew.value = null;
+
+                    lblpassOld.style.color = '#333333';
+                    lblpassRe.style.color = '#333333';
+                    lblpassNew.style.color = '#333333';
+
+                    passOld.style.borderColor = '#e5e6e7';
+                    passRe.style.borderColor = '#e5e6e7';
+                    passNew.style.borderColor = '#e5e6e7';
+
+                    $('#modal-change-pass').modal('hide');
                 }
             },
             error: function () {

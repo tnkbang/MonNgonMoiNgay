@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 
 namespace MonNgonMoiNgay.Controllers
 {
-    [Authorize]
     public class PostController : Controller
     {
         MonNgonMoiNgayContext db = new MonNgonMoiNgayContext();
@@ -122,7 +121,7 @@ namespace MonNgonMoiNgay.Controllers
         }
 
         //Hiển thị trang detail bài đăng
-        [AllowAnonymous]
+        [Authorize]
         public IActionResult Detail(string id)
         {
             var baidang = db.BaiDangs.FirstOrDefault(x => x.MaBd == id);
@@ -458,6 +457,7 @@ namespace MonNgonMoiNgay.Controllers
             return Json(new { ma = product.MaBd, ten = product.TenMon, img = product.getOneImage(), sl = 1, gia = product.GiaTien, tong = total.ToString("n0"), count = GetCartItems().Count });
         }
 
+        [Authorize]
         // xóa item trong cart
         public IActionResult RemoveCart(string id)
         {
@@ -490,6 +490,7 @@ namespace MonNgonMoiNgay.Controllers
             return RedirectToAction(nameof(Cart));
         }
 
+        [Authorize]
         // Hiện thị giỏ hàng
         public IActionResult Cart()
         {
@@ -497,6 +498,7 @@ namespace MonNgonMoiNgay.Controllers
             return View(GetCartItems());
         }
 
+        [Authorize]
         // Xử lý khi đặt hàng
         public IActionResult CheckOut()
         {

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace MonNgonMoiNgay.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
         MonNgonMoiNgayContext db = new MonNgonMoiNgayContext();

@@ -412,9 +412,9 @@ namespace MonNgonMoiNgay.Controllers
             session.SetString(CARTKEY, jsoncart);
         }
 
-        [Authorize]
         // Thêm sản phẩm vào cart
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult AddToCart(string id)
         {
             //Kiểm tra tồn tại cart hay chưa

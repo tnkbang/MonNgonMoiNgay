@@ -87,5 +87,20 @@ namespace MonNgonMoiNgay.Models.Entities
             var hide = db.BaiDangs.FirstOrDefault(x => x.MaBd == this.MaBd);
             return hide.TrangThai == 0 ? true : false;
         }
+
+        public string getTenLoai()
+        {
+            var loai = db.LoaiMonAns.FirstOrDefault(x => x.MaLoai == this.MaLoai);
+            return loai.TenLoai;
+        }
+
+        public string getFullAddress()
+        {
+            var xp = db.XaPhuongs.FirstOrDefault(x => x.MaXp == this.MaXp);
+            var qh = db.QuanHuyens.FirstOrDefault(x => x.MaQh == xp.MaQh);
+            var tp = db.TinhTps.FirstOrDefault(x => x.MaTp == qh.MaTp);
+
+            return this.DiaChi + " - " + xp.TenXp + " - " + qh.TenQh + " - " + tp.TenTp;
+        }
     }
 }

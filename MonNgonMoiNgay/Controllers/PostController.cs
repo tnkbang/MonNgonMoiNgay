@@ -85,7 +85,7 @@ namespace MonNgonMoiNgay.Controllers
         //Chỉnh sửa bài đăng
         [HttpPost]
         [Authorize]
-        public IActionResult getEditPost( string ma, string loai, string ten, int gia, string mota, string xp, string diachi)
+        public IActionResult getEditPost( string ma, string loai, string ten, int gia, string mota)
         {
             var post = db.BaiDangs.FirstOrDefault(x => x.MaBd == ma);
             if (post == null) return Json(new { tt = false });
@@ -94,8 +94,6 @@ namespace MonNgonMoiNgay.Controllers
             post.TenMon = ten;
             post.GiaTien = gia;
             post.MoTa = mota;
-            post.MaXp = xp;
-            post.DiaChi = diachi;
 
             db.SaveChanges();
 

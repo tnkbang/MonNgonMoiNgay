@@ -182,7 +182,7 @@
                                                             <div class="course-des">
                                                                 <p><b>Mô tả:</b> @post.MoTa</p>
                                                                 <p><b>Giá tiền:</b> @post.GiaTien.ToString("n0") VNĐ</p>
-                                                                <p><b>Địa chỉ:</b> @post.DiaChi</p>
+                                                                <p><b>Địa chỉ:</b> @post.getFullAddress()</p>
                                                             </div>
                                                             <div class="product-buttons">
                                                                 <a href="~/Post/Detail?id=@post.MaBd" class="button-default cart-btn">Xem chi tiết</a>
@@ -223,7 +223,7 @@
                                                             <div class="course-des">
                                                                 <p><b>Mô tả:</b> @post.MoTa</p>
                                                                 <p><b>Giá tiền:</b> @post.GiaTien.ToString("n0") VNĐ</p>
-                                                                <p><b>Địa chỉ:</b> @post.DiaChi</p>
+                                                                <p><b>Địa chỉ:</b> @post.getFullAddress()</p>
                                                             </div>
                                                             <div class="product-buttons">
                                                                 <a href="~/Post/Detail?id=@post.MaBd" class="button-default cart-btn">Xem chi tiết</a>
@@ -264,7 +264,7 @@
                                                             <div class="course-des">
                                                                 <p><b>Mô tả:</b> @post.MoTa</p>
                                                                 <p><b>Giá tiền:</b> @post.GiaTien.ToString("n0") VNĐ</p>
-                                                                <p><b>Địa chỉ:</b> @post.DiaChi</p>
+                                                                <p><b>Địa chỉ:</b> @post.getFullAddress()</p>
                                                             </div>
                                                             <div class="product-buttons">
                                                                 <a href="~/Post/Detail?id=@post.MaBd" class="button-default cart-btn">Xem chi tiết</a>

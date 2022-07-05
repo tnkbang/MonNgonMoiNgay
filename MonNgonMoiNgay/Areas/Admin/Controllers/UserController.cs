@@ -63,13 +63,22 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             return user != null ? View(user) : NotFound();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? q)
         {
             ViewData["LoaiMonAn"] = db.LoaiMonAns.ToList();
             ViewData["TinhTP"] = db.TinhTps.ToList();
             ViewBag.QLPost = "active-focus";
-            //ViewData["listbd"] = db.BaiDangs.Where(s => s.MaNd == User.Claims.ToList()[0].Value).ToList();
+
             List<BaiDang> bai = db.BaiDangs.Where(s => s.MaNd == User.Claims.ToList()[0].Value).ToList();
+
+            //Lọc bài đăng
+            if (!String.IsNullOrEmpty(q))
+            {
+                bai = bai.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
+            }
+
+            bai.OrderByDescending(x => x.ThoiGian).ToList();
+
             return View(bai);
         }
 
@@ -99,24 +108,40 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
         //Bài đăng đã đẩy
         [Authorize]
         [HttpGet]
-        public IActionResult ListDay()
+        public IActionResult ListDay(string? q)
         {
             ViewBag.Day = "active-focus";
-            ViewData["Push"] = (from bd in db.BaiDangs
+            var baidang = (from bd in db.BaiDangs
                                 join dbd in db.DayBaiDangs on bd.MaBd equals dbd.MaBd
                                 where dbd.MaNd == User.Claims.First().Value
                                 orderby dbd.ThoiGian descending
                                 select bd).ToList();
-            return View();
+
+            //Lọc bài đăng
+            if (!String.IsNullOrEmpty(q))
+            {
+                baidang = baidang.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
+            }
+
+            return View(baidang);
         }
 
         //Bài đăng đã ẩn
         [Authorize]
         [HttpGet]
-        public IActionResult ListAn()
+        public IActionResult ListAn(string? q)
         {
             ViewBag.An = "active-focus";
             List<BaiDang> anbaidang = db.BaiDangs.Where(x => x.TrangThai == 0 && x.MaNd == User.Claims.First().Value).ToList();
+
+            //Lọc bài đăng
+            if (!String.IsNullOrEmpty(q))
+            {
+                anbaidang = anbaidang.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
+            }
+
+            anbaidang.OrderByDescending(x => x.ThoiGian).ToList();
+
             return View(anbaidang);
         }
 
@@ -158,7 +183,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
 
         //Bài đăng đã lưu
         [Authorize]
-        public IActionResult ListSave()
+        public IActionResult ListSave(string? q)
         {
             ViewBag.Save = "active-focus";
             var luu = (from bd in db.BaiDangs
@@ -166,6 +191,15 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
                                 where l.MaNd == User.Claims.First().Value
                                 orderby l.ThoiGian descending
                                 select bd).ToList();
+
+            //Lọc bài đăng
+            if (!String.IsNullOrEmpty(q))
+            {
+                luu = luu.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
+            }
+
+            luu.OrderByDescending(x => x.ThoiGian).ToList();
+
             return View(luu);
         }
 

@@ -16,14 +16,22 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             return View(bd);
         }
 
-        public IActionResult BaiDangYeuThich()
+        public IActionResult BaiDangYeuThich(string? q)
         {
             ViewBag.YeuThich = "active-focus";
             var bd = (from baidang in db.BaiDangs
                       join yeuthich in db.YeuThichBaiDangs on baidang.MaBd equals yeuthich.MaBd
                       where yeuthich.MaNd == User.Claims.First().Value
-                      orderby yeuthich.ThoiGian descending
                       select baidang).ToList();
+
+            //Lọc yêu thích
+            if (!String.IsNullOrEmpty(q))
+            {
+                bd = bd.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
+            }
+
+            bd.OrderByDescending(x => x.ThoiGian).ToList();
+
             return View(bd);
         }
 
@@ -45,10 +53,19 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             return Json(new { tt = false });
         }
 
-        public IActionResult BaiDangDeCu()
+        public IActionResult BaiDangDeCu(string? q)
         {
             ViewBag.DeCu = "active-focus";
-            var bd = db.BaiDangs.OrderByDescending(x => x.ThoiGian).ToList();
+            var bd = db.BaiDangs.Where(x => x.TrangThai == 1).ToList();
+
+            //Lọc đề cử
+            if (!String.IsNullOrEmpty(q))
+            {
+                bd = bd.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
+            }
+
+            bd.OrderByDescending(x => x.ThoiGian).ToList();
+
             return View(bd);
         }
     }

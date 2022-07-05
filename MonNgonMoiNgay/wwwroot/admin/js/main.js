@@ -381,7 +381,7 @@ $('#confirm-edit-post').on('click', function () {
 	form_data.append('gia', $('#pst-edit-giatien').val());
 	form_data.append('mota', moTa.value);
 
-	//Gọi ajax xử lý tạo post
+	//Gọi ajax xử lý chỉnh sửa
 	$.ajax({
 		url: '/Post/getEditPost',
 		type: 'POST',
@@ -391,9 +391,9 @@ $('#confirm-edit-post').on('click', function () {
 		success: function (data) {
 			if (data.tt) {
 				$('#modal-edit-post').modal('hide')
-				maPostEdit = "";
 				window.location.href = "/Post/Detail?id=" + maPostEdit;
 				//window.location.reload();
+				maPostEdit = "";
 			}
 			else {
 				getThongBao('error', 'Lỗi', 'Mã nguồn đã bị thay đổi !')
@@ -403,4 +403,64 @@ $('#confirm-edit-post').on('click', function () {
 			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
 		}
 	})
+})
+
+//Xử lý tìm kiếm đề cử
+$('#search-decu').on('submit', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/Home/BaiDangDeCu?q=' + $('#inp-search-decu').val();
+})
+$('#btn-search-decu').on('click', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/Home/BaiDangDeCu?q=' + $('#inp-search-decu').val();
+})
+
+//Xử lý tìm kiếm yêu thích
+$('#search-yeuthich').on('submit', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/Home/BaiDangYeuThich?q=' + $('#inp-search-yeuthich').val();
+})
+$('#btn-search-yeuthich').on('click', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/Home/BaiDangYeuThich?q=' + $('#inp-search-yeuthich').val();
+})
+
+//Xử lý tìm kiếm bài đăng tại trang quản lý
+$('#search-index').on('submit', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/Index?q=' + $('#inp-search-index').val();
+})
+$('#btn-search-index').on('click', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/Index?q=' + $('#inp-search-index').val();
+})
+
+//Xử lý tìm kiếm tại trang ẩn
+$('#search-an').on('submit', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/ListAn?q=' + $('#inp-search-an').val();
+})
+$('#btn-search-an').on('click', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/ListAn?q=' + $('#inp-search-an').val();
+})
+
+//Xử lý tìm kiếm tại trang đẩy
+$('#search-day').on('submit', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/ListDay?q=' + $('#inp-search-day').val();
+})
+$('#btn-search-day').on('click', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/ListDay?q=' + $('#inp-search-day').val();
+})
+
+//Xử lý tìm kiếm tại trang lưu
+$('#search-luu').on('submit', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/ListSave?q=' + $('#inp-search-luu').val();
+})
+$('#btn-search-luu').on('click', function () {
+	event.preventDefault();
+	window.location.href = '/Admin/User/ListSave?q=' + $('#inp-search-luu').val();
 })

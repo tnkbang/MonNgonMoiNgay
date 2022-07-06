@@ -100,5 +100,11 @@ namespace MonNgonMoiNgay.Controllers
 
             return View(await PaginatedList<BaiDang>.CreateAsync(lb.AsNoTracking(), p ?? 1, pageSize));
         }
+
+        [AllowAnonymous]
+        public IActionResult LienHe()
+        {
+            return View();
+        }
     }
 }

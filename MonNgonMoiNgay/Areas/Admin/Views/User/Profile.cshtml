@@ -13,7 +13,10 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="breadcome-heading">
                                 <a href="~/Admin/Home/Index">Trang quản trị</a> <span class="bread-slash">/</span>
-                                <a href="~/Admin/User/List">DS người dùng</a> <span class="bread-slash">/</span>
+                                @if (User.Claims.ToList()[2].Value.Equals("Admin"))
+                                {
+                                    <a href="~/Admin/User/List">DS người dùng</a> <span class="bread-slash">/</span>
+                                }
                                 <span class="bread-blod">Thông tin</span>
                             </div>
                         </div>

@@ -250,7 +250,7 @@ $('#user-update-info').on('submit', function () {
         processData: false,
         success: function (data) {
             if (data.tt) {
-                history.back();
+                window.location = document.referrer;
             }
         },
         error: function () {

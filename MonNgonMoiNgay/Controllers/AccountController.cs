@@ -181,28 +181,31 @@ namespace MonNgonMoiNgay.Controllers
             user.Sdt = sdt;
             user.DiaChi = diachi;
 
-            //Khai báo đường dẫn lưu file
-            var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\wwwroot\\Content\\Images\\UserAvt\\");
-            bool basePathExists = Directory.Exists(basePath);
-
-            var fileName = "avt-" + user.MaNd + "-" + DateTime.Now.Millisecond + ".jpg";
-            var filePath = Path.Combine(basePath, fileName);
-
-            //Xóa file cũ khỏi server
-            if(!String.IsNullOrEmpty(user.ImgAvt) && System.IO.File.Exists(Path.Combine(basePath, user.ImgAvt)))
+            if(imgavt != null)
             {
-                System.IO.File.Delete(basePath + user.ImgAvt);
-            }
+                //Khai báo đường dẫn lưu file
+                var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\wwwroot\\Content\\Images\\UserAvt\\");
+                bool basePathExists = Directory.Exists(basePath);
 
-            //Thêm file vào server và cập nhật vào csdl
-            if (fileName != null && !System.IO.File.Exists(filePath))
-            {
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                var fileName = "avt-" + user.MaNd + "-" + DateTime.Now.Millisecond + ".jpg";
+                var filePath = Path.Combine(basePath, fileName);
+
+                //Xóa file cũ khỏi server
+                if (!String.IsNullOrEmpty(user.ImgAvt) && System.IO.File.Exists(Path.Combine(basePath, user.ImgAvt)))
                 {
-                    await imgavt.CopyToAsync(stream);
+                    System.IO.File.Delete(basePath + user.ImgAvt);
                 }
 
-                user.ImgAvt = fileName;
+                //Thêm file vào server và cập nhật vào csdl
+                if (fileName != null && !System.IO.File.Exists(filePath))
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imgavt.CopyToAsync(stream);
+                    }
+
+                    user.ImgAvt = fileName;
+                }
             }
 
             db.SaveChanges();

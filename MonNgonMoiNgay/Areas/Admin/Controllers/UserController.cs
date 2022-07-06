@@ -38,7 +38,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
             //      nd.AsNoTracking() là danh sách người dùng chỉ xem
             //      p là trang muốn hiển thị, ở đây nếu không nhập thì ngầm hiểu trang hiển thị là 1 tức là trang đầu
             //      pageSize là số số lượng người hiển thị trên trang
-            return View(await PaginatedList<NguoiDung>.CreateAsync(nd.AsNoTracking(), p ?? 1, pageSize));
+            return View(await PaginatedList<NguoiDung>.CreateAsync(nd.OrderByDescending(x => x.NgayTao).AsNoTracking(), p ?? 1, pageSize));
         }
 
         //Khóa hoặc mở khóa người dùng

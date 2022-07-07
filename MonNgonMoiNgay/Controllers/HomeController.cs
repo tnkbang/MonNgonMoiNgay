@@ -24,18 +24,19 @@ namespace MonNgonMoiNgay.Controllers
             public string MaBd;
         };
 
-        //Struc đếm sl bài đăng công khai của 1 người dùng
-        struct DemBD
-        {
-            public int sl;
-            public string MaNd;
-        };
-
         [AllowAnonymous]
         public IActionResult Index()
         {
-            //Tạo ViewData cho bài đăng mới đăng (trong vòng 7 ngày) và bài đăng được đề cử bởi Admin hoặc nhân viên
-            ViewData["PostNew"] = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).OrderByDescending(x => x.ThoiGian).ToList();
+            //Tạo ViewData cho bài đăng mới đăng (trong vòng 7 ngày)
+            List<BaiDang> lstNew = db.BaiDangs.Where(x => x.ThoiGian.AddDays(7) >= DateTime.Now && x.TrangThai == 1).OrderByDescending(x => x.ThoiGian).ToList();
+            List<BaiDang> lstDay = (from bd in db.BaiDangs
+                                    join day in db.DayBaiDangs on bd.MaBd equals day.MaBd
+                                    where day.ThoiGian.AddDays(7) >= DateTime.Now && bd.TrangThai == 1
+                                    orderby bd.ThoiGian descending
+                                    select bd).ToList();
+            lstNew.AddRange(lstDay);
+            ViewData["PostNew"] = lstNew.DistinctBy(x => x.MaBd).OrderByDescending(x => x.ThoiGian).ToList();
+
 
             //Bài đăng được đề xuất
             ViewData["PostVote"] = (from bd in db.BaiDangs
@@ -61,11 +62,11 @@ namespace MonNgonMoiNgay.Controllers
                 slyt.Add(new DemYT { MaBd = bd.MaBd, sl = temp });
             }
 
-            //Sắp xếp lượt yêu thích từ cao đến thấp
-            slyt.OrderByDescending(x => x.sl).Take(20);
+            //Sắp xếp lượt yêu thích từ cao đến thấp và loại bỏ giá trị trùng và chỉ lấy 20 giá trị
+            slyt = slyt.DistinctBy(x => x.MaBd).OrderByDescending(x => x.sl).Take(20).ToList();
 
             //Chạy lặp gán bài đăng vào result
-            foreach(var yt in slyt)
+            foreach (var yt in slyt)
             {
                 var temp = db.BaiDangs.FirstOrDefault(x => x.MaBd == yt.MaBd);
                 result.Add(temp);

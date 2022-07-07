@@ -131,6 +131,12 @@ namespace MonNgonMoiNgay.Controllers
                 return NotFound();
             }
 
+            if(baidang.TrangThai != 1)
+            {
+
+                return Redirect("/Access/Denied");
+            }
+
             ViewData["PostSimilar"] = db.BaiDangs.Where(x => x.MaLoai == baidang.MaLoai && x.TrangThai == 1 && x.MaBd != id).OrderByDescending(x => x.ThoiGian).ToList();
             return View(baidang);
         }
@@ -503,6 +509,25 @@ namespace MonNgonMoiNgay.Controllers
         public IActionResult CheckOut()
         {
             return NotFound();
+        }
+
+        //Khóa bài đăng của người dùng
+        [Authorize(Roles = "01")]
+        public IActionResult lockPost(string id)
+        {
+            var post = db.BaiDangs.FirstOrDefault(x => x.MaBd == id);
+            if(post != null && post.TrangThai != 3)
+            {
+                post.TrangThai = 3;
+
+                //Gửi thông báo cho người dùng
+                NotificationController notification = new NotificationController();
+                notification.setThongBao(post.MaNd, "Bài đăng bị khóa", "Bài đăng " + post.TenMon + " đã bị khóa vì vi phạm chính sách.", "/Post/Detail?id=" + post.MaBd);
+
+                db.SaveChanges();
+            }
+
+            return Json(new { tt = true });
         }
     }
 }

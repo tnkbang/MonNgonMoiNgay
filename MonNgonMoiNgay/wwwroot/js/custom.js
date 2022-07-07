@@ -540,3 +540,22 @@ function generate_cart_item(ma, ten, img, sl, gia) {
 
 	$('.cart-list > li:last').before(str);
 }
+
+
+//khóa bài đăng
+function lockPost(ma) {
+	$.ajax({
+		url: '/Post/lockPost',
+		type: 'POST',
+		data: { id: ma },
+		success: function () {
+			getThongBao('success', 'Thành công', 'Bài đăng đã bị ẩn với tất cả mọi người !')
+			setTimeout(() => {
+				window.location = document.referrer;
+            }, 1000)
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+		}
+	})
+}

@@ -74,6 +74,10 @@
 
                     <div class="add-to-btn">
                         <div class="add-comp">
+                            @if (User.Claims.ToList()[1].Value.Equals("01") && !Model.MaNd.Equals(User.Claims.ToList()[0].Value))
+                            {
+                                <a class="btn hvr-hover" data-toggle="modal" data-target="#modal-lock-post" href="#"><i data-toggle="tooltip" title="Khóa bài viết" class="fa fa-lock"></i> Khóa</a>
+                            }
                             @if (Model.isLike(MaUser) || Model.MaNd.Equals(User.Claims.ToList()[0].Value))
                             {
                                 <a class="btn hvr-hover disabled" href="#"><i class="fas fa-heart"></i> Yêu thích</a>
@@ -163,3 +167,22 @@
     </div>
 </div>
 <!-- End -->
+
+<div id="modal-lock-post" class="modal modal-edu-general Customwidth-popup-WarningModal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-close-area modal-close-df">
+                <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="modal-body">
+                <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                <h2 id="modal-lock-user-title">Bạn thật sự muốn khóa?</h2>
+                <p id="modal-lock-user-content">Nếu bạn khóa, mọi người sẽ không thể nhìn thấy bài viết này nữa. Và bạn không thể hoàn tác thao tác này. Bạn chắc chắn chứ?</p>
+            </div>
+            <div class="modal-footer warning-md">
+                <a id="cancel-lock-post" data-dismiss="modal" href="#" style="background: #8c7979" class="cancel">Nghĩ lại</a>
+                <a id="confirm-lock-post" data-dismiss="modal" onclick="lockPost('@Model.MaBd')" style="background: #65b12d" href="#">Có, Hãy khóa</a>
+            </div>
+        </div>
+    </div>
+</div>

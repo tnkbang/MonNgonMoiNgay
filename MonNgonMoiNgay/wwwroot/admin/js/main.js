@@ -464,3 +464,27 @@ $('#btn-search-luu').on('click', function () {
 	event.preventDefault();
 	window.location.href = '/Admin/User/ListSave?q=' + $('#inp-search-luu').val();
 })
+
+//Xử lý thông báo cho phản hồi của người dùng
+var pingMaUser;
+function openSendPing(ma, ten) {
+	pingMaUser = ma;
+	$('#modal-send-ping-title').html('Gửi thông báo cho ' + ten);
+	$('#modal-send-ping').modal('show');
+}
+$('#confirm-send-ping').on('click', function () {
+	$.ajax({
+		url: '/Admin/Notification/sendThongBao',
+		type: 'POST',
+		data: { user: pingMaUser, noidung: $('#pingMess').val() },
+		success: function (data) {
+			if (data.tt) {
+				$('#modal-send-ping').modal('hide');
+				getThongBao('success', 'Thành công', 'Đã gửi thông báo đến người dùng!');
+			}
+		},
+		error: function () {
+			getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+		}
+	})
+})

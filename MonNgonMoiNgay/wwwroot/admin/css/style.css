@@ -4841,3 +4841,8 @@ div#sparklinehome canvas {
     height: 150px;
     width: 100%;
 }
+
+.ping-text {
+    padding-left: 60px;
+    text-align: justify;
+}

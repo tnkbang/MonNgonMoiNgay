@@ -67,6 +67,7 @@
                                     <td>@user.getFullName()</td>
                                     <td>
                                         <button data-toggle="tooltip" title="Xem trang của @user.getTenHienThi()" class="pd-setting-ed" onclick="window.location.href='/Admin/User/Profile?id=@user.MaNd'"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                                        <button data-toggle="tooltip" title="Gửi thông báo cho @user.getTenHienThi()" class="pd-setting-ed" onclick="openSendPing('@user.MaNd', '@user.getTenHienThi()')"><i class="fa fa-send-o" aria-hidden="true"></i></button>
                                     </td>
                                 </tr>
                             }
@@ -88,6 +89,32 @@
                         </paging>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup send ping-->
+<div id="modal-send-ping" class="modal modal-edu-general Customwidth-popup-WarningModal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-close-area modal-close-df">
+                <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="modal-body">
+                <h2 id="modal-send-ping-title"></h2>
+                <form id="send-ping">
+                    <div class="col-12">
+                        <div class="form-group has-float-label">
+                            <textarea class="form-control" id="pingMess" required rows="5" maxlength="200" placeholder="Nhập nội dung thông báo..."></textarea>
+                            <label for="pingMess">Nội dung thông báo</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer warning-md">
+                <a id="cancel-send-ping" data-dismiss="modal" href="#" class="cancel">Nghĩ lại</a>
+                <a id="confirm-send-ping" href="#">Gửi</a>
             </div>
         </div>
     </div>

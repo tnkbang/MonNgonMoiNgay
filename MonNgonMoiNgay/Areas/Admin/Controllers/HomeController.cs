@@ -30,7 +30,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
                 bd = bd.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
             }
 
-            bd.OrderByDescending(x => x.ThoiGian).ToList();
+            bd = bd.OrderByDescending(x => x.ThoiGian).ToList();
 
             return View(bd);
         }
@@ -64,7 +64,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
                 bd = bd.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
             }
 
-            bd.OrderByDescending(x => x.ThoiGian).ToList();
+            bd = bd.OrderByDescending(x => x.ThoiGian).ToList();
 
             return View(bd);
         }

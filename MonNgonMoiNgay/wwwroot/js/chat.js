@@ -106,7 +106,7 @@ function generate_ping_mess(ma, img, time, hoten, noidung) {
     str += '        <div class="message-content">';
     str += '            <span class="message-date">' + time + '</span>';
     str += '            <h2>' + hoten + '</h2>';
-    str += '            <p>' + noidung + '</p>';
+    str += '            <p class="ping-text">' + noidung + '</p>';
     str += '        </div>';
     str += '    </a>';
     str += '</li>';
@@ -133,7 +133,7 @@ function myReloadPingChat() {
             }
         },
         error: function () {
-            getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+            //getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
         }
     })
 }
@@ -149,7 +149,7 @@ function generate_ping(link, time, tieude, noidung) {
     str += '        <div class="notification-content">';
     str += '            <span class="notification-date">' + time + '</span>';
     str += '            <h2>' + tieude + '</h2>';
-    str += '            <p>' + noidung + '</p>';
+    str += '            <p class="ping-text">' + noidung + '</p>';
     str += '        </div>';
     str += '    </a>';
     str += '</li>';
@@ -176,7 +176,7 @@ function myReloadPing() {
             }
         },
         error: function () {
-            getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
+            //getThongBao('error', 'Lỗi', 'Không thể gửi yêu cầu về máy chủ !')
         }
     })
 }

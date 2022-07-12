@@ -6,6 +6,7 @@
     var PostNew = ViewData["PostNew"] as List<BaiDang>;
     var PostVote = ViewData["PostVote"] as List<BaiDang>;
     var PostLike = ViewData["PostLike"] as List<BaiDang>;
+    var PostAll = ViewData["PostAll"] as List<BaiDang>;
     var ImgFT = ViewData["FooterImg"] as List<HinhAnh>;
 }
 @using MonNgonMoiNgay.Models.Entities
@@ -74,6 +75,7 @@
                         <button class="active" data-filter=".new-post">Bài đăng mới</button>
                         <button data-filter=".btv-vote">Bình chọn của BTV</button>
                         <button data-filter=".best-like">Yêu thích nhiều nhất</button>
+                        <button data-filter=".post-all">Tất cả</button>
                     </div>
                 </div>
             </div>
@@ -257,6 +259,63 @@
             else
             {
                 <div class="col-12 text-center special-grid best-like">
+                    <label>Hiện không có dữ liệu</label>
+                </div>
+            }
+
+            <!--Tất cả bài đăng công khai-->
+            @if (PostAll.Count != 0)
+            {
+                foreach (var post in PostAll)
+                {
+                    <div class="col-lg-3 col-md-6 special-grid post-all">
+                        <div class="products-single fix">
+                            <div class="box-img-hover">
+                                <img src="@post.getOneImage()" class="my-cus-img" alt="Image">
+                                <div class="mask-icon">
+                                    <ul>
+                                        <li><a href="~/Post/Detail?id=@post.MaBd" data-toggle="tooltip" data-placement="right" title="Xem chi tiết"><i class="fas fa-eye"></i></a></li>
+                                        @if(User.Identity.IsAuthenticated)
+                                        {
+                                            var MaUser = User.Claims.ToList()[0].Value;
+                                            if (post.isSave(MaUser) || post.MaNd.Equals(User.Claims.ToList()[0].Value))
+                                            {
+                                                <li><a href="#" data-toggle="tooltip" class="btn disabled" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="#" data-toggle="tooltip" class="btn" data-placement="right" onclick="setLuuBaiDang('@post.MaBd', this)" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a></li>
+                                            }
+                                            if (post.isLike(MaUser) || post.MaNd.Equals(User.Claims.ToList()[0].Value))
+                                            {
+                                                <li><a href="#" data-toggle="tooltip" class="btn disabled" data-placement="right" title="Yêu thích"><i class="far fa-heart"></i></a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="#" data-toggle="tooltip" class="btn" data-placement="right" onclick="setYeuThichBaiDang('@post.MaBd', this)" title="Yêu thích"><i class="far fa-heart"></i></a></li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <li><a href="~/Account/Login" data-toggle="tooltip" class="btn" data-placement="right" title="Lưu lại"><i class="fa fa-bookmark" style="padding-left: 3px"></i></a></li>
+                                            <li><a href="~/Account/Login" data-toggle="tooltip" data-placement="right" title="Yêu thích"><i class="far fa-heart"></i></a></li>
+                                        }
+                                    </ul>
+                                    <a class="cart" href="#" onclick="setGioHang('@post.MaBd')">Thêm vào giỏ hàng</a>
+                                </div>
+                            </div>
+                            <div class="why-text">
+                                <h4>@post.TenMon</h4>
+                                <label>@post.MoTa</label>
+                                <h5>@post.GiaTien.ToString("n0") VNĐ</h5>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center special-grid post-all">
                     <label>Hiện không có dữ liệu</label>
                 </div>
             }

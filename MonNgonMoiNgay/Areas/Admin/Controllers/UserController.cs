@@ -77,7 +77,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
                 bai = bai.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
             }
 
-            bai.OrderByDescending(x => x.ThoiGian).ToList();
+            bai = bai.OrderByDescending(x => x.ThoiGian).ToList();
 
             return View(bai);
         }
@@ -140,7 +140,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
                 anbaidang = anbaidang.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
             }
 
-            anbaidang.OrderByDescending(x => x.ThoiGian).ToList();
+            anbaidang = anbaidang.OrderByDescending(x => x.ThoiGian).ToList();
 
             return View(anbaidang);
         }
@@ -198,7 +198,7 @@ namespace MonNgonMoiNgay.Areas.Admin.Controllers
                 luu = luu.Where(s => s.TenMon.Contains(q) || s.MoTa.Contains(q) || s.MaNd.Contains(q) || s.getTenLoai().Contains(q) || s.getFullAddress().Contains(q)).ToList();
             }
 
-            luu.OrderByDescending(x => x.ThoiGian).ToList();
+            luu = luu.OrderByDescending(x => x.ThoiGian).ToList();
 
             return View(luu);
         }

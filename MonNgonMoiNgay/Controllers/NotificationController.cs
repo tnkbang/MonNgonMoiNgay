@@ -25,6 +25,13 @@ namespace MonNgonMoiNgay.Controllers
             db.SaveChanges();
         }
 
+        [HttpPost]
+        public IActionResult sendThongBao(string user, string noidung)
+        {
+            setThongBao(user, "Thông báo từ Admin", noidung, "#");
+            return Json(new { tt = true });
+        }
+
         //Lấy tất cả tin chưa xem
         [HttpPost]
         public IActionResult getThongBaoChuaXem()

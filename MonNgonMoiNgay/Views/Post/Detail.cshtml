@@ -64,7 +64,7 @@
                     <h4>Mô tả chi tiết:</h4>
                     <p>@Model.MoTa</p>
                     <h4>Địa chỉ:</h4>
-                    <p>@Model.getFullAddress()</p>
+                    <p><i class="fa fa-map-marker" data-toggle="tooltip" title="Xem trên bản đồ" style="cursor: pointer" onclick="getMapPost('@Model.DiaChi', '@Model.TenMon', '@Model.getOneImage()')"></i> &nbsp; @Model.getFullAddress()</p>
 
                     <div class="price-box-bar">
                         <div class="cart-and-bay-btn">
@@ -186,3 +186,5 @@
         </div>
     </div>
 </div>
+
+<div id="map"><span class="close-map"><i class="fa fa-close"></i></span></div>

@@ -3184,3 +3184,49 @@ ul.cart-list > li.total > .btn:hover {
     width: 100%;
     height: 180px;
 }
+
+
+
+#map {
+    display: none;
+    position: fixed;
+    width: 99vw;
+    height: 100vh;
+    z-index: 99998;
+    top: 0;
+    border: solid 1px;
+    border-radius: 5px;
+}
+
+.close-map{
+    color: blue;
+    cursor: pointer;
+    position: fixed;
+    top: 4vh;
+    right: 2vw;
+    font-size: 18px;
+    border: solid 1px;
+    padding: 5px 10px 5px 10px;
+    z-index: 99999;
+}
+
+.close-map:hover{
+    color: red;
+}
+
+.btn-diachi {
+    text-align: center;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.btn-diachi > label{
+    cursor: pointer;
+    margin-top: 0.3rem;
+}

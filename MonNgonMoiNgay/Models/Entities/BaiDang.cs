@@ -100,7 +100,7 @@ namespace MonNgonMoiNgay.Models.Entities
             var qh = db.QuanHuyens.FirstOrDefault(x => x.MaQh == xp.MaQh);
             var tp = db.TinhTps.FirstOrDefault(x => x.MaTp == qh.MaTp);
 
-            return this.DiaChi + " - " + xp.TenXp + " - " + qh.TenQh + " - " + tp.TenTp;
+            return xp.TenXp + " - " + qh.TenQh + " - " + tp.TenTp;
         }
     }
 }

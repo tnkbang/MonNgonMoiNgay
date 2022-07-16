@@ -195,6 +195,103 @@
 	});
 }(jQuery));
 
+//distance
+function distance(lat1, lon1, lat2, lon2, unit) {
+	if ((lat1 == lat2) && (lon1 == lon2)) {
+		return 0;
+	}
+	else {
+		var radlat1 = Math.PI * lat1 / 180;
+		var radlat2 = Math.PI * lat2 / 180;
+		var theta = lon1 - lon2;
+		var radtheta = Math.PI * theta / 180;
+		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+		dist = Math.acos(dist);
+		dist = dist * 180 / Math.PI;
+		dist = dist * 60 * 1.1515;
+		if (unit == "K") { dist = dist * 1.609344 }
+		if (unit == "N") { dist = dist * 0.8684 }
+		return dist;
+	}
+}
+
+//Xử lý map
+var mymap;
+var pstDiaChi;
+
+function initMap(lat, lng, ten, img, km) {
+	if (lat) {
+		mymap = L.map('map').setView([lat, lng], 14);
+		var marker = L.marker([lat, lng]).addTo(mymap);
+
+		if (ten) {
+			marker.bindPopup('<p><i><img src="' + img + '" class="img-thumbnail"/><br>' +
+				'<li><b>' + ten + '</b></li>' +
+				'<li>Cách bạn: ' + km + '&nbsp;km</li>' +
+				"</p>", { maxWidth: 200, minWidth: 200 });
+		}
+		else {
+			marker.bindPopup('<p>' + '<li class="text-center">Địa điểm bạn đã chọn</li>' + "</p>");
+        }
+	}
+	else {
+		mymap = L.map('map').setView([10.032106481012109, 105.76840075044362], 14);
+	}
+
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		minZoom: 1,
+		maxZoom: 19
+	}).addTo(mymap);
+
+	mymap.zoomControl.setPosition('bottomright');
+
+	L.control.locate({
+		position: 'bottomright',
+		strings: {
+			title: "Di chuyển đến vị trí hiện tại của tôi",
+			popup: "Đây là vị trí của bạn",
+		}
+	}).addTo(mymap);
+};
+
+$('.btn-diachi').on('click', function () {
+	$('#map').show();
+
+	if (pstDiaChi) {
+		initMap(pstDiaChi.slice(0, pstDiaChi.lastIndexOf('-')), pstDiaChi.slice(pstDiaChi.lastIndexOf('-') + 1));
+	}
+	else {
+		initMap();
+	}
+
+	mymap.on('click', function (e) {
+		pstDiaChi = e.latlng.lat + '-' + e.latlng.lng;
+		$('#lbl-diachi').text('Lat:' + e.latlng.lat + ' - Lng:' + e.latlng.lng);
+		mymap.remove();
+		$('#map').hide();
+	});
+})
+
+$('.close-map').on('click', function () {
+	mymap.remove();
+	$('#map').hide();
+})
+
+function getMapPost(latLng, ten, img) {
+	$('#map').show();
+	navigator.geolocation.getCurrentPosition(function (position) {
+		var lat = position.coords.latitude;
+		var lng = position.coords.longitude;
+		var km = distance(lat, lng, latLng.slice(0, latLng.lastIndexOf('-')), latLng.slice(latLng.lastIndexOf('-') + 1), "K");
+		km = km.toFixed(2);
+
+		initMap(latLng.slice(0, latLng.lastIndexOf('-')), latLng.slice(latLng.lastIndexOf('-') + 1), ten, img, km);
+	});
+}
+
 //My Custom
 $(function () {
 
@@ -338,7 +435,6 @@ $(function () {
 		var tinhTP = document.getElementById('pstTP');
 		var quanHuyen = document.getElementById('pstQH');
 		var xaPhuong = document.getElementById('pstXP');
-		var diaChi = document.getElementById('pstDiaChi');
 		var form_data = new FormData();
 
 		//Kiểm tra ảnh món ăn ít nhất phải có 1 ảnh
@@ -359,12 +455,18 @@ $(function () {
 			return;
 		}
 
+		//Kiểm tra địa chỉ cụ thể
+		if (!pstDiaChi) {
+			getThongBao('error', 'Lỗi', 'Vui lòng chọn địa chỉ cụ thể!')
+			return;
+        }
+
 		form_data.append('loai', loaiMon.value);
 		form_data.append('ten', tenMon.value);
 		form_data.append('gia', $('#pstGiaTien').val());
 		form_data.append('mota', moTa.value);
 		form_data.append('xp', xaPhuong.value);
-		form_data.append('diachi', diaChi.value);
+		form_data.append('diachi', pstDiaChi);
 
 		//Gán từng ảnh trong listFile vào form data
 		for (var i = 0; i < listFile.length; i++) {
@@ -388,7 +490,7 @@ $(function () {
 				tinhTP.value = "0";
 				quanHuyen.value = "0";
 				xaPhuong.value = "0";
-				diaChi.value = null;
+				pstDiaChi = null;
 				clearImgChoose();
 
 				window.location.href = "/Post/Detail?id=" + data.ma;

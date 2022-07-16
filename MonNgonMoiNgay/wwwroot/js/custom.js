@@ -224,7 +224,7 @@ var pstDiaChi;
 
 function initMap(lat, lng, ten, img, km) {
 	if (lat) {
-		mymap = L.map('map').setView([lat, lng], 14);
+		mymap = L.map('map').setView([lat, lng], 15);
 		var marker = L.marker([lat, lng]).addTo(mymap);
 
 		if (ten) {
@@ -238,7 +238,7 @@ function initMap(lat, lng, ten, img, km) {
         }
 	}
 	else {
-		mymap = L.map('map').setView([10.032106481012109, 105.76840075044362], 14);
+		mymap = L.map('map').setView([10.032106481012109, 105.76840075044362], 15);
 	}
 
 	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

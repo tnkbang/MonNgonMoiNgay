@@ -224,7 +224,7 @@ var pstDiaChi;
 
 function initMap(lat, lng, ten, img, km) {
 	if (lat) {
-		mymap = L.map('map').setView([lat, lng], 15);
+		mymap = L.map('map').setView([lat, lng], 17);
 		var marker = L.marker([lat, lng]).addTo(mymap);
 
 		if (ten) {

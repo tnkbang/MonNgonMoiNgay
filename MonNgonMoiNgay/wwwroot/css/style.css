@@ -3189,6 +3189,7 @@ ul.cart-list > li.total > .btn:hover {
 
 #map {
     display: none;
+    background: #333;
     position: fixed;
     width: 99vw;
     height: 100vh;

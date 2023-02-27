@@ -29,14 +29,14 @@ Cần đổi cấu hình API login Google tại:
 
 ## Demo
 
-![This is an image](./MonAnMoiNgay/wwwroot/demo/trangchu.png)
-![This is an image](./MonAnMoiNgay/wwwroot/demo/monan.png)
-![This is an image](./MonAnMoiNgay/wwwroot/demo/chitietmon.png)
-![This is an image](./MonAnMoiNgay/wwwroot/demo/themmon.png)
-![This is an image](./MonAnMoiNgay/wwwroot/demo/dangnhap.png)
-![This is an image](./MonAnMoiNgay/wwwroot/demo/giohang.png)
-![This is an image](./MonAnMoiNgay/wwwroot/demo/chat.png)
-![This is an image](./MonAnMoiNgay/wwwroot/demo/quanlymon.png)
-![This is an image](./MonAnMoiNgay/wwwroot/demo/quanlynguoidung.png)
+![This is an image](/MonAnMoiNgay/wwwroot/demo/trangchu.png)
+![This is an image](/MonAnMoiNgay/wwwroot/demo/monan.png)
+![This is an image](/MonAnMoiNgay/wwwroot/demo/chitietmon.png)
+![This is an image](/MonAnMoiNgay/wwwroot/demo/themmon.png)
+![This is an image](/MonAnMoiNgay/wwwroot/demo/dangnhap.png)
+![This is an image](/MonAnMoiNgay/wwwroot/demo/giohang.png)
+![This is an image](/MonAnMoiNgay/wwwroot/demo/chat.png)
+![This is an image](/MonAnMoiNgay/wwwroot/demo/quanlymon.png)
+![This is an image](/MonAnMoiNgay/wwwroot/demo/quanlynguoidung.png)
 
 Và nhiều hơn thế nữa.....

@@ -22,7 +22,7 @@ Cấu hình kết nối csdl tại:
 Change: "Data Source=YourDatabaseEngine;Initial Catalog=MonNgonMoiNgay;Integrated Security=True"
 ```
 
-Cần đổi cấu hình API login Google tại:
+Có thể thay đổi cấu hình API login Google tại:
 ```
 ./wwwroot/js/account.js
 ```
